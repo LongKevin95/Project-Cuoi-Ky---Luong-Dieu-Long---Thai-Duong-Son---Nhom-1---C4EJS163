@@ -59,9 +59,9 @@
 
   /* ------------- size ----------- */
   --width-item: 260px;
-  --width-item-sm: 240px;
-  --width-item-xm: 230px;
-  --width-item-xxm: 170px;
+  --width-item-sm: 220px;
+  --width-item-xm: 200px;
+  --width-item-xxm: 180px;
 }
 
 /* ================Tools=================== */
@@ -608,7 +608,7 @@ a {
     gap: var(--space-sm);
   }
   .product {
-    min-width: var(--width-item-xm);
+    min-width: var(--width-item-sm);
   }
 }
 /* Tablet (≤ 1024px) */
@@ -644,10 +644,9 @@ a {
   .flash-track {
     width: 100%;
     gap: var(--space-sm);
-
     flex-wrap: wrap;
     justify-content: center;
-    align-content: center;
+    /* align-content: center; */
   }
   .product {
     width: var(--width-item);
@@ -753,9 +752,6 @@ a {
     display: none;
   }
 
-  .flash-slider {
-    min-width: 490px;
-  }
   .flash-track {
     gap: var(--space-xs);
     /* min-width: 580px; */
@@ -777,7 +773,7 @@ a {
     z-index: 10;
   }
   .product {
-    width: var(--width-item-sm);
+    width: clamp(200px, 24vw, 260px);
     padding: var(--space-xxs);
   }
 }
@@ -788,12 +784,9 @@ a {
     min-width: 380px;
     width: 100%;
   }
-  .flash-track {
-    min-width: none;
-  }
   .product {
     width: var(--width-item-xxm);
-    min-width: 140px;
+    min-width: 150px;
   }
   #logo h2 {
     font-size: 20px;
