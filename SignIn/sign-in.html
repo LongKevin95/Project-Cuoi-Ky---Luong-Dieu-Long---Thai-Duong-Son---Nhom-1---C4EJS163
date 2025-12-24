@@ -1,43 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./sign-in.css" />
-  </head>
-  <body>
-    <div class="signin-container">
-      <form class="signin">
-        <h2 class="signin-title">Sign In</h2>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In</title>
+  <link rel="stylesheet" href="./sign-in.css" />
+</head>
 
-        <!-- Email -->
-        <div class="signin-group">
-          <input type="email" placeholder="Email" class="signin-input" />
-        </div>
+<body>
+  <div class="signin-container">
+    <form class="signin" id="loginForm">
+      <h2 class="signin-title">Sign In</h2>
 
-        <!-- Password + eye icon -->
-        <div class="signin-group signin-group--icon">
-          <input type="password" placeholder="Password" class="signin-input" />
-          <span class="signin-eye">👁</span>
-        </div>
+      <!-- Email -->
+      <div class="signin-group">
+        <input
+          type="email"
+          id="email"
+          placeholder="Email"
+          class="signin-input"
+          required
+        />
+      </div>
 
-        <!-- Remember + Forget -->
-        <div class="signin-options">
-          <label class="signin-remember">
-            <input type="checkbox" />
-            Remember Me
-          </label>
+      <!-- Password -->
+      <div class="signin-group signin-group--icon">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          class="signin-input"
+          required
+        />
+        <span class="signin-eye" id="togglePassword">👁</span>
+      </div>
 
-          <a href="#" class="signin-forgot">Forget Password</a>
-        </div>
+      <!-- Remember -->
+      <div class="signin-options">
+        <label class="signin-remember">
+          <input type="checkbox" />
+          Remember Me
+        </label>
+        <a href="#" class="signin-forgot">Forget Password</a>
+      </div>
 
-        <!-- Sign In Button -->
-        <button type="submit" class="signin-btn">Sign In →</button>
+      <!-- Button -->
+      <button type="submit" class="signin-btn">Sign In →</button>
 
-        <!-- Sign Up -->
-        <p class="signin-signup">Don’t have account? <a href="#">Sign Up</a></p>
-      </form>
-    </div>
-  </body>
+      <p class="signin-signup">
+        Demo account: <strong>khachhang@gmail.com / khachhang</strong>
+      </p>
+    </form>
+  </div>
+
+  <!-- JS -->
+  <script src="login.js"></script>
+  <button onclick="logout()">🚪 Logout</button>
+  
+</body>
 </html>
