@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Giỏ hàng</title>
+  <link rel="stylesheet" href="cart.css" />
+  <script defer src="cart.js"></script>
+</head>
+
+<body>
+  <div class="cart-container">
+
+    <h2>🛒 Giỏ hàng của bạn</h2>
+
+    <div id="cartList"></div>
+
+    <div class="cart-summary">
+      <span>Tổng cộng:</span>
+      <strong id="totalPrice">$0</strong>
+    </div>
+
+    <div class="cart-actions">
+      <a href="index.html" class="btn-outline">← Home</a>
+      <button class="btn-danger" onclick="clearCart()">Xóa giỏ</button>
+    </div>
+
+  </div>
+</body>
+</html>

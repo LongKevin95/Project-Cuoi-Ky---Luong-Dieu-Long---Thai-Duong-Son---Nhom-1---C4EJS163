@@ -1,290 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <title>L&S E-commerce</title>
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <!-- Top Bar -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <svg width="14" height="14" fill="#fff">
-          <circle cx="7" cy="7" r="7" />
-        </svg>
-        <span>Free Shipping On All Orders Over $50</span>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>L&S E-commerce</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- JS -->
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+<!-- ================= TOP BAR ================= -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>Free Shipping On All Orders Over $50</span>
+  </div>
+  <div class="topbar-links">
+    <a href="#">Eng</a>
+    <a href="#">Faqs</a>
+    <a href="./SignIn/sign-in.html">Sign In</a>
+    <a href="#">Need Help</a>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="main-header">
+  <div class="o-container">
+
+    <!-- Logo -->
+    <div id="logo">
+      <img src="./images/logo.png" alt="logo" />
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+      <input type="text" placeholder="Search here..." />
+      <button class="search-btn">
+        <img src="./images/icon/search-icon.svg" />
+      </button>
+    </div>
+
+    <!-- Icons -->
+    <div class="header-icons">
+
+      <!-- CART -->
+      <a href="cart.html" class="cart icon-wrapper">
+        <img src="./images/icon/cart-icon.svg" />
+        Cart
+        <span class="badge">0</span>
+      </a>
+
+      <!-- WISHLIST -->
+      <a href="#" class="icon icon-wrapper">
+        <img src="./images/icon/heart-icon.svg" />
+      </a>
+
+      <!-- USER -->
+      <a href="./SignIn/sign-in.html" class="icon icon-wrapper">
+        <img src="./images/icon/user-icon.svg" />
+      </a>
+      <a href="#" class="icon icon-wrapper" id="userIcon">
+         <img src="./images/icon/user-icon.svg" />
+      </a>
+
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav-bar o-container">
+    <ul class="nav-links">
+      <li><a class="active" href="#">Home</a></li>
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">Product</a></li>
+      <li><a href="#">Pages</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+
+    <div class="contact-box">
+      Contact: <strong>(123.456.7894)</strong>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<div class="hero o-grid-main o-container">
+
+  <!-- LEFT MENU -->
+  <aside class="hero-menu">
+    <button id="menu-btn">☰ Categories</button>
+    <ul id="menu" class="menu-list">
+  <li data-category="Fashion Women">Woman’s Fashion</li>
+  <li data-category="Fashion Men">Men’s Fashion</li>
+  <li data-category="Electronics">Electronics</li>
+  <li data-category="Home">Home & Lifestyle</li>
+  <li data-category="Beauty">Health & Beauty</li>
+</ul>
+  </aside>
+
+  <!-- SLIDER -->
+  <div class="hero-slider">
+    <div class="slider">
+      <div class="slider-track">
+        <div class="slider-item"><img src="./images/carousel-img1.jpg" /></div>
+        <div class="slider-item"><img src="./images/carousel-img1.jpg" /></div>
+        <div class="slider-item"><img src="./images/carousel-img1.jpg" /></div>
       </div>
 
-      <div class="topbar-links">
-        <a href="#">Eng</a>
-        <a href="#">Faqs</a>
-        <a href="./SignIn/sign-in.html">Sign In</a>
-        <a href="#">Need Help</a>
+      <div class="slider-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FLASH SALE ================= -->
+<section class="flash">
+  <div class="o-container">
+
+    <!-- Header -->
+    <div class="flash-header">
+      <div class="flash-badge"><span></span> Today's</div>
+      <h2 class="flash-title">Flash Sales</h2>
+
+      <div class="countdown">
+        <span id="days">03</span> :
+        <span id="hours">23</span> :
+        <span id="minutes">59</span> :
+        <span id="seconds">59</span>
+      </div>
+
+      <div class="flash-arrows">
+        <button class="flash-arrow flash-arrow--left">←</button>
+        <button class="flash-arrow flash-arrow--right">→</button>
       </div>
     </div>
 
-    <!-- Main Header -->
-    <header class="main-header">
-      <div class="o-container">
-        <!-- Logo -->
-        <div id="logo">
-          <img src="./images/logo.png" alt="logo" class="logo-icon" />
+    <!-- PRODUCTS -->
+    <div class="flash-slider">
+      <div class="flash-track">
+
         </div>
 
-        <!-- Search -->
-        <div class="search-box">
-          <input type="text" placeholder="Search here..." />
-          <button class="search-btn">
-            <img src="./images/icon/search-icon.svg" alt="search" />
-          </button>
-        </div>
-
-        <!-- Icons -->
-        <div class="header-icons">
-          <a href="" class="cart icon-wrapper">
-            <img src="./images/icon/cart-icon.svg" alt="cart" />
-            <span class="text">Cart</span>
-            <span class="badge">2</span>
-          </a>
-
-          <a href="" class="icon icon-wrapper heart-icon">
-            <img src="images/icon/heart-icon.svg" alt="wishlist" />
-          </a>
-
-          <a href="./SignIn/sign-in.html" class="icon icon-wrapper">
-            <img src="images/icon/user-icon.svg" alt="user" />
-          </a>
-        </div>
-
-        <!-- Mobile Menu Trigger -->
-        <div class="mobile-menu-btn">
-          <img src="images/icon/burger-menu-icon.svg" alt="menu-btn-img" />
-        </div>
-      </div>
-
-      <!-- Navigation -->
-      <nav class="nav-bar o-container">
-        <ul class="nav-links">
-          <li><a class="active" href="#">Home</a></li>
-          <li><a href="#">Shop</a></li>
-          <li><a href="#">Product</a></li>
-          <li><a href="#">Pages</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
-
-        <div class="contact-box">Contact: <strong>(123.456.7894)</strong></div>
-      </nav>
-    </header>
-
-    <div class="hero o-grid-main o-container">
-      <!-- LEFT MENU -->
-      <aside class="hero-menu">
-        <button id="menu-btn">
-          <img src="./images/icon/burger-menu-icon.svg" /> Categories
-        </button>
-        <ul id="menu" class="menu-list">
-          <li class="menu-list-item">Woman’s Fashion ▸</li>
-          <li class="menu-list-item">Men’s Fashion ▸</li>
-          <li class="menu-list-item">Electronics</li>
-          <li class="menu-list-item">Home & Lifestyle</li>
-          <li class="menu-list-item">Medicine</li>
-          <li class="menu-list-item">Sports & Outdoor</li>
-          <li class="menu-list-item">Baby’s & Toys</li>
-          <li class="menu-list-item">Groceries & Pets</li>
-          <li class="menu-list-item">Health & Beauty</li>
-        </ul>
-      </aside>
-
-      <!-- SLIDER -->
-      <div class="hero-slider">
-        <div class="slider">
-          <div class="slider-track">
-            <div class="slider-item">
-              <img src="./images/carousel-img1.jpg" alt="slider-img" />
-            </div>
-            <div class="slider-item">
-              <img src="./images/carousel-img1.jpg" alt="slider-img" />
-            </div>
-            <div class="slider-item">
-              <img src="./images/carousel-img1.jpg" alt="slide" />
-            </div>
-          </div>
-
-          <!-- DOTS -->
-          <div class="slider-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-        </div>
       </div>
     </div>
-    <section class="flash">
-      <div class="o-container">
-        <!-- Title + Countdown -->
-        <div class="flash-header">
-          <div class="flash-badge"><span></span> Today's</div>
 
-          <h2 class="flash-title">Flash Sales</h2>
+    <div class="flash-view-all o-flex-center">
+      <button class="btn">View All Products</button>
+    </div>
 
-          <div class="countdown">
-            <div class="countdown-item">
-              <span class="countdown-number" id="days">03</span>
-              <span class="countdown-label">Days</span>
-            </div>
-            <span class="countdown-dot">:</span>
-            <div class="countdown-item">
-              <span class="countdown-number" id="hours">23</span>
-              <span class="countdown-label">Hours</span>
-            </div>
-            <span class="countdown-dot">:</span>
-            <div class="countdown-item">
-              <span class="countdown-number" id="minutes">19</span>
-              <span class="countdown-label">Minutes</span>
-            </div>
-            <span class="countdown-dot">:</span>
-            <div class="countdown-item">
-              <span class="countdown-number" id="seconds">56</span>
-              <span class="countdown-label">Seconds</span>
-            </div>
-          </div>
+  </div>
+</section>
 
-          <!-- Arrows -->
-          <div class="flash-arrows">
-            <button class="flash-arrow flash-arrow--left">←</button>
-            <button class="flash-arrow flash-arrow--right">→</button>
-          </div>
-        </div>
-
-        <!-- Slider -->
-        <div class="flash-slider">
-          <div class="flash-track">
-            <!-- Product Card -->
-            <div class="product">
-              <span class="product-discount">-40%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions">
-                <span>♡</span>
-                <span>👁</span>
-              </div>
-
-              <button class="product-cart">Add To Cart</button>
-
-              <h3 class="product-name">HAVIT HV-G92 Gamepad</h3>
-
-              <div class="product-price">
-                <span class="price-new">$120</span>
-                <span class="price-old">$160</span>
-              </div>
-
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(88)</span></div>
-            </div>
-
-            <!-- COPY CARD 5-6 SẢN PHẨM KHÁC (ví dụ copy 8 cái) -->
-            <div class="product">
-              <span class="product-discount">-35%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions"><span>♡</span><span>👁</span></div>
-              <button class="product-cart">Add To Cart</button>
-              <h3 class="product-name">AK-900 Wired Keyboard</h3>
-              <div class="product-price">
-                <span class="price-new">$960</span>
-                <span class="price-old">$1160</span>
-              </div>
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(75)</span></div>
-            </div>
-
-            <div class="product">
-              <span class="product-discount">-30%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions"><span>♡</span><span>👁</span></div>
-              <button class="product-cart">Add To Cart</button>
-              <h3 class="product-name">IPS LCD Gaming Monitor</h3>
-              <div class="product-price">
-                <span class="price-new">$370</span>
-                <span class="price-old">$400</span>
-              </div>
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(99)</span></div>
-            </div>
-
-            <div class="product">
-              <span class="product-discount">-25%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions"><span>♡</span><span>👁</span></div>
-              <button class="product-cart">Add To Cart</button>
-              <h3 class="product-name">S-Series Comfort Chair</h3>
-              <div class="product-price">
-                <span class="price-new">$375</span>
-                <span class="price-old">$400</span>
-              </div>
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(99)</span></div>
-            </div>
-            <div class="product">
-              <span class="product-discount">-25%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions"><span>♡</span><span>👁</span></div>
-              <button class="product-cart">Add To Cart</button>
-              <h3 class="product-name">S-Series Comfort Chair</h3>
-              <div class="product-price">
-                <span class="price-new">$375</span>
-                <span class="price-old">$400</span>
-              </div>
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(99)</span></div>
-            </div>
-            <div class="product">
-              <span class="product-discount">-25%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions"><span>♡</span><span>👁</span></div>
-              <button class="product-cart">Add To Cart</button>
-              <h3 class="product-name">S-Series Comfort Chair</h3>
-              <div class="product-price">
-                <span class="price-new">$375</span>
-                <span class="price-old">$400</span>
-              </div>
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(99)</span></div>
-            </div>
-            <div class="product">
-              <span class="product-discount">-25%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions"><span>♡</span><span>👁</span></div>
-              <button class="product-cart">Add To Cart</button>
-              <h3 class="product-name">S-Series Comfort Chair</h3>
-              <div class="product-price">
-                <span class="price-new">$375</span>
-                <span class="price-old">$400</span>
-              </div>
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(99)</span></div>
-            </div>
-            <div class="product">
-              <span class="product-discount">-25%</span>
-              <img src="./images/item-01.svg" class="product-img" />
-              <div class="product-actions"><span>♡</span><span>👁</span></div>
-              <button class="product-cart">Add To Cart</button>
-              <h3 class="product-name">S-Series Comfort Chair</h3>
-              <div class="product-price">
-                <span class="price-new">$375</span>
-                <span class="price-old">$400</span>
-              </div>
-              <div class="product-rating">⭐⭐⭐⭐⭐ <span>(99)</span></div>
-            </div>
-
-            <!-- Thêm card cho đủ 8–12 sản phẩm -->
-          </div>
-        </div>
-
-        <!-- View All Button -->
-        <a href="#" class="flash-view-all o-flex-center">
-          <button class="btn">View All Products</button>
-        </a>
-      </div>
-    </section>
-  </body>
+</body>
 </html>
+<button onclick="addToCart(4)">Add To Cart</button>

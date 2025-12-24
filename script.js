@@ -1,133 +1,154 @@
-// Đóng mở danh mục-----------------
-const toggleBtn = document.getElementById("menu-btn");
-const category = document.getElementById("menu");
-
-toggleBtn.addEventListener("click", () => {
-  category.classList.toggle("hide");
-});
-
-// hero-slider --------------------
-const track = document.querySelector(".slider-track");
-const dots = document.querySelectorAll(".dot");
-
-let index = 0;
-
-function updateSlider() {
-  track.style.transform = `translateX(-${index * 100}%)`;
-
-  dots.forEach((dot) => dot.classList.remove("active"));
-  dots[index].classList.add("active");
+// ================= USER =================
+function getUser() {
+  return JSON.parse(localStorage.getItem("user"));
 }
 
-dots.forEach((dot, i) => {
-  dot.addEventListener("click", () => {
-    index = i;
-    updateSlider();
+// ================= LOGOUT =================
+function logout() {
+  localStorage.removeItem("user");
+  window.location.href = "index.html";
+}
+
+// ================= CART =================
+function getCart() {
+  return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+function saveCart(cart) {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function updateCartBadge() {
+  const badge = document.querySelector(".badge");
+  if (!badge) return;
+
+  const cart = getCart();
+  const total = cart.reduce((sum, item) => sum + item.qty, 0);
+  badge.textContent = total;
+}
+
+// ================= ADD TO CART =================
+function addToCart(productId) {
+  const user = getUser();
+
+  if (!user) {
+    alert("Vui lòng đăng nhập để mua hàng!");
+    window.location.href = "SignIn/sign-in.html";
+    return;
+  }
+
+  if (user.role !== "customer") {
+    alert("Admin không thể mua hàng!");
+    return;
+  }
+
+  const products = JSON.parse(localStorage.getItem("products")) || [];
+  const product = products.find(p => p.id == productId);
+
+  if (!product) {
+    alert("Sản phẩm không tồn tại!");
+    return;
+  }
+
+  let cart = getCart();
+  const index = cart.findIndex(i => i.id == productId);
+
+  if (index !== -1) {
+    cart[index].qty += 1;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      qty: 1
+    });
+  }
+
+  saveCart(cart);
+  updateCartBadge();
+  alert("Đã thêm vào giỏ hàng 🛒");
+}
+
+// ================= RENDER PRODUCTS =================
+function renderProducts(filterCategory = null) {
+  const container = document.querySelector(".flash-track");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const products = JSON.parse(localStorage.getItem("products")) || [];
+
+  const filteredProducts = filterCategory
+    ? products.filter(p => p.category === filterCategory)
+    : products;
+
+  filteredProducts.forEach(p => {
+    container.innerHTML += `
+      <div class="product">
+        <span class="product-discount">-40%</span>
+
+        <img src="${p.img}" class="product-img" />
+
+        <button class="product-cart" onclick="addToCart('${p.id}')">
+          Add To Cart
+        </button>
+
+        <h3 class="product-name">${p.name}</h3>
+
+        <div class="product-price">
+          <span class="price-new">$${p.price}</span>
+          <span class="price-old">$${Math.round(p.price * 1.3)}</span>
+        </div>
+
+        <div class="product-rating">
+          ⭐⭐⭐⭐⭐ <span>(88)</span>
+        </div>
+      </div>
+    `;
+  });
+}
+document.querySelectorAll("#menu li").forEach(item => {
+  item.addEventListener("click", () => {
+    const cate = item.dataset.category;
+    renderProducts(cate);
   });
 });
 
-// Auto slide interval  ---------------
-setInterval(() => {
-  index = (index + 1) % dots.length;
-  updateSlider();
-}, 4000);
+// ================= LOGIN / LOGOUT UI =================
+function handleAuthUI() {
+  const currentUser = getUser();
+  const loginLink = document.getElementById("loginLink");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-// Countdown Timer -------------------------------
-function countdownTimer() {
-  const target = new Date().getTime() + 3 * 24 * 60 * 60 * 1000; // đếm 3 ngày
-
-  setInterval(() => {
-    const now = new Date().getTime();
-    const diff = target - now;
-
-    document.getElementById("days").textContent = Math.floor(
-      diff / (1000 * 60 * 60 * 24)
-    );
-    document.getElementById("hours").textContent = Math.floor(
-      (diff / (1000 * 60 * 60)) % 24
-    );
-    document.getElementById("minutes").textContent = Math.floor(
-      (diff / 1000 / 60) % 60
-    );
-    document.getElementById("seconds").textContent = Math.floor(
-      (diff / 1000) % 60
-    );
-  }, 1000);
+if (currentUser) {
+  if (loginLink) loginLink.style.display = "none";
+  if (logoutBtn) logoutBtn.style.display = "inline-block";
+} else {
+  if (loginLink) loginLink.style.display = "inline-block";
+  if (logoutBtn) logoutBtn.style.display = "none";
 }
 
-countdownTimer();
-
-// Flash Sales Slider ------------------------------------
-
-const flashSlider = document.querySelector(".flash-slider");
-const flashSaleTrack = document.querySelector(".flash-track");
-const items = Array.from(document.querySelectorAll(".product"));
-const btnPrev = document.querySelector(".flash-arrow--left");
-const btnNext = document.querySelector(".flash-arrow--right");
-
-function getItemMetrics() {
-  const item = items[0];
-  const itemRect = item.getBoundingClientRect();
-
-  const styles = getComputedStyle(flashSaleTrack);
-  const gap = parseFloat(styles.columnGap || styles.gap || 0);
-
-  return {
-    itemWidth: itemRect.width,
-    gap,
-    step: itemRect.width + gap,
-  };
+function logout() {
+  localStorage.removeItem("user");
+  window.location.reload();
 }
-
-function getVisibleCount() {
-  const sliderWidth = flashSlider.getBoundingClientRect().width;
-  const { step } = getItemMetrics();
-
-  return Math.floor(sliderWidth / step);
 }
+const userIcon = document.getElementById("userIcon");
+const currentUser = JSON.parse(localStorage.getItem("user"));
 
-let currentIndex = 0;
-
-function updateFlashSlider() {
-  const { step } = getItemMetrics();
-  flashSaleTrack.style.transform = `translateX(-${currentIndex * step}px)`;
+if (userIcon) {
+  userIcon.addEventListener("click", () => {
+    if (!currentUser) {
+      window.location.href = "./SignIn/sign-in.html";
+    } else if (currentUser.role === "admin") {
+      window.location.href = "admin.html";
+    } else {
+      alert("Trang cá nhân customer chưa làm, tạm thời ở home");
+    }
+  });
 }
-btnNext.addEventListener("click", () => {
-  const visible = getVisibleCount();
-  const maxIndex = items.length - visible;
-
-  currentIndex = Math.min(currentIndex + visible, maxIndex);
-  updateFlashSlider();
-});
-
-btnPrev.addEventListener("click", () => {
-  const visible = getVisibleCount();
-
-  currentIndex = Math.max(currentIndex - visible, 0);
-  updateFlashSlider();
-});
-
-// let translateIndex = 0;
-// const itemsPerSlide = 4;
-
-// function updateFlashSaleSlider() {
-//   flashSaleTrack.style.transform = `translateX(-${
-//     translateIndex * (260 + 20) // chiều rộng product-item + padding-inline
-//   }px)`;
-// }
-
-// btnRight.addEventListener("click", () => {
-//   if (translateIndex < cards.length - itemsPerSlide)
-//     translateIndex += itemsPerSlide;
-//   updateFlashSaleSlider();
-// });
-
-// btnLeft.addEventListener("click", () => {
-//   if (translateIndex >= itemsPerSlide) translateIndex -= itemsPerSlide;
-//   updateFlashSaleSlider();
-// });
-// --------------------------------------- TEST
-
-const a = getItemMetrics();
-
-console.log(a);
+// ================= INIT =================
+renderProducts();
+updateCartBadge();
+handleAuthUI();

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial; padding: 30px; }
+    input, select, textarea, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    th { background: #eee; }
+  </style>
+</head>
+
+<body>
+  <h2>👑 ADMIN – QUẢN LÝ SẢN PHẨM</h2>
+  <a href="index.html">🏠 Home</a>
+
+
+  <!-- FORM -->
+  <h3>📦 Danh sách sản phẩm</h3>
+  <h3>➕ Thêm / Sửa sản phẩm</h3>
+
+<input id="id" placeholder="ID sản phẩm" />
+
+<input id="name" placeholder="Tên sản phẩm" />
+
+<input id="price" placeholder="Giá" />
+
+<input type="file" id="imgFile" accept="image/*" />
+<img id="preview" style="width:100px;margin:10px 0;display:none" />
+
+<select id="category">
+  <option value="">-- Chọn category --</option>
+  <option value="Fashion Women">Fashion Women</option>
+  <option value="Fashion Men">Fashion Men</option>
+  <option value="Electronics">Electronics</option>
+  <option value="Home">Home</option>
+  <option value="Beauty">Beauty</option>
+</select>
+
+<textarea id="desc" placeholder="Mô tả sản phẩm"></textarea>
+
+<button onclick="addOrUpdate()">💾 Lưu sản phẩm</button>
+
+  <!-- TABLE -->
+  <h3>📦 Danh sách sản phẩm</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th>Ảnh</th>
+        <th>Category</th>
+        <th>Mô tả</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody id="productTable"></tbody>
+  </table>
+
+  <script src="admin.js"></script>
+</body>
+</html>
