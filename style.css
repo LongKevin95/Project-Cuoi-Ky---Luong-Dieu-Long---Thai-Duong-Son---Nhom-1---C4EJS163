@@ -580,7 +580,8 @@ a {
   margin-top: 25px;
   margin-inline: auto;
 }
-/* ================ Trumps ============== */
+
+/* ================== Trumps ================ */
 /* Chủ yếu sử dụng trong phần Responsive để ẩn/hiện một số element/style */
 
 .hide {
@@ -611,6 +612,7 @@ a {
     min-width: var(--width-item-sm);
   }
 }
+
 /* Tablet (≤ 1024px) */
 @media (max-width: 1024px) {
   .o-grid-main {
@@ -681,7 +683,7 @@ a {
 /* Mobile (≤ 768px) */
 @media (max-width: 768px) {
   body {
-    min-width: 380px;
+    min-width: 390px;
   }
 
   .o-container {
@@ -750,7 +752,7 @@ a {
     transform: translateX(-50%);
   }
 
-  #logo img {
+  #logo .logo-icon {
     width: 80px;
   }
   .search-box {
@@ -804,6 +806,9 @@ a {
 
 /* Small mobile (≤ 480px) */
 @media (max-width: 480px) {
+  #logo .logo-icon {
+    width: 70px;
+  }
   .flash-slider {
     width: 100%;
   }
@@ -818,7 +823,7 @@ a {
     font-size: 14px;
   }
 
-  .header-icons img {
-    width: 20px;
+  .icon-wrapper {
+    padding: var(--space-xs) var(--space-sm);
   }
 }
