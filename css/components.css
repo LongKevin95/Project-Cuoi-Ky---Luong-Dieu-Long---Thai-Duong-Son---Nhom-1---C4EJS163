@@ -1,0 +1,13 @@
+.btn {
+  padding: 14px 25px;
+  background: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+.btn:hover {
+  opacity: 0.8;
+}

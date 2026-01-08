@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./components/Header/header.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-top o-container">
+        <!-- Logo -->
+        <div class="header-logo">
+          <img src="./assets/images/logo.png" alt="logo" />
+        </div>
+
+        <!-- Search -->
+        <form class="header-search">
+          <input type="text" placeholder="Search here..." />
+          <button type="submit" class="header-search__btn">
+            <img src="./assets/icons/search-icon.svg" />
+          </button>
+        </form>
+
+        <!-- Actions -->
+
+        <div class="header-actions">
+          <!-- Cart -->
+
+          <a href="./pages/cart.html" class="header-action header-action--cart">
+            <img src="./assets/icons/cart-icon.svg" />
+            <span class="header-action__label">Cart </span>
+            <span class="header-action__badge">0</span>
+          </a>
+
+          <!-- Wishlist -->
+
+          <button class="header-action header-action--wishlist">
+            <img src="./assets/icons/heart-icon.svg" />
+          </button>
+
+          <!-- User -->
+
+          <button class="header-action header-action--user" id="userIcon">
+            <img src="./assets/icons/user-icon.svg" />
+          </button>
+        </div>
+      </div>
+
+      <!-- NAVIGATION -->
+
+      <nav class="header-nav o-container">
+        <ul class="header-nav__list">
+          <li><a class="is-active" href="#">Home</a></li>
+
+          <li><a href="#">Shop</a></li>
+
+          <li><a href="#">Product</a></li>
+
+          <li><a href="#">Pages</a></li>
+
+          <li><a href="#">About</a></li>
+        </ul>
+
+        <div class="header-contact">
+          Contact: <strong>(123.456.7894)</strong>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>
