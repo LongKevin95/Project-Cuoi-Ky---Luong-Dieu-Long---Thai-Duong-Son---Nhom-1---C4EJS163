@@ -41,9 +41,65 @@
 
           <!-- User -->
 
-          <button class="header-action header-action--user" id="userIcon">
-            <img src="./assets/icons/user-icon.svg" />
-          </button>
+         <div class="header-user" id="headerUser">
+  <button
+    class="header-action header-action--user"
+    id="userIcon"
+    type="button"
+    aria-haspopup="menu"
+    aria-expanded="false"
+  >
+    <img src="./assets/icons/user-icon.svg" />
+  </button>
+
+  <div class="user-menu" id="userMenu" hidden>
+    <div class="user-menu__head">
+      <img
+        class="user-menu__avatar"
+        id="userMenuAvatar"
+        src="https://i.pravatar.cc/80?img=32"
+        alt="User avatar"
+      />
+
+      <div class="user-menu__meta">
+        <div class="user-menu__name" id="userMenuName">Your name</div>
+        <div class="user-menu__email" id="userMenuEmail">yourname@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="user-menu__divider"></div>
+
+    <button class="user-menu__item" type="button" id="menuMyProfile">
+      <span class="user-menu__icon">👤</span>
+      <span class="user-menu__text">My Profile</span>
+      <span class="user-menu__chev">›</span>
+    </button>
+
+    <button class="user-menu__item" type="button" id="menuSettings">
+      <span class="user-menu__icon">⚙</span>
+      <span class="user-menu__text">Settings</span>
+      <span class="user-menu__chev">›</span>
+    </button>
+
+    <div class="user-menu__item user-menu__item--has-sub" id="menuNotification">
+      <div class="user-menu__row">
+        <span class="user-menu__icon">🔔</span>
+        <span class="user-menu__text">Notification</span>
+        <span class="user-menu__chev">›</span>
+      </div>
+
+      <div class="user-menu__sub" id="notificationSubmenu">
+        <button type="button" class="user-menu__subitem">Allow</button>
+        <button type="button" class="user-menu__subitem">Mute</button>
+      </div>
+    </div>
+
+    <button class="user-menu__item" type="button" id="menuLogout">
+      <span class="user-menu__icon">↩</span>
+      <span class="user-menu__text">Log Out</span>
+    </button>
+  </div>
+</div>
         </div>
       </div>
 

@@ -151,15 +151,52 @@ function handleAuthUI() {
 const userIcon = document.getElementById("userIcon");
 const currentUser = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
 
-if (userIcon) {
-  userIcon.addEventListener("click", () => {
-    if (!currentUser) {
-      window.location.href = "pages/LogIn/login.html";
-    } else if (currentUser.role === "admin") {
-      window.location.href = "admin.html";
-    } else {
-      alert("Trang cá nhân customer chưa làm, tạm thời ở home");
+function bindUserMenu() {
+  const userIcon = document.getElementById("userIcon");
+  const userMenu = document.getElementById("userMenu");
+  const nameEl = document.getElementById("userMenuName");
+  const emailEl = document.getElementById("userMenuEmail");
+  const myProfileBtn = document.getElementById("menuMyProfile");
+  const logoutBtn = document.getElementById("menuLogout");
+  if (!userIcon || !userMenu) return;
+  const closeMenu = () => {
+    userMenu.hidden = true;
+    userIcon.setAttribute("aria-expanded", "false");
+  };
+  const openMenu = () => {
+    const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+    const displayName = u?.fullName || u?.name || "Your name";
+    const displayEmail = u?.email || "yourname@gmail.com";
+    if (nameEl) nameEl.textContent = displayName;
+    if (emailEl) emailEl.textContent = displayEmail;
+    userMenu.hidden = false;
+    userIcon.setAttribute("aria-expanded", "true");
+  };
+  userIcon.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (userMenu.hidden) openMenu();
+    else closeMenu();
+  });
+  document.addEventListener("click", (e) => {
+    if (
+      !userMenu.hidden &&
+      !userMenu.contains(e.target) &&
+      e.target !== userIcon
+    ) {
+      closeMenu();
     }
+  });
+  myProfileBtn?.addEventListener("click", () => {
+    const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+    if (!u) {
+      window.location.href = "pages/login.html";
+      return;
+    }
+    window.location.href = "pages/user-profile.html";
+  });
+  logoutBtn?.addEventListener("click", () => {
+    closeMenu();
+    window.logout?.();
   });
 }
 
@@ -169,9 +206,12 @@ function goToDetail(productId) {
 }
 window.goToDetail = goToDetail;
 
-// ================= INIT =================
-initAdminAccount();
-loadComponent("#header", "/components/Header/header.html");
-renderProducts();
-updateCartBadge();
-handleAuthUI();
+async function init() {
+  initAdminAccount();
+  await loadComponent("#header", "/components/Header/header.html");
+  bindUserMenu();
+  updateCartBadge();
+  renderProducts();
+  handleAuthUI();
+}
+init();

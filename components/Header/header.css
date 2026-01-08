@@ -115,3 +115,128 @@
 .header-contact {
   white-space: nowrap;
 }
+
+.header-user {
+  position: relative;
+}
+
+.user-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  width: 280px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(16, 24, 40, 0.18);
+  overflow: hidden;
+  z-index: 999;
+}
+
+.user-menu__head {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  align-items: center;
+}
+
+.user-menu__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.user-menu__name {
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.user-menu__email {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.user-menu__divider {
+  height: 1px;
+  background: #eef2f7;
+}
+
+.user-menu__item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #111827;
+}
+
+.user-menu__item:hover {
+  background: #f6f8fb;
+}
+
+.user-menu__icon {
+  width: 22px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.user-menu__text {
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+}
+
+.user-menu__chev {
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+.user-menu__item--has-sub {
+  position: relative;
+  padding: 0;
+}
+
+.user-menu__item--has-sub .user-menu__row {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-menu__sub {
+  position: absolute;
+  right: -76px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(16, 24, 40, 0.18);
+  padding: 8px;
+  width: 86px;
+  display: none;
+}
+
+.user-menu__item--has-sub:hover .user-menu__sub {
+  display: block;
+}
+
+.user-menu__subitem {
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.user-menu__subitem:hover {
+  background: #f6f8fb;
+}
