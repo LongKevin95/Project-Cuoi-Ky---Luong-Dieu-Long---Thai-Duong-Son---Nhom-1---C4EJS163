@@ -33,7 +33,7 @@
   │ │ ├── login.js
   │ │ ├── signin.js
   │ │ └── ....
-  │ ├── shared(tạm thời chưa sử dụng được)
+  │ ├── shared
   │ └── script.js(main)
   │
   └── README.md
