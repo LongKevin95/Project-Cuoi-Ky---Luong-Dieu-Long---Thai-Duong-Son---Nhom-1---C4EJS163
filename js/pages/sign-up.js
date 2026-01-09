@@ -14,7 +14,7 @@ document.querySelectorAll(".toggle-pass").forEach((btn) => {
 
 function getUsers() {
   const rawUserData = localStorage.getItem(USERS_KEY);
-  const usersList = JSON.parse(rawUserData);
+  const usersList = JSON.parse(rawUserData) || [];
   return usersList;
 }
 
@@ -82,6 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Submit: validate + save
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
 
     const fullName = form.fullName?.value?.trim() || "";
     const email = normalizeEmail(form.email?.value || "");

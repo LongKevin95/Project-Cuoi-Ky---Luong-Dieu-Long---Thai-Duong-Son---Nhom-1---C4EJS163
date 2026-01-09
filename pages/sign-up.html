@@ -22,13 +22,12 @@
               required
             />
           </div>
-
-          <div class="field">
+          <div class="field email-field mt-14">
             <input
               id="email"
               type="email"
               name="email"
-              placeholder="Nhập email..."
+              placeholder="Enter your email..."
               autocomplete="email"
               required
             />
@@ -74,7 +73,7 @@
             </button>
           </div>
 
-          <div class="field password-field">
+          <div class="field password-field mt-14">
             <input
               id="confirmPassword"
               type="password"
@@ -118,7 +117,7 @@
               <span>Remember Me</span>
             </label>
 
-            <a class="auth-link" href="./signin.html"
+            <a class="auth-link" href="./login.html"
               >Already have an account?</a
             >
           </div>
@@ -127,10 +126,34 @@
             Sign Up <span aria-hidden="true">→</span>
           </button>
 
+          <div class="auth-divider" aria-hidden="true">
+            <span>OR</span>
+          </div>
+
+          <div class="social-row" aria-label="Sign up with">
+            <button class="social-btn social-btn--facebook" type="button">
+              <span class="social-icon social-icon--facebook" aria-hidden="true"
+                >f</span
+              >
+              Facebook
+            </button>
+            <button class="social-btn social-btn--google" type="button">
+              <span class="social-icon social-icon--google" aria-hidden="true"
+                >G</span
+              >
+              Google
+            </button>
+          </div>
+
           <p class="auth-hint">
             By signing up, you agree to our
             <a href="#" class="auth-link">Terms</a> &
             <a href="#" class="auth-link">Privacy Policy</a>.
+          </p>
+
+          <p class="auth-switch">
+            <span>Already a customer?</span>
+            <a class="auth-link" href="./login.html">Sign in instead</a>
           </p>
         </form>
       </section>

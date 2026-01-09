@@ -2,7 +2,7 @@ const USERS_KEY = "users";
 const CURRENT_USER_KEY = "user";
 
 export async function initAdminAccount() {
-  const users = JSON.parse(localStorage.getItem(USERS_KEY));
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
 
   // init tài khoản admin đầu tiên
   const hasAdmin = users.some((user) => user.role === "admin");

@@ -56,6 +56,11 @@ body {
   gap: 14px;
 }
 
+.field {
+  display: grid;
+  gap: 8px;
+}
+
 .field input {
   width: 100%;
   border: 0;
@@ -71,14 +76,21 @@ body {
 }
 
 .field-error {
-  min-height: 18px; /* giữ layout không bị giật */
-  margin-top: 6px;
+  min-height: 14px; /* giữ layout không bị giật */
+  margin-top: 0;
   font-size: 13px;
   color: #dc2626;
 }
 
 .input-invalid {
   outline: 2px solid rgba(220, 38, 38, 0.35);
+}
+
+.email-field {
+  gap: 0;
+}
+.mt-14 {
+  margin-top: 14px;
 }
 
 /* Password with icon */
@@ -149,7 +161,6 @@ body {
 
 /* Button */
 .auth-btn {
-  margin-top: 10px;
   width: 100%;
   border: 0;
   border-radius: 12px;
@@ -163,6 +174,81 @@ body {
 
 .auth-btn:hover {
   background: var(--brand-hover);
+}
+
+.auth-divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  color: rgba(17, 24, 39, 0.35);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  background: rgba(17, 24, 39, 0.12);
+}
+
+.social-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.social-btn {
+  width: 100%;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  color: rgba(17, 24, 39, 0.85);
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  background: rgba(17, 24, 39, 0.03);
+}
+
+.social-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.social-icon--facebook {
+  background: #1877f2;
+  color: #fff;
+}
+
+.social-icon--google {
+  background: #fff;
+  color: #ea4335;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(17, 24, 39, 0.7);
+}
+
+.auth-switch .auth-link {
+  margin-left: 6px;
 }
 
 /* Hint text */

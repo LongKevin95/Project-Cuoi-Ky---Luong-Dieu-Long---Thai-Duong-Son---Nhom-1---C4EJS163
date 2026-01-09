@@ -5,6 +5,8 @@ import { initAdminAccount, loadComponent } from "./shared.js";
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "user";
 
+let activeCategory = null;
+
 function getUser() {
   return JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
 }
@@ -83,24 +85,42 @@ function addToCart(productId) {
 window.addToCart = addToCart;
 
 // ================= RENDER PRODUCTS =================
-function renderProducts(filterCategory = null) {
-  const container = document.querySelector(".flash-track");
-  if (!container) return;
+function getSearchTermFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return (params.get("search") || "").trim();
+}
 
+function normalizeText(str) {
+  return (str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function setSearchTermInUrl(term, { replace = false } = {}) {
+  const url = new URL(window.location.href);
+  const next = (term || "").trim();
+  if (!next) url.searchParams.delete("search");
+  else url.searchParams.set("search", next);
+  if (replace) history.replaceState({}, "", url);
+  else history.pushState({}, "", url);
+}
+
+function renderProductCards(container, list) {
+  if (!container) return;
   container.innerHTML = "";
 
-  const products = JSON.parse(localStorage.getItem("products")) || [];
-
-  const filteredProducts = filterCategory
-    ? products.filter((p) => p.category === filterCategory)
-    : products;
-
-  filteredProducts.forEach((p) => {
+  list.forEach((p) => {
     container.innerHTML += `
       <div class="product" onclick="goToDetail('${p.id}')">
         <span class="product-discount">-40%</span>
 
-        <img src="${p.img}" class="product-img" />
+        <div class="product-img-wrap">
+          <img src="${p.img}" class="product-img" />
+        </div>
 
         <button class="product-cart" onclick="event.stopPropagation(); addToCart('${
           p.id
@@ -122,10 +142,179 @@ function renderProducts(filterCategory = null) {
     `;
   });
 }
+
+function renderFlashSaleProducts(filterCategory = null) {
+  const container = document.querySelector(".flash-track");
+  if (!container) return;
+
+  const products = JSON.parse(localStorage.getItem("products")) || [];
+  const filteredProducts = filterCategory
+    ? products.filter((p) => p.category === filterCategory)
+    : products;
+
+  renderProductCards(container, filteredProducts.slice(0, 8));
+}
+
+function renderSearchResults(term, filterCategory = null) {
+  const titleEl = document.getElementById("searchResultsTitle");
+  const container = document.getElementById("searchResultsTrack");
+  if (!container) return;
+
+  const products = JSON.parse(localStorage.getItem("products")) || [];
+  const q = normalizeText(term);
+  const categoryFiltered = filterCategory
+    ? products.filter((p) => p.category === filterCategory)
+    : products;
+  const matched = q
+    ? categoryFiltered.filter((p) => {
+        const name = normalizeText(p.name);
+        const category = normalizeText(p.category);
+        return name.includes(q) || category.includes(q);
+      })
+    : categoryFiltered;
+
+  if (titleEl) {
+    titleEl.textContent = q
+      ? `Kết quả tìm kiếm: "${term}" (${matched.length})`
+      : "Kết quả tìm kiếm";
+  }
+
+  if (matched.length === 0) {
+    container.innerHTML = "<p>Không tìm thấy sản phẩm phù hợp.</p>";
+    return;
+  }
+
+  renderProductCards(container, matched);
+}
+
+function applySearchState() {
+  const flashSection = document.getElementById("flashSection");
+  const searchSection = document.getElementById("searchResultsSection");
+  const term = getSearchTermFromUrl();
+
+  const input = document.getElementById("headerSearchInput");
+  if (input) input.value = term;
+
+  if (term) {
+    if (flashSection) flashSection.hidden = true;
+    if (searchSection) searchSection.hidden = false;
+    renderSearchResults(term, activeCategory);
+  } else {
+    if (flashSection) flashSection.hidden = false;
+    if (searchSection) searchSection.hidden = true;
+    renderFlashSaleProducts(activeCategory);
+  }
+}
+
+function bindHeaderSearch() {
+  const form = document.getElementById("headerSearchForm");
+  const input = document.getElementById("headerSearchInput");
+  const suggestions = document.getElementById("headerSearchSuggestions");
+  if (!form || !input) return;
+
+  function getSuggestions(query) {
+    const q = normalizeText(query);
+    if (!q) return [];
+
+    const products = JSON.parse(localStorage.getItem("products")) || [];
+    const unique = new Set();
+
+    products.forEach((p) => {
+      if (p?.category) unique.add(String(p.category).trim());
+      if (p?.name) {
+        const words = String(p.name).trim().split(/\s+/).filter(Boolean);
+        const max = Math.min(3, words.length);
+        for (let k = 2; k <= max; k++) {
+          unique.add(words.slice(0, k).join(" "));
+        }
+      }
+    });
+
+    const all = Array.from(unique)
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const filtered = all.filter((s) => normalizeText(s).includes(q));
+
+    filtered.sort((a, b) => {
+      const na = normalizeText(a);
+      const nb = normalizeText(b);
+      const aStarts = na.startsWith(q);
+      const bStarts = nb.startsWith(q);
+      if (aStarts !== bStarts) return aStarts ? -1 : 1;
+      return na.localeCompare(nb);
+    });
+
+    return filtered.slice(0, 8);
+  }
+
+  function hideSuggestions() {
+    if (!suggestions) return;
+    suggestions.hidden = true;
+    suggestions.innerHTML = "";
+  }
+
+  function renderSuggestions(list) {
+    if (!suggestions) return;
+    if (!list.length) {
+      hideSuggestions();
+      return;
+    }
+
+    suggestions.innerHTML = list
+      .map(
+        (text) =>
+          `<button type="button" class="header-search__suggestion-item" data-value="${text.replace(
+            /"/g,
+            "&quot;"
+          )}">${text}</button>`
+      )
+      .join("");
+    suggestions.hidden = false;
+  }
+
+  input.addEventListener("input", () => {
+    renderSuggestions(getSuggestions(input.value));
+  });
+
+  input.addEventListener("focus", () => {
+    renderSuggestions(getSuggestions(input.value));
+  });
+
+  suggestions?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".header-search__suggestion-item");
+    if (!btn) return;
+    const value = btn.dataset.value || btn.textContent || "";
+    input.value = value;
+    hideSuggestions();
+    setSearchTermInUrl(value);
+    applySearchState();
+    document.getElementById("searchResultsSection")?.scrollIntoView();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!suggestions || suggestions.hidden) return;
+    if (!form.contains(e.target)) hideSuggestions();
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const term = input.value.trim();
+    hideSuggestions();
+    setSearchTermInUrl(term);
+    applySearchState();
+    if (term) document.getElementById("searchResultsSection")?.scrollIntoView();
+  });
+}
+
+window.addEventListener("popstate", () => {
+  applySearchState();
+});
+
 document.querySelectorAll("#menu li").forEach((item) => {
   item.addEventListener("click", () => {
-    const cate = item.dataset.category;
-    renderProducts(cate);
+    activeCategory = item.dataset.category || null;
+    applySearchState();
   });
 });
 
@@ -209,9 +398,10 @@ window.goToDetail = goToDetail;
 async function init() {
   initAdminAccount();
   await loadComponent("#header", "/components/Header/header.html");
+  bindHeaderSearch();
   bindUserMenu();
   updateCartBadge();
-  renderProducts();
+  applySearchState();
   handleAuthUI();
 }
 init();

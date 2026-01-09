@@ -83,7 +83,7 @@
     </div>
 
     <!-- ================= FLASH SALE ================= -->
-    <section class="flash">
+    <section class="flash" id="flashSection">
       <div class="o-container">
         <!-- Header -->
         <div class="flash-header">
@@ -112,7 +112,12 @@
         <button class="btn">View All Products</button>
       </div>
     </section>
-    <button onclick="addToCart(4)">Add To Cart</button>
+    <section id="searchResultsSection" hidden>
+      <div class="o-container">
+        <h2 id="searchResultsTitle"></h2>
+        <div id="searchResultsTrack"></div>
+      </div>
+    </section>
   </body>
 
   <script type="module" defer src="./js/script.js"></script>
