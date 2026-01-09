@@ -7,15 +7,26 @@ const CURRENT_USER_KEY = "user";
 
 let activeCategory = null;
 
+function syncActiveCategoryUI() {
+  const items = document.querySelectorAll("#menu .menu-list-item");
+  if (!items.length) return;
+
+  const current = activeCategory || "";
+  items.forEach((li) => {
+    const liCategory = li.dataset.category || "";
+    li.classList.toggle("is-active", liCategory === current);
+  });
+}
+
 function getUser() {
   return JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
 }
 
 // ================= LOGOUT =================
 function logout() {
-  alert("Đăng xuất thành công!");
   localStorage.removeItem(CURRENT_USER_KEY);
-  window.location.href = "../index.html";
+  const isInPagesFolder = window.location.pathname.includes("/pages/");
+  window.location.href = isInPagesFolder ? "../index.html" : "./index.html";
 }
 
 // exposer ra global để sử dụng do <script type="module"> chuyển biến và hàm thành module scope
@@ -314,6 +325,7 @@ window.addEventListener("popstate", () => {
 document.querySelectorAll("#menu li").forEach((item) => {
   item.addEventListener("click", () => {
     activeCategory = item.dataset.category || null;
+    syncActiveCategoryUI();
     applySearchState();
   });
 });
@@ -322,19 +334,17 @@ document.querySelectorAll("#menu li").forEach((item) => {
 function handleAuthUI() {
   const currentUser = getUser();
   const loginLink = document.getElementById("loginLink");
+  const signupLink = document.getElementById("signupLink");
   const logoutBtn = document.getElementById("logoutBtn");
 
   if (currentUser) {
     if (loginLink) loginLink.style.display = "none";
+    if (signupLink) signupLink.style.display = "none";
     if (logoutBtn) logoutBtn.style.display = "inline-block";
   } else {
     if (loginLink) loginLink.style.display = "inline-block";
+    if (signupLink) signupLink.style.display = "inline-block";
     if (logoutBtn) logoutBtn.style.display = "none";
-  }
-
-  function logout() {
-    localStorage.removeItem(CURRENT_USER_KEY);
-    window.location.reload();
   }
 }
 const userIcon = document.getElementById("userIcon");
@@ -342,22 +352,61 @@ const currentUser = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
 
 function bindUserMenu() {
   const userIcon = document.getElementById("userIcon");
+  const userIconImg = document.getElementById("userIconImg");
   const userMenu = document.getElementById("userMenu");
+  const headEl = userMenu?.querySelector(".user-menu__head");
+  const dividerEl = userMenu?.querySelector(".user-menu__divider");
+  const avatarEl = document.getElementById("userMenuAvatar");
   const nameEl = document.getElementById("userMenuName");
   const emailEl = document.getElementById("userMenuEmail");
+  const signInBtn = document.getElementById("menuSignIn");
   const myProfileBtn = document.getElementById("menuMyProfile");
+  const settingsBtn = document.getElementById("menuSettings");
+  const notificationBtn = document.getElementById("menuNotification");
   const logoutBtn = document.getElementById("menuLogout");
   if (!userIcon || !userMenu) return;
+
+  const isInPagesFolder = window.location.pathname.includes("/pages/");
+  const loginUrl = isInPagesFolder ? "login.html" : "pages/login.html";
+  const defaultAvatar = isInPagesFolder
+    ? "../assets/icons/user-icon.svg"
+    : "./assets/icons/user-icon.svg";
+  const loggedInAvatar = "https://i.pravatar.cc/80?img=32";
+
+  const applyUserMenuState = (u) => {
+    const isLoggedIn = Boolean(u);
+
+    if (userIconImg)
+      userIconImg.src = isLoggedIn ? loggedInAvatar : defaultAvatar;
+    if (avatarEl) avatarEl.src = isLoggedIn ? loggedInAvatar : defaultAvatar;
+
+    if (headEl) headEl.style.display = isLoggedIn ? "flex" : "none";
+    if (dividerEl) dividerEl.style.display = isLoggedIn ? "block" : "none";
+
+    if (signInBtn) signInBtn.style.display = isLoggedIn ? "none" : "flex";
+
+    if (myProfileBtn) myProfileBtn.style.display = isLoggedIn ? "flex" : "none";
+    if (settingsBtn) settingsBtn.style.display = isLoggedIn ? "flex" : "none";
+    if (notificationBtn)
+      notificationBtn.style.display = isLoggedIn ? "block" : "none";
+    if (logoutBtn) logoutBtn.style.display = isLoggedIn ? "flex" : "none";
+
+    if (!isLoggedIn) return;
+    const displayName = u?.fullName || u?.name || "Your name";
+    const displayEmail = u?.email || "yourname@gmail.com";
+    if (nameEl) nameEl.textContent = displayName;
+    if (emailEl) emailEl.textContent = displayEmail;
+  };
+
+  applyUserMenuState(JSON.parse(localStorage.getItem(CURRENT_USER_KEY)));
+
   const closeMenu = () => {
     userMenu.hidden = true;
     userIcon.setAttribute("aria-expanded", "false");
   };
   const openMenu = () => {
     const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
-    const displayName = u?.fullName || u?.name || "Your name";
-    const displayEmail = u?.email || "yourname@gmail.com";
-    if (nameEl) nameEl.textContent = displayName;
-    if (emailEl) emailEl.textContent = displayEmail;
+    applyUserMenuState(u);
     userMenu.hidden = false;
     userIcon.setAttribute("aria-expanded", "true");
   };
@@ -366,6 +415,12 @@ function bindUserMenu() {
     if (userMenu.hidden) openMenu();
     else closeMenu();
   });
+
+  signInBtn?.addEventListener("click", () => {
+    closeMenu();
+    window.location.href = loginUrl;
+  });
+
   document.addEventListener("click", (e) => {
     if (
       !userMenu.hidden &&
@@ -378,10 +433,12 @@ function bindUserMenu() {
   myProfileBtn?.addEventListener("click", () => {
     const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
     if (!u) {
-      window.location.href = "pages/login.html";
+      window.location.href = loginUrl;
       return;
     }
-    window.location.href = "pages/user-profile.html";
+    window.location.href = isInPagesFolder
+      ? "user-profile.html"
+      : "pages/user-profile.html";
   });
   logoutBtn?.addEventListener("click", () => {
     closeMenu();
@@ -401,6 +458,7 @@ async function init() {
   bindHeaderSearch();
   bindUserMenu();
   updateCartBadge();
+  syncActiveCategoryUI();
   applySearchState();
   handleAuthUI();
 }

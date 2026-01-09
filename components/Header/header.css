@@ -47,6 +47,34 @@
   cursor: pointer;
 }
 
+.header-action--user {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.header-action--user #userIconImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.header-action--wishlist {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.header-action--wishlist img {
+  width: 26px;
+  height: 26px;
+}
+
 .header-action--cart {
   display: flex;
   align-items: center;

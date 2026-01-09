@@ -34,11 +34,13 @@
       <div class="topbar-links">
         <a href="#">Eng</a>
         <a href="#">Faqs</a>
-        <a href="./pages/login.html">Sign In</a>
-        <a href="./pages/sign-up.html">Sign Up</a>
+        <a id="loginLink" href="./pages/login.html">Sign In</a>
+        <a id="signupLink" href="./pages/sign-up.html">Sign Up</a>
         <a href="#">Need Help</a>
+        <a id="logoutBtn" href="#" onclick="logout()" style="display: none"
+          >Logout</a
+        >
       </div>
-      <button onclick="logout()">Logout</button>
     </div>
 
     <!-- ================= HEADER ================= -->
@@ -50,11 +52,18 @@
       <aside class="hero-menu">
         <button id="menu-btn">☰ Categories</button>
         <ul id="menu" class="menu-list">
-          <li data-category="Fashion Women">Woman’s Fashion</li>
-          <li data-category="Fashion Men">Men’s Fashion</li>
-          <li data-category="Electronics">Electronics</li>
-          <li data-category="Home">Home & Lifestyle</li>
-          <li data-category="Beauty">Health & Beauty</li>
+          <li data-category="" class="menu-list-item is-active">All</li>
+          <li data-category="Fashion Women" class="menu-list-item">
+            Woman’s Fashion
+          </li>
+          <li data-category="Fashion Men" class="menu-list-item">
+            Men’s Fashion
+          </li>
+          <li data-category="Electronics" class="menu-list-item">
+            Electronics
+          </li>
+          <li data-category="Home" class="menu-list-item">Home & Lifestyle</li>
+          <li data-category="Beauty" class="menu-list-item">Health & Beauty</li>
         </ul>
       </aside>
 

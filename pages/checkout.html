@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/pages/checkout.css" />
+  </head>
+
+  <body>
+    <main class="checkout-page">
+      <div class="o-container">
+        <div class="checkout-breadcrumb">
+          <a href="../index.html">Account</a> / <a href="#">My Account</a> /
+          <a href="#">Product</a> / <a href="./cart.html">View Cart</a> /
+          <strong>Checkout</strong>
+        </div>
+
+        <div class="checkout-layout">
+          <section class="checkout-billing">
+            <h1 class="checkout-title">Billing Details</h1>
+
+            <form class="checkout-form" action="#" method="post">
+              <div class="checkout-field">
+                <label for="firstName"
+                  >First Name<span class="is-required">*</span></label
+                >
+                <input id="firstName" name="firstName" type="text" required />
+              </div>
+
+              <div class="checkout-field">
+                <label for="companyName">Company Name</label>
+                <input id="companyName" name="companyName" type="text" />
+              </div>
+
+              <div class="checkout-field">
+                <label for="streetAddress"
+                  >Street Address<span class="is-required">*</span></label
+                >
+                <input
+                  id="streetAddress"
+                  name="streetAddress"
+                  type="text"
+                  required
+                />
+              </div>
+
+              <div class="checkout-field">
+                <label for="apartment">Apartment, floor, etc. (optional)</label>
+                <input id="apartment" name="apartment" type="text" />
+              </div>
+
+              <div class="checkout-field">
+                <label for="city"
+                  >Town/City<span class="is-required">*</span></label
+                >
+                <input id="city" name="city" type="text" required />
+              </div>
+
+              <div class="checkout-field">
+                <label for="phone"
+                  >Phone Number<span class="is-required">*</span></label
+                >
+                <input id="phone" name="phone" type="tel" required />
+              </div>
+
+              <div class="checkout-field">
+                <label for="email"
+                  >Email Address<span class="is-required">*</span></label
+                >
+                <input id="email" name="email" type="email" required />
+              </div>
+
+              <label class="checkout-save">
+                <input type="checkbox" name="saveInfo" />
+                Save this information for faster check-out next time
+              </label>
+            </form>
+          </section>
+
+          <aside class="checkout-summary" aria-label="Order summary">
+            <div class="summary-items">
+              <div class="summary-item">
+                <div class="summary-item__left">
+                  <img
+                    class="summary-item__img"
+                    src="../assets/images/game-controller.jpg"
+                    alt="LCD Monitor"
+                  />
+                  <span class="summary-item__name">LCD Monitor</span>
+                </div>
+                <span class="summary-item__price">$650</span>
+              </div>
+
+              <div class="summary-item">
+                <div class="summary-item__left">
+                  <img
+                    class="summary-item__img"
+                    src="../assets/images/item-01.svg"
+                    alt="HI Gamepad"
+                  />
+                  <span class="summary-item__name">HI Gamepad</span>
+                </div>
+                <span class="summary-item__price">$1100</span>
+              </div>
+            </div>
+
+            <div class="summary-totals">
+              <div class="summary-row">
+                <span class="summary-row__label">Subtotal:</span>
+                <span class="summary-row__value">$1750</span>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-row">
+                <span class="summary-row__label">Shipping:</span>
+                <span class="summary-row__value">Free</span>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-row summary-row--strong">
+                <span class="summary-row__label">Total:</span>
+                <span class="summary-row__value">$1750</span>
+              </div>
+            </div>
+
+            <div class="summary-payment">
+              <label class="payment-option">
+                <input type="radio" name="payment" value="bank" />
+                <span class="payment-option__label">Bank</span>
+                <span class="payment-cards" aria-hidden="true"
+                  >VISA Mastercard</span
+                >
+              </label>
+
+              <label class="payment-option">
+                <input type="radio" name="payment" value="cod" checked />
+                <span class="payment-option__label">Cash on delivery</span>
+              </label>
+            </div>
+
+            <div class="summary-coupon">
+              <input
+                class="summary-coupon__input"
+                type="text"
+                placeholder="Coupon Code"
+              />
+              <button type="button" class="btn summary-coupon__btn">
+                Apply Coupon
+              </button>
+            </div>
+
+            <button type="button" class="btn summary-place-order">
+              Place Order
+            </button>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

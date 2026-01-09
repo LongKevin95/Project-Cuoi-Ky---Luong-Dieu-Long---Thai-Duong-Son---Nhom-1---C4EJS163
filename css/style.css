@@ -93,6 +93,11 @@
   padding: 6px 0;
 }
 
+.menu-list-item.is-active {
+  color: #e20000;
+  font-weight: 700;
+}
+
 .menu-list-item:hover {
   color: #e20000;
   font-weight: 600;

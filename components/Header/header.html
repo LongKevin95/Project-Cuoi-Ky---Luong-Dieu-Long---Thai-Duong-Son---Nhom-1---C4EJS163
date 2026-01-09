@@ -60,7 +60,7 @@
               aria-haspopup="menu"
               aria-expanded="false"
             >
-              <img src="./assets/icons/user-icon.svg" />
+              <img id="userIconImg" src="./assets/icons/user-icon.svg" />
             </button>
 
             <div class="user-menu" id="userMenu" hidden>
@@ -81,6 +81,12 @@
               </div>
 
               <div class="user-menu__divider"></div>
+
+              <button class="user-menu__item" type="button" id="menuSignIn">
+                <span class="user-menu__icon">↪</span>
+                <span class="user-menu__text">Sign in</span>
+                <span class="user-menu__chev">›</span>
+              </button>
 
               <button class="user-menu__item" type="button" id="menuMyProfile">
                 <span class="user-menu__icon">👤</span>
