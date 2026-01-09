@@ -11,8 +11,8 @@
   --muted: #f3f4f6;
   --text: #111827;
   --sub: rgba(17, 24, 39, 0.6);
-  --brand: #0b8f97; /* gần giống nút xanh trong ảnh */
-  --brand-hover: #097d84;
+  --brand: #000; /* gần giống nút xanh trong ảnh */
+  --brand-hover: rgba(0, 0, 0, 0.75);
   --radius-xl: 22px;
   --radius-md: 10px;
 }
