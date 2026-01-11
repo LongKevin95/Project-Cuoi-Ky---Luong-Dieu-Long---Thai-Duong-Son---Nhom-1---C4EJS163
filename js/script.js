@@ -1,11 +1,95 @@
-import { initAdminAccount, loadComponent } from "./shared.js";
-
 // ================= USER =================
 
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "user";
 
 let activeCategory = null;
+
+function initAdminAccount() {
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+
+  // init tài khoản admin đầu tiên
+  const hasAdmin = users.some((user) => user.role === "admin");
+
+  if (!hasAdmin) {
+    const admin = {
+      id: Date.now(),
+      email: "admin@gmail.com",
+      password: "admin",
+      name: "admin",
+      role: "admin",
+    };
+
+    users.push(admin);
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+    console.log("Admin account created");
+  }
+}
+
+function loadHTML(url, elementId) {
+  return fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.innerHTML = html;
+    })
+    .catch((error) => {
+      console.error("Lỗi khi load file:", url, error);
+    });
+}
+
+function ensureHeaderStyles(base) {
+  const href = `${base}/components/Header/header.css`;
+  const existing = document.querySelector(
+    'link[rel="stylesheet"][data-component="header"]'
+  );
+  if (existing) {
+    if (existing.getAttribute("href") !== href)
+      existing.setAttribute("href", href);
+    return;
+  }
+
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = href;
+  link.setAttribute("data-component", "header");
+  document.head.appendChild(link);
+}
+
+function fixHeaderRelativePaths(base) {
+  const header = document.getElementById("header");
+  if (!header) return;
+
+  header.querySelectorAll("[src]").forEach((el) => {
+    const src = el.getAttribute("src");
+    if (!src) return;
+    if (src.startsWith("./assets/")) {
+      el.setAttribute("src", `${base}/${src.slice(2)}`);
+    }
+  });
+
+  header.querySelectorAll("[href]").forEach((el) => {
+    const href = el.getAttribute("href");
+    if (!href) return;
+
+    if (href === "/index.html") {
+      el.setAttribute("href", `${base}/index.html`);
+      return;
+    }
+
+    if (href.startsWith("./assets/")) {
+      el.setAttribute("href", `${base}/${href.slice(2)}`);
+      return;
+    }
+
+    if (href.startsWith("./pages/")) {
+      el.setAttribute("href", `${base}/${href.slice(2)}`);
+      return;
+    }
+  });
+}
 
 function syncActiveCategoryUI() {
   const items = document.querySelectorAll("#menu .menu-list-item");
@@ -56,7 +140,8 @@ function addToCart(productId) {
 
   if (!user) {
     alert("Vui lòng đăng nhập để mua hàng!");
-    window.location.href = "pages/login.html";
+    const isInPagesFolder = window.location.pathname.includes("/pages/");
+    window.location.href = isInPagesFolder ? "login.html" : "pages/login.html";
     return;
   }
 
@@ -120,6 +205,12 @@ function setSearchTermInUrl(term, { replace = false } = {}) {
   else history.pushState({}, "", url);
 }
 
+function getCategoryFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const raw = (params.get("category") || "").trim();
+  return raw || null;
+}
+
 function renderProductCards(container, list) {
   if (!container) return;
   container.innerHTML = "";
@@ -131,13 +222,13 @@ function renderProductCards(container, list) {
 
         <div class="product-img-wrap">
           <img src="${p.img}" class="product-img" />
-        </div>
 
-        <button class="product-cart" onclick="event.stopPropagation(); addToCart('${
-          p.id
-        }')">
-          Add To Cart
-        </button>
+          <button class="product-cart" onclick="event.stopPropagation(); addToCart('${
+            p.id
+          }')">
+            Add To Cart
+          </button>
+        </div>
 
         <h3 class="product-name">${p.name}</h3>
 
@@ -166,6 +257,47 @@ function renderFlashSaleProducts(filterCategory = null) {
   renderProductCards(container, filteredProducts.slice(0, 8));
 }
 
+function renderCategoryPage() {
+  const track = document.getElementById("categoryTrack");
+  if (!track) return;
+  const emptyMsg = document.querySelector(".no-product-messege");
+
+  const titleEl = document.getElementById("categoryTitle");
+  const category = getCategoryFromUrl();
+  const products = JSON.parse(localStorage.getItem("products")) || [];
+  const filtered = category
+    ? products.filter((p) => p.category === category)
+    : products;
+
+  if (titleEl) titleEl.textContent = category ? category : "All";
+
+  if (!filtered.length) {
+    if (emptyMsg) emptyMsg.style.display = "flex";
+    track.style.display = "none";
+    return;
+  }
+
+  if (emptyMsg) emptyMsg.style.display = "none";
+  track.style.display = "grid";
+
+  renderProductCards(track, filtered);
+}
+
+function syncHeaderNavActiveState() {
+  const nav = document.querySelector(".header-nav__list");
+  if (!nav) return;
+
+  const homeLink = nav.querySelector('a[href="/index.html"]');
+  const categoriesBtn = document.getElementById("categoriesBtn");
+
+  const path = (window.location.pathname || "").toLowerCase();
+  const isCategoryPage = path.endsWith("/pages/category.html");
+
+  if (homeLink) homeLink.classList.toggle("is-active", !isCategoryPage);
+  if (categoriesBtn)
+    categoriesBtn.classList.toggle("is-active", isCategoryPage);
+}
+
 function renderSearchResults(term, filterCategory = null) {
   const titleEl = document.getElementById("searchResultsTitle");
   const container = document.getElementById("searchResultsTrack");
@@ -173,16 +305,12 @@ function renderSearchResults(term, filterCategory = null) {
 
   const products = JSON.parse(localStorage.getItem("products")) || [];
   const q = normalizeText(term);
-  const categoryFiltered = filterCategory
-    ? products.filter((p) => p.category === filterCategory)
-    : products;
   const matched = q
-    ? categoryFiltered.filter((p) => {
+    ? products.filter((p) => {
         const name = normalizeText(p.name);
-        const category = normalizeText(p.category);
-        return name.includes(q) || category.includes(q);
+        return name.includes(q);
       })
-    : categoryFiltered;
+    : products;
 
   if (titleEl) {
     titleEl.textContent = q
@@ -209,7 +337,7 @@ function applySearchState() {
   if (term) {
     if (flashSection) flashSection.hidden = true;
     if (searchSection) searchSection.hidden = false;
-    renderSearchResults(term, activeCategory);
+    renderSearchResults(term);
   } else {
     if (flashSection) flashSection.hidden = false;
     if (searchSection) searchSection.hidden = true;
@@ -231,14 +359,7 @@ function bindHeaderSearch() {
     const unique = new Set();
 
     products.forEach((p) => {
-      if (p?.category) unique.add(String(p.category).trim());
-      if (p?.name) {
-        const words = String(p.name).trim().split(/\s+/).filter(Boolean);
-        const max = Math.min(3, words.length);
-        for (let k = 2; k <= max; k++) {
-          unique.add(words.slice(0, k).join(" "));
-        }
-      }
+      if (p?.name) unique.add(String(p.name).trim());
     });
 
     const all = Array.from(unique)
@@ -322,13 +443,60 @@ window.addEventListener("popstate", () => {
   applySearchState();
 });
 
-document.querySelectorAll("#menu li").forEach((item) => {
-  item.addEventListener("click", () => {
-    activeCategory = item.dataset.category || null;
-    syncActiveCategoryUI();
-    applySearchState();
+function bindCategoriesDropdown() {
+  const btn = document.getElementById("categoriesBtn");
+  const dropdown = document.getElementById("categoriesDropdown");
+  if (!btn || !dropdown) return;
+
+  const close = () => {
+    dropdown.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+  };
+  const open = () => {
+    dropdown.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+  };
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (dropdown.hidden) open();
+    else close();
   });
-});
+
+  document.addEventListener("click", (e) => {
+    if (dropdown.hidden) return;
+    if (dropdown.contains(e.target) || e.target === btn) return;
+    close();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+}
+
+function bindCategoryMenu() {
+  const menu = document.getElementById("menu");
+  if (!menu) return;
+
+  menu.addEventListener("click", (e) => {
+    const item = e.target.closest(".menu-list-item");
+    if (!item) return;
+
+    const category = item.dataset.category || "";
+    const isInPagesFolder = window.location.pathname.includes("/pages/");
+    const categoryUrl = isInPagesFolder
+      ? `category.html?category=${encodeURIComponent(category)}`
+      : `pages/category.html?category=${encodeURIComponent(category)}`;
+    window.location.href = categoryUrl;
+
+    const dropdown = document.getElementById("categoriesDropdown");
+    const btn = document.getElementById("categoriesBtn");
+    if (dropdown && btn) {
+      dropdown.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+}
 
 // ================= LOGIN / LOGOUT UI =================
 function handleAuthUI() {
@@ -448,18 +616,36 @@ function bindUserMenu() {
 
 // ==========PRODUCT DETAIL=============
 function goToDetail(productId) {
-  window.location.href = `pages/product-detail.html?id=${productId}`;
+  const isInPagesFolder = window.location.pathname.includes("/pages/");
+  const prefix = isInPagesFolder ? "" : "pages/";
+  window.location.href = `${prefix}product-detail.html?id=${productId}`;
 }
 window.goToDetail = goToDetail;
 
-async function init() {
+function init() {
   initAdminAccount();
-  await loadComponent("#header", "/components/Header/header.html");
-  bindHeaderSearch();
-  bindUserMenu();
-  updateCartBadge();
-  syncActiveCategoryUI();
-  applySearchState();
-  handleAuthUI();
+  const isInPagesFolder = window.location.pathname.includes("/pages/");
+  const base = isInPagesFolder ? ".." : ".";
+  ensureHeaderStyles(base);
+
+  if (!document.getElementById("header")) return;
+
+  loadHTML(`${base}/components/Header/header.html`, "header").then(() => {
+    fixHeaderRelativePaths(base);
+    bindHeaderSearch();
+    bindCategoriesDropdown();
+    bindCategoryMenu();
+    bindUserMenu();
+    updateCartBadge();
+    syncHeaderNavActiveState();
+
+    if (document.getElementById("categoryTrack")) {
+      renderCategoryPage();
+    } else {
+      syncActiveCategoryUI();
+      applySearchState();
+    }
+    handleAuthUI();
+  });
 }
 init();

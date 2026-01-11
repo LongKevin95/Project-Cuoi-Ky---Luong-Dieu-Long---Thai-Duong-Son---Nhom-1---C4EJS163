@@ -3,7 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <title>Product Detail</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/components.css" />
     <link rel="stylesheet" href="../css/pages/product-detail.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- Breadcrumb -->
@@ -12,7 +23,7 @@
     </div>
 
     <!-- Product Detail -->
-    <section class="product">
+    <section class="product-detail">
       <!-- Gallery -->
       <div class="gallery">
         <div class="thumbnails">
@@ -23,7 +34,7 @@
         </div>
 
         <div class="main-image">
-          <img src="../assets/images/game-controller.jpg"/>
+          <img src="../assets/images/game-controller.jpg" />
         </div>
       </div>
 
@@ -97,31 +108,8 @@
     <section class="related">
       <h2>Related Item</h2>
 
-      <div class="products">
-        <div class="card">
-          <img src="https://picsum.photos/250?1" />
-          <h4>HAVIT HV-G92 Gamepad</h4>
-          <p class="price">$120 <span>$160</span></p>
-        </div>
-
-        <div class="card">
-          <img src="https://picsum.photos/250?2" />
-          <h4>AK-900 Wired Keyboard</h4>
-          <p class="price">$960 <span>$1160</span></p>
-        </div>
-
-        <div class="card">
-          <img src="https://picsum.photos/250?3" />
-          <h4>IPS LCD Gaming Monitor</h4>
-          <p class="price">$370 <span>$400</span></p>
-        </div>
-
-        <div class="card">
-          <img src="https://picsum.photos/250?4" />
-          <h4>RGB liquid CPU Cooler</h4>
-          <p class="price">$160 <span>$170</span></p>
-        </div>
-      </div>
+      <div class="flash-track"></div>
     </section>
+    <script defer src="../js/pages/product-detail.js"></script>
   </body>
 </html>

@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./components/Header/header.css" />
     <title>Document</title>
   </head>
   <body>
@@ -131,13 +130,44 @@
 
       <nav class="header-nav o-container">
         <ul class="header-nav__list">
-          <li><a class="is-active" href="/index.html">Home</a></li>
+          <li><a href="/index.html">Home</a></li>
+
+          <li class="header-nav__item header-nav__item--categories">
+            <button
+              id="categoriesBtn"
+              class="header-nav__link header-nav__categories-btn"
+              type="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Categories
+            </button>
+
+            <div id="categoriesDropdown" class="header-nav__dropdown" hidden>
+              <ul id="menu" class="menu-list">
+                <li data-category="" class="menu-list-item is-active">All</li>
+                <li data-category="Fashion Women" class="menu-list-item">
+                  Woman’s Fashion
+                </li>
+                <li data-category="Fashion Men" class="menu-list-item">
+                  Men’s Fashion
+                </li>
+                <li data-category="Electronics" class="menu-list-item">
+                  Electronics
+                </li>
+                <li data-category="Home" class="menu-list-item">
+                  Home & Lifestyle
+                </li>
+                <li data-category="Beauty" class="menu-list-item">
+                  Health & Beauty
+                </li>
+              </ul>
+            </div>
+          </li>
 
           <li><a href="#">Shop</a></li>
 
           <li><a href="#">Product</a></li>
-
-          <li><a href="#">Pages</a></li>
 
           <li><a href="#">About</a></li>
         </ul>

@@ -108,28 +108,34 @@
   width: 100%;
   margin-top: var(--space-unit);
   position: relative;
+  height: 350px;
 }
 
 .slider {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
+  height: 100%;
 }
 
 .slider-track {
   display: flex;
   transition: transform 0.5s ease;
+  height: 100%;
 }
 
 .slider-item {
   min-width: 100%;
+  overflow: hidden;
+  height: 100%;
 }
 
 .slider-item img {
-  width: 100%;
-  height: 350px;
-  object-fit: contain;
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* DOTS */
@@ -241,15 +247,22 @@
 /* Slider */
 .flash-slider {
   overflow: hidden;
-  width: calc(4 * var(--width-item) + 3 * 20px);
+  width: 100%;
 }
 
 .flash-track {
   width: 100%;
-  display: flex;
+  display: grid;
   gap: 20px;
-  transition: transform 0.45s ease;
+  justify-content: start;
+  justify-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
   margin: 0 auto;
+}
+
+.flash-track .product {
+  width: 100%;
+  min-width: 0;
 }
 
 #searchResultsTitle {
@@ -277,10 +290,14 @@
   border-radius: 8px;
   position: relative;
   transition: 0.3s;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: var(--space-unit);
+  
 }
 
 .product:hover {
   transform: translateY(-4px);
+  cursor: pointer;
 }
 
 .product-discount {
@@ -289,6 +306,8 @@
   left: 10px;
   background: #e00;
   color: #fff;
+  z-index: 5;
+
   font-size: 14px;
   font-weight: bold;
   padding: 2px 8px;
@@ -299,28 +318,21 @@
   width: 100%;
   aspect-ratio: 1/1;
   overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   background: #fff;
 }
 
 .product-img {
-  height: 100%;
-  width: auto;
   display: block;
-}
-
-.product-actions {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  opacity: 0;
-  transition: 0.3s;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .product:hover .product-actions {
@@ -334,15 +346,21 @@
   color: #fff;
   padding: 10px 0;
   border: none;
-  border-radius: 6px;
+  border-radius: 0;
   font-weight: bold;
-  margin-top: 10px;
   opacity: 0;
   pointer-events: none;
   transition: 0.3s;
 }
 
-.product:hover .product-cart {
+.product-img-wrap .product-cart {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.product:hover .product-img-wrap .product-cart {
   opacity: 1;
   pointer-events: auto;
 }
@@ -350,12 +368,14 @@
 .product-name {
   margin-top: 10px;
   font-size: 15px;
+  padding-inline: var(--space-sm);
 }
 
 .product-price {
   margin-top: 5px;
   display: flex;
   gap: 10px;
+  padding-inline: var(--space-sm);
 }
 
 .price-new {
@@ -372,12 +392,25 @@
   margin-top: 5px;
   font-size: 14px;
   color: #ffb400;
+  padding-inline: var(--space-sm);
 }
 
 /* View All Button */
 .flash-view-all {
   margin-top: 25px;
   margin-inline: auto;
+}
+
+.no-product-messege {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 0;
+  color: #6b7280;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 /* ================== Trumps/Ultilities ================ */
@@ -402,7 +435,7 @@
   }
 
   .flash-slider {
-    width: 950px;
+    width: 100%;
   }
   .flash-track {
     gap: var(--space-sm);
@@ -445,8 +478,9 @@
   .flash-track {
     width: 100%;
     gap: var(--space-sm);
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
+    justify-items: start;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     /* align-content: center; */
   }
   .product {
@@ -532,8 +566,15 @@
     display: none !important;
   }
 
+  .hero-slider {
+    height: 220px;
+  }
+
   .slider-item img {
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
   .flash-header {
     display: block;
@@ -565,11 +606,9 @@
     font-size: var(--text-lg);
   }
 
-  .product-cart {
-    position: absolute;
-    bottom: calc(var(--space-xxl) - 8px);
+  .product-img-wrap .product-cart {
+    bottom: 0;
     left: 0;
-    z-index: 10;
   }
   .product {
     width: clamp(200px, 24vw, 260px);
