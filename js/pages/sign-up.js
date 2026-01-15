@@ -1,7 +1,7 @@
 // ================= SIGNUP LOGIC =================
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "user";
-
+const LAST_ORDER_KEY = "lastOrder";
 // Toggle show/hide password (no dependency)
 document.querySelectorAll(".toggle-pass").forEach((btn) => {
   btn.addEventListener("click", () => {

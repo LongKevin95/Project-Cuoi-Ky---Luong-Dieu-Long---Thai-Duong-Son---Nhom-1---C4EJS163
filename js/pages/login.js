@@ -5,32 +5,34 @@ const passwordInput = document.getElementById("password");
 const togglePassword = document.getElementById("togglePassword");
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "user";
+const LAST_ORDER_KEY = "lastOrder";
+function ensureAdminAccount() {
+  const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+  const hasAdmin = users.some(u => u.role === "admin");
 
-// Tài khoản cứng
-// const ACCOUNT_LIST = [
-//   {
-//     email: "khachhang@gmail.com",
-//     password: "khachhang",
-//     role: "customer",
-//     name: "Khách Hàng",
-//   },
-//   {
-//     email: "admin@gmail.com",
-//     password: "admin",
-//     role: "admin",
-//     name: "Admin",
-//   },
-// ];
+  if (!hasAdmin) {
+    users.push({
+      id: Date.now(),
+      email: "admin@gmail.com",
+      password: "admin",
+      name: "admin",
+      role: "admin",
+    });
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  }
+}
 
 document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
+  ensureAdminAccount();
 
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
   const rawUserData = localStorage.getItem(USERS_KEY);
-  const usersList = JSON.parse(rawUserData);
+  const usersList = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
   console.log(usersList);
+  const isInPagesFolder = window.location.pathname.includes("/pages/");
 
   const currentUser = usersList.find(
     (acc) => acc.email === email && acc.password === password
@@ -46,10 +48,10 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   alert("Đăng nhập thành công ✅");
 
   if (currentUser.role === "admin") {
-    window.location.href = "../pages/admin.html";
-  } else {
-    window.location.href = "../index.html";
-  }
+  window.location.href = isInPagesFolder ? "admin.html" : "pages/admin.html";
+} else {
+  window.location.href = isInPagesFolder ? "../index.html" : "index.html";
+}
 });
 
 // Show / Hide password

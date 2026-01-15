@@ -229,3 +229,37 @@
     grid-column: auto;
   }
 }
+.profile-actions{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn{
+  border: 0;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none; /* để <a> nhìn như button */
+}
+
+.btn-dark{
+  background: #111;
+  color: #fff;
+}
+
+.btn-ghost{
+  background: #f2f3f7;
+  color: #111;
+}
+
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+  transition: .12s ease;
+}

@@ -1,6 +1,6 @@
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
-
+const LAST_ORDER_KEY = "lastOrder";
 const products = JSON.parse(localStorage.getItem("products")) || [];
 const product = products.find((p) => p.id == productId);
 

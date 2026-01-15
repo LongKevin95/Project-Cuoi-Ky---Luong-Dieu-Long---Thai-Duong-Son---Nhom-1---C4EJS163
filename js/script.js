@@ -2,7 +2,7 @@
 
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "user";
-
+const LAST_ORDER_KEY = "lastOrder";
 let activeCategory = null;
 
 function initAdminAccount() {
@@ -522,43 +522,65 @@ function bindUserMenu() {
   const userIcon = document.getElementById("userIcon");
   const userIconImg = document.getElementById("userIconImg");
   const userMenu = document.getElementById("userMenu");
+
   const headEl = userMenu?.querySelector(".user-menu__head");
   const dividerEl = userMenu?.querySelector(".user-menu__divider");
+
   const avatarEl = document.getElementById("userMenuAvatar");
   const nameEl = document.getElementById("userMenuName");
   const emailEl = document.getElementById("userMenuEmail");
+
   const signInBtn = document.getElementById("menuSignIn");
   const myProfileBtn = document.getElementById("menuMyProfile");
   const settingsBtn = document.getElementById("menuSettings");
   const notificationBtn = document.getElementById("menuNotification");
+  const adminDashboardBtn = document.getElementById("menuAdminDashboard");
   const logoutBtn = document.getElementById("menuLogout");
+
   if (!userIcon || !userMenu) return;
 
   const isInPagesFolder = window.location.pathname.includes("/pages/");
   const loginUrl = isInPagesFolder ? "login.html" : "pages/login.html";
+
   const defaultAvatar = isInPagesFolder
     ? "../assets/icons/user-icon.svg"
     : "./assets/icons/user-icon.svg";
+
   const loggedInAvatar = "https://i.pravatar.cc/80?img=32";
+
+  const closeMenu = () => {
+    userMenu.hidden = true;
+    userIcon.setAttribute("aria-expanded", "false");
+  };
 
   const applyUserMenuState = (u) => {
     const isLoggedIn = Boolean(u);
+    const isAdmin = u?.role === "admin";
 
+    // avatar
     if (userIconImg)
       userIconImg.src = isLoggedIn ? loggedInAvatar : defaultAvatar;
     if (avatarEl) avatarEl.src = isLoggedIn ? loggedInAvatar : defaultAvatar;
 
+    // header info
     if (headEl) headEl.style.display = isLoggedIn ? "flex" : "none";
     if (dividerEl) dividerEl.style.display = isLoggedIn ? "block" : "none";
 
+    // items
     if (signInBtn) signInBtn.style.display = isLoggedIn ? "none" : "flex";
-
     if (myProfileBtn) myProfileBtn.style.display = isLoggedIn ? "flex" : "none";
     if (settingsBtn) settingsBtn.style.display = isLoggedIn ? "flex" : "none";
     if (notificationBtn)
       notificationBtn.style.display = isLoggedIn ? "block" : "none";
     if (logoutBtn) logoutBtn.style.display = isLoggedIn ? "flex" : "none";
 
+    // ✅ Admin Dashboard: chỉ admin mới thấy
+    if (adminDashboardBtn) {
+      adminDashboardBtn.hidden = !isAdmin;
+      adminDashboardBtn.style.display = isAdmin ? "flex" : "none";
+    }
+
+    // name/email
     if (!isLoggedIn) return;
     const displayName = u?.fullName || u?.name || "Your name";
     const displayEmail = u?.email || "yourname@gmail.com";
@@ -566,48 +588,61 @@ function bindUserMenu() {
     if (emailEl) emailEl.textContent = displayEmail;
   };
 
+  // init state
   applyUserMenuState(JSON.parse(localStorage.getItem(CURRENT_USER_KEY)));
 
-  const closeMenu = () => {
-    userMenu.hidden = true;
-    userIcon.setAttribute("aria-expanded", "false");
-  };
   const openMenu = () => {
     const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
     applyUserMenuState(u);
     userMenu.hidden = false;
     userIcon.setAttribute("aria-expanded", "true");
   };
+
   userIcon.addEventListener("click", (e) => {
     e.stopPropagation();
     if (userMenu.hidden) openMenu();
     else closeMenu();
   });
 
+  
   signInBtn?.addEventListener("click", () => {
     closeMenu();
     window.location.href = loginUrl;
   });
 
+  adminDashboardBtn?.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+  if (!u || u.role !== "admin") {
+    alert("Bạn không có quyền truy cập ❌");
+    return;
+  }
+
+  closeMenu();
+
+  window.location.href = "pages/admin.html";
+});
+
   document.addEventListener("click", (e) => {
-    if (
-      !userMenu.hidden &&
-      !userMenu.contains(e.target) &&
-      e.target !== userIcon
-    ) {
+    if (!userMenu.hidden && !userMenu.contains(e.target) && e.target !== userIcon) {
       closeMenu();
     }
   });
+
   myProfileBtn?.addEventListener("click", () => {
     const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
     if (!u) {
       window.location.href = loginUrl;
       return;
     }
+    closeMenu();
     window.location.href = isInPagesFolder
       ? "user-profile.html"
       : "pages/user-profile.html";
   });
+
   logoutBtn?.addEventListener("click", () => {
     closeMenu();
     window.logout?.();
@@ -626,6 +661,12 @@ function init() {
   initAdminAccount();
   const isInPagesFolder = window.location.pathname.includes("/pages/");
   const base = isInPagesFolder ? ".." : ".";
+  const isHome =
+  window.location.pathname.endsWith("/index.html") ||
+  window.location.pathname === "/" ||
+  window.location.pathname.endsWith("/");
+
+
   ensureHeaderStyles(base);
 
   if (!document.getElementById("header")) return;
@@ -638,6 +679,7 @@ function init() {
     bindUserMenu();
     updateCartBadge();
     syncHeaderNavActiveState();
+    applyNavByRole();
 
     if (document.getElementById("categoryTrack")) {
       renderCategoryPage();
@@ -649,3 +691,13 @@ function init() {
   });
 }
 init();
+function applyNavByRole() {
+  const u = getUser();
+  const isAdmin = u?.role === "admin";
+
+  const navShop = document.getElementById("navShop");
+  const navProduct = document.getElementById("navProduct");
+
+  if (navShop) navShop.parentElement.style.display = isAdmin ? "none" : "";
+  if (navProduct) navProduct.parentElement.style.display = isAdmin ? "none" : "";
+}
