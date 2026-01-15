@@ -1,170 +1,114 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>L&S E-commerce</title>
+    <title>L&S E-commerce</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <!-- <link rel="stylesheet" href="css/pages/login.css" /> -->
+    <!-- <link rel="stylesheet" href="css/pages/signup.css" /> -->
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
-    rel="stylesheet"
-  />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- JS -->
-  <script defer src="script.js"></script>
-</head>
+    <!-- JS -->
+  </head>
 
-<body>
-<!-- ================= TOP BAR ================= -->
-<div class="topbar">
-  <div class="topbar-left">
-    <span>Free Shipping On All Orders Over $50</span>
-  </div>
-  <div class="topbar-links">
-    <a href="#">Eng</a>
-    <a href="#">Faqs</a>
-    <a href="./SignIn/sign-in.html">Sign In</a>
-    <a href="#">Need Help</a>
-  </div>
-</div>
-
-<!-- ================= HEADER ================= -->
-<header class="main-header">
-  <div class="o-container">
-
-    <!-- Logo -->
-    <div id="logo">
-      <img src="./images/logo.png" alt="logo" />
-    </div>
-
-    <!-- Search -->
-    <div class="search-box">
-      <input type="text" placeholder="Search here..." />
-      <button class="search-btn">
-        <img src="./images/icon/search-icon.svg" />
-      </button>
-    </div>
-
-    <!-- Icons -->
-    <div class="header-icons">
-
-      <!-- CART -->
-      <a href="cart.html" class="cart icon-wrapper">
-        <img src="./images/icon/cart-icon.svg" />
-        Cart
-        <span class="badge">0</span>
-      </a>
-
-      <!-- WISHLIST -->
-      <a href="#" class="icon icon-wrapper">
-        <img src="./images/icon/heart-icon.svg" />
-      </a>
-
-      <!-- USER -->
-      <a href="./SignIn/sign-in.html" class="icon icon-wrapper">
-        <img src="./images/icon/user-icon.svg" />
-      </a>
-      <a href="#" class="icon icon-wrapper" id="userIcon">
-         <img src="./images/icon/user-icon.svg" />
-      </a>
-
-    </div>
-  </div>
-
-  <!-- NAV -->
-  <nav class="nav-bar o-container">
-    <ul class="nav-links">
-      <li><a class="active" href="#">Home</a></li>
-      <li><a href="#">Shop</a></li>
-      <li><a href="#">Product</a></li>
-      <li><a href="#">Pages</a></li>
-      <li><a href="#">About</a></li>
-    </ul>
-
-    <div class="contact-box">
-      Contact: <strong>(123.456.7894)</strong>
-    </div>
-  </nav>
-</header>
-
-<!-- ================= HERO ================= -->
-<div class="hero o-grid-main o-container">
-
-  <!-- LEFT MENU -->
-  <aside class="hero-menu">
-    <button id="menu-btn">☰ Categories</button>
-    <ul id="menu" class="menu-list">
-  <li data-category="Fashion Women">Woman’s Fashion</li>
-  <li data-category="Fashion Men">Men’s Fashion</li>
-  <li data-category="Electronics">Electronics</li>
-  <li data-category="Home">Home & Lifestyle</li>
-  <li data-category="Beauty">Health & Beauty</li>
-</ul>
-  </aside>
-
-  <!-- SLIDER -->
-  <div class="hero-slider">
-    <div class="slider">
-      <div class="slider-track">
-        <div class="slider-item"><img src="./images/carousel-img1.jpg" /></div>
-        <div class="slider-item"><img src="./images/carousel-img1.jpg" /></div>
-        <div class="slider-item"><img src="./images/carousel-img1.jpg" /></div>
+  <body>
+    <!-- ================= TOP BAR ================= -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <span>Free Shipping On All Orders Over $50</span>
       </div>
-
-      <div class="slider-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ================= FLASH SALE ================= -->
-<section class="flash">
-  <div class="o-container">
-
-    <!-- Header -->
-    <div class="flash-header">
-      <div class="flash-badge"><span></span> Today's</div>
-      <h2 class="flash-title">Flash Sales</h2>
-
-      <div class="countdown">
-        <span id="days">03</span> :
-        <span id="hours">23</span> :
-        <span id="minutes">59</span> :
-        <span id="seconds">59</span>
-      </div>
-
-      <div class="flash-arrows">
-        <button class="flash-arrow flash-arrow--left">←</button>
-        <button class="flash-arrow flash-arrow--right">→</button>
+      <div class="topbar-links">
+        <a href="#">Eng</a>
+        <a href="#">Faqs</a>
+        <a id="loginLink" href="./pages/login.html">Sign In</a>
+        <a id="signupLink" href="./pages/sign-up.html">Sign Up</a>
+        <a href="#">Need Help</a>
+        <a id="logoutBtn" href="#" onclick="logout()" style="display: none"
+          >Logout</a
+        >
       </div>
     </div>
 
-    <!-- PRODUCTS -->
-    <div class="flash-slider">
-      <div class="flash-track">
+    <!-- ================= HEADER ================= -->
+    <header id="header"></header>
 
+    <!-- ================= HERO ================= -->
+    <div class="hero o-container">
+      <!-- SLIDER -->
+      <div class="hero-slider">
+        <div class="slider">
+          <div class="slider-track">
+            <div class="slider-item">
+              <img src="./assets/images/carousel-img1.jpg" />
+            </div>
+            <div class="slider-item">
+              <img src="./assets/images/carousel-img1.jpg" />
+            </div>
+            <div class="slider-item">
+              <img src="./assets/images/carousel-img1.jpg" />
+            </div>
+          </div>
+
+          <div class="slider-dots">
+            <span class="dot is-active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= FLASH SALE ================= -->
+    <section class="flash" id="flashSection">
+      <div class="o-container">
+        <!-- Header -->
+        <div class="flash-header">
+          <div class="flash-badge"><span></span> Today's</div>
+          <h2 class="flash-title">Flash Sales</h2>
+
+          <div class="countdown">
+            <span id="days">03</span> : <span id="hours">23</span> :
+            <span id="minutes">59</span> :
+            <span id="seconds">59</span>
+          </div>
+
+          <div class="flash-arrows">
+            <button class="flash-arrow flash-arrow--left">←</button>
+            <button class="flash-arrow flash-arrow--right">→</button>
+          </div>
         </div>
 
+        <!-- PRODUCTS -->
+        <div class="flash-slider">
+          <div class="flash-track"></div>
+        </div>
       </div>
-    </div>
 
-    <div class="flash-view-all o-flex-center">
-      <button class="btn">View All Products</button>
-    </div>
+      <div class="flash-view-all o-flex-center">
+        <button class="btn">View All Products</button>
+      </div>
+    </section>
+    <section id="searchResultsSection" hidden>
+      <div class="o-container">
+        <h2 id="searchResultsTitle"></h2>
+        <div id="searchResultsTrack"></div>
+      </div>
+    </section>
+  </body>
 
-  </div>
-</section>
-
-</body>
+  <script defer src="./js/script.js"></script>
 </html>
-<button onclick="addToCart(4)">Add To Cart</button>

@@ -1,6 +1,6 @@
 const cartBody = document.getElementById("cart-body");
 const cartTotal = document.getElementById("cart-total");
-
+const LAST_ORDER_KEY = "lastOrder";
 function getCart() {
   return JSON.parse(localStorage.getItem("cart")) || [];
 }

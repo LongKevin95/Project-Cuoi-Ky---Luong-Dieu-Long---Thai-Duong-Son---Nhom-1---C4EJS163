@@ -3,6 +3,18 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --bg: #e9e9e9;
+  --card: #ffffff;
+  --muted: #f3f4f6;
+  --text: #111827;
+  --sub: rgba(17, 24, 39, 0.6);
+  --brand: #000; /* gần giống nút xanh trong ảnh */
+  --brand-hover: rgba(0, 0, 0, 0.75);
+  --radius-xl: 22px;
+  --radius-md: 10px;
+}
 /* PAGE CENTERING */
 
 .signin-container {
@@ -89,29 +101,15 @@
 .signin-btn {
   width: 100%;
   padding: 16px;
-  background: #02939c;
+  background: var(--brand);
   color: #fff;
   font-size: 17px;
   font-weight: 600;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  margin-bottom: 20px;
 }
 
 .signin-btn:hover {
-  background: #017882;
-}
-
-/* Sign Up */
-.signin-signup {
-  text-align: center;
-  font-size: 14px;
-  color: #444;
-}
-
-.signin-signup a {
-  color: #007b83;
-  font-weight: 600;
-  text-decoration: none;
+  background: var(--brand-hover);
 }
