@@ -214,6 +214,11 @@ hr {
   margin-bottom: 30px;
 }
 
+.related .flash-track .product {
+  width: 100%;
+  min-width: 0;
+}
+
 .products {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

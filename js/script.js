@@ -40,6 +40,45 @@ function loadHTML(url, elementId) {
     });
 }
 
+function renderBestSellingProducts() {
+  const container = document.getElementById("bestSellingTrack");
+  if (!container) return;
+
+  const products = JSON.parse(localStorage.getItem("products")) || [];
+  let list = products.slice(0, 4);
+
+  if (!list.length) {
+    list = [
+      {
+        id: "best-1",
+        name: "The north coat",
+        price: 260,
+        img: "https://picsum.photos/400?best1",
+      },
+      {
+        id: "best-2",
+        name: "Gucci duffle bag",
+        price: 960,
+        img: "https://picsum.photos/400?best2",
+      },
+      {
+        id: "best-3",
+        name: "RGB liquid CPU Cooler",
+        price: 160,
+        img: "https://picsum.photos/400?best3",
+      },
+      {
+        id: "best-4",
+        name: "Small BookShelf",
+        price: 360,
+        img: "https://picsum.photos/400?best4",
+      },
+    ];
+  }
+
+  renderProductCards(container, list);
+}
+
 function ensureHeaderStyles(base) {
   const href = `${base}/components/Header/header.css`;
   const existing = document.querySelector(
@@ -220,6 +259,13 @@ function renderProductCards(container, list) {
       <div class="product" onclick="goToDetail('${p.id}')">
         <span class="product-discount">-40%</span>
 
+        <div class="product-actions">
+          <button class="product-action-btn" aria-label="Wishlist" onclick="event.stopPropagation(); alert('Đã thêm vào wishlist!')">♡</button>
+          <button class="product-action-btn" aria-label="Quick view" onclick="event.stopPropagation(); goToDetail('${
+            p.id
+          }')">👁</button>
+        </div>
+
         <div class="product-img-wrap">
           <img src="${p.img}" class="product-img" />
 
@@ -328,6 +374,7 @@ function renderSearchResults(term, filterCategory = null) {
 
 function applySearchState() {
   const flashSection = document.getElementById("flashSection");
+  const bestSellingSection = document.getElementById("bestSellingSection");
   const searchSection = document.getElementById("searchResultsSection");
   const term = getSearchTermFromUrl();
 
@@ -336,12 +383,15 @@ function applySearchState() {
 
   if (term) {
     if (flashSection) flashSection.hidden = true;
+    if (bestSellingSection) bestSellingSection.hidden = true;
     if (searchSection) searchSection.hidden = false;
     renderSearchResults(term);
   } else {
     if (flashSection) flashSection.hidden = false;
+    if (bestSellingSection) bestSellingSection.hidden = false;
     if (searchSection) searchSection.hidden = true;
     renderFlashSaleProducts(activeCategory);
+    renderBestSellingProducts();
   }
 }
 
@@ -604,29 +654,32 @@ function bindUserMenu() {
     else closeMenu();
   });
 
-  
   signInBtn?.addEventListener("click", () => {
     closeMenu();
     window.location.href = loginUrl;
   });
 
   adminDashboardBtn?.addEventListener("click", (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
-  const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
-  if (!u || u.role !== "admin") {
-    alert("Bạn không có quyền truy cập ❌");
-    return;
-  }
+    const u = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+    if (!u || u.role !== "admin") {
+      alert("Bạn không có quyền truy cập ❌");
+      return;
+    }
 
-  closeMenu();
+    closeMenu();
 
-  window.location.href = "pages/admin.html";
-});
+    window.location.href = "pages/admin.html";
+  });
 
   document.addEventListener("click", (e) => {
-    if (!userMenu.hidden && !userMenu.contains(e.target) && e.target !== userIcon) {
+    if (
+      !userMenu.hidden &&
+      !userMenu.contains(e.target) &&
+      e.target !== userIcon
+    ) {
       closeMenu();
     }
   });
@@ -662,12 +715,15 @@ function init() {
   const isInPagesFolder = window.location.pathname.includes("/pages/");
   const base = isInPagesFolder ? ".." : ".";
   const isHome =
-  window.location.pathname.endsWith("/index.html") ||
-  window.location.pathname === "/" ||
-  window.location.pathname.endsWith("/");
-
+    window.location.pathname.endsWith("/index.html") ||
+    window.location.pathname === "/" ||
+    window.location.pathname.endsWith("/");
 
   ensureHeaderStyles(base);
+
+  if (document.getElementById("footer")) {
+    loadHTML(`${base}/components/Footer/footer.html`, "footer");
+  }
 
   if (!document.getElementById("header")) return;
 
@@ -680,6 +736,23 @@ function init() {
     updateCartBadge();
     syncHeaderNavActiveState();
     applyNavByRole();
+
+    const backToTopBtn = document.getElementById("backToTop");
+    if (backToTopBtn) {
+      const syncBackToTopVisibility = () => {
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        backToTopBtn.style.display = y > 300 ? "flex" : "none";
+      };
+
+      syncBackToTopVisibility();
+      window.addEventListener("scroll", syncBackToTopVisibility, {
+        passive: true,
+      });
+
+      backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
 
     if (document.getElementById("categoryTrack")) {
       renderCategoryPage();
@@ -699,5 +772,6 @@ function applyNavByRole() {
   const navProduct = document.getElementById("navProduct");
 
   if (navShop) navShop.parentElement.style.display = isAdmin ? "none" : "";
-  if (navProduct) navProduct.parentElement.style.display = isAdmin ? "none" : "";
+  if (navProduct)
+    navProduct.parentElement.style.display = isAdmin ? "none" : "";
 }

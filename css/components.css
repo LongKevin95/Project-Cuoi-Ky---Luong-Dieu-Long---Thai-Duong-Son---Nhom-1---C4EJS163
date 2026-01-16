@@ -11,3 +11,20 @@
 .btn:hover {
   opacity: 0.8;
 }
+
+
+.section-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #e00;
+  font-weight: 600;
+}
+
+.section-badge span {
+  width: 14px;
+  height: 14px;
+  background: #e00;
+  border-radius: 4px;
+}
+
