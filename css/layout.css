@@ -1,6 +1,7 @@
 .o-container {
   padding-inline: var(--space-4xl);
   margin: 0 auto;
+  width: 100%;
   max-width: 1440px;
 }
 

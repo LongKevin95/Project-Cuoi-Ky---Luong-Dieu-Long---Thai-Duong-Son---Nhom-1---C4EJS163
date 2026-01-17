@@ -1,8 +1,7 @@
-/* CSS trong project L&S E-commerce sử dụng kiến trúc ITCSS*/
-
-/* ================== Settings + BEM =================== */
-
-/*================Components====================*/
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./responsive.css";
 
 /* ---------------- TOP BAR ---------------- */
 .topbar {
@@ -283,29 +282,11 @@
 
 /* Countdown */
 .countdown {
+  font-size: var(--text-xl);
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.countdown-item {
-  text-align: center;
-}
-
-.countdown-number {
-  font-size: var(--text-xl);
-  font-weight: bold;
-}
-
-.countdown-label {
-  font-size: 12px;
-  color: #666;
-}
-
-.countdown-dot {
-  font-size: 22px;
-  font-weight: bold;
-  color: #e00;
 }
 
 /* Arrows */
@@ -532,8 +513,10 @@
   border-radius: 0;
   font-weight: bold;
   opacity: 0;
-  pointer-events: none;
   transition: 0.3s;
+}
+.product-cart:hover {
+  cursor: pointer;
 }
 
 .product-img-wrap .product-cart {
@@ -702,8 +685,8 @@
 }
 
 .service-icon {
-  width: 84px;
-  height: 84px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background: #d1d5db;
   margin: 0 auto 14px;
