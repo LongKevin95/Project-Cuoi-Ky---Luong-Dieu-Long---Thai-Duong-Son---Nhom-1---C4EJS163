@@ -237,10 +237,11 @@ function renderRelatedProducts(currentProduct, allProducts) {
     .slice(0, 4);
 
   if (!related.length) {
-    container.innerHTML = "<p>Không có sản phẩm liên quan.</p>";
+    container.classList.add("is-empty");
+    container.innerHTML = `<p>Không có sản phẩm liên quan.</p>`;
     return;
   }
-
+  container.classList.remove("is-empty");
   container.innerHTML = related
     .map(
       (p) => `

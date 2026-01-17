@@ -1,7 +1,6 @@
 @import "./base.css";
 @import "./layout.css";
 @import "./components.css";
-@import "./responsive.css";
 
 /* ---------------- TOP BAR ---------------- */
 .topbar {
@@ -32,16 +31,18 @@
 }
 
 /* ---------------- MAIN HEADER ---------------- */
-.site-header {
+header {
   background: #f2f4f5;
+}
+.site-header {
   padding-block: var(--space-md);
 }
-.site-header .o-container {
+.site-header.o-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   position: relative;
-  gap: var(--space-sm);
+  gap: 100px;
 }
 
 /* Logo */
@@ -397,24 +398,6 @@
 
 .product-color--yellow {
   background: #f59e0b;
-}
-
-#searchResultsTitle {
-  margin-top: 20px;
-}
-
-#searchResultsTrack {
-  margin-top: 16px;
-  display: grid;
-  gap: 20px;
-  justify-content: start;
-  justify-items: start;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
-}
-
-#searchResultsTrack .product {
-  width: 100%;
-  min-width: 0;
 }
 
 /* Product card */

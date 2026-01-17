@@ -131,7 +131,9 @@ function fixHeaderRelativePaths(base) {
 }
 
 function syncActiveCategoryUI() {
-  const items = document.querySelectorAll("#menu .menu-list-item");
+  const items = document.querySelectorAll(
+    "#menu .menu-list-item, #mobileMenu .menu-list-item"
+  );
   if (!items.length) return;
 
   const current = activeCategory || "";
@@ -222,7 +224,7 @@ window.addToCart = addToCart;
 // ================= RENDER PRODUCTS =================
 function getSearchTermFromUrl() {
   const params = new URLSearchParams(window.location.search);
-  return (params.get("search") || "").trim();
+  return (params.get("q") || params.get("search") || "").trim();
 }
 
 function normalizeText(str) {
@@ -401,6 +403,16 @@ function bindHeaderSearch() {
   const suggestions = document.getElementById("headerSearchSuggestions");
   if (!form || !input) return;
 
+  function redirectToSearch(term) {
+    const next = (term || "").trim();
+    const isInPagesFolder = window.location.pathname.includes("/pages/");
+    const prefix = isInPagesFolder ? "" : "pages/";
+    const url = next
+      ? `${prefix}search.html?q=${encodeURIComponent(next)}`
+      : `${prefix}search.html`;
+    window.location.href = url;
+  }
+
   function getSuggestions(query) {
     const q = normalizeText(query);
     if (!q) return [];
@@ -469,9 +481,7 @@ function bindHeaderSearch() {
     const value = btn.dataset.value || btn.textContent || "";
     input.value = value;
     hideSuggestions();
-    setSearchTermInUrl(value);
-    applySearchState();
-    document.getElementById("searchResultsSection")?.scrollIntoView();
+    redirectToSearch(value);
   });
 
   document.addEventListener("click", (e) => {
@@ -483,14 +493,18 @@ function bindHeaderSearch() {
     e.preventDefault();
     const term = input.value.trim();
     hideSuggestions();
-    setSearchTermInUrl(term);
-    applySearchState();
-    if (term) document.getElementById("searchResultsSection")?.scrollIntoView();
+    redirectToSearch(term);
   });
 }
 
 window.addEventListener("popstate", () => {
-  applySearchState();
+  if (
+    document.getElementById("flashSection") ||
+    document.getElementById("bestSellingSection") ||
+    document.getElementById("searchResultsSection")
+  ) {
+    applySearchState();
+  }
 });
 
 function bindCategoriesDropdown() {
@@ -524,6 +538,44 @@ function bindCategoriesDropdown() {
   });
 }
 
+function bindMobileMenu() {
+  const btn = document.getElementById("mobileMenuBtn");
+  const panel = document.getElementById("mobileMenuPanel");
+  const overlay = document.getElementById("mobileMenuOverlay");
+  const closeBtn = document.getElementById("mobileMenuCloseBtn");
+  if (!btn || !panel || !overlay) return;
+
+  const open = () => {
+    overlay.hidden = false;
+    panel.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+  };
+
+  const close = () => {
+    overlay.hidden = true;
+    panel.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+  };
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (panel.hidden) open();
+    else close();
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    close();
+  });
+
+  overlay.addEventListener("click", () => {
+    close();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !panel.hidden) close();
+  });
+}
+
 function bindCategoryMenu() {
   const menu = document.getElementById("menu");
   if (!menu) return;
@@ -537,6 +589,16 @@ function bindCategoryMenu() {
     const categoryUrl = isInPagesFolder
       ? `category.html?category=${encodeURIComponent(category)}`
       : `pages/category.html?category=${encodeURIComponent(category)}`;
+
+    const mobilePanel = document.getElementById("mobileMenuPanel");
+    const mobileOverlay = document.getElementById("mobileMenuOverlay");
+    const mobileBtn = document.getElementById("mobileMenuBtn");
+    if (mobilePanel && mobileOverlay && mobileBtn) {
+      mobilePanel.hidden = true;
+      mobileOverlay.hidden = true;
+      mobileBtn.setAttribute("aria-expanded", "false");
+    }
+
     window.location.href = categoryUrl;
 
     const dropdown = document.getElementById("categoriesDropdown");
@@ -545,6 +607,33 @@ function bindCategoryMenu() {
       dropdown.hidden = true;
       btn.setAttribute("aria-expanded", "false");
     }
+  });
+}
+
+function bindMobileCategoryMenu() {
+  const menu = document.getElementById("mobileMenu");
+  if (!menu) return;
+
+  menu.addEventListener("click", (e) => {
+    const item = e.target.closest(".menu-list-item");
+    if (!item) return;
+
+    const category = item.dataset.category || "";
+    const isInPagesFolder = window.location.pathname.includes("/pages/");
+    const categoryUrl = isInPagesFolder
+      ? `category.html?category=${encodeURIComponent(category)}`
+      : `pages/category.html?category=${encodeURIComponent(category)}`;
+
+    const mobilePanel = document.getElementById("mobileMenuPanel");
+    const mobileOverlay = document.getElementById("mobileMenuOverlay");
+    const mobileBtn = document.getElementById("mobileMenuBtn");
+    if (mobilePanel && mobileOverlay && mobileBtn) {
+      mobilePanel.hidden = true;
+      mobileOverlay.hidden = true;
+      mobileBtn.setAttribute("aria-expanded", "false");
+    }
+
+    window.location.href = categoryUrl;
   });
 }
 
@@ -731,7 +820,9 @@ function init() {
     fixHeaderRelativePaths(base);
     bindHeaderSearch();
     bindCategoriesDropdown();
+    bindMobileMenu();
     bindCategoryMenu();
+    bindMobileCategoryMenu();
     bindUserMenu();
     updateCartBadge();
     syncHeaderNavActiveState();
@@ -758,7 +849,13 @@ function init() {
       renderCategoryPage();
     } else {
       syncActiveCategoryUI();
-      applySearchState();
+      if (
+        document.getElementById("flashSection") ||
+        document.getElementById("bestSellingSection") ||
+        document.getElementById("searchResultsSection")
+      ) {
+        applySearchState();
+      }
     }
     handleAuthUI();
   });

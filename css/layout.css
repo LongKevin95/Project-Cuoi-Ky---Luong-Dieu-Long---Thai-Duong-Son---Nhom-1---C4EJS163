@@ -1,5 +1,5 @@
 .o-container {
-  padding-inline: var(--space-4xl);
+  padding-inline: var(--space-3xl);
   margin: 0 auto;
   width: 100%;
   max-width: 1440px;
@@ -7,7 +7,7 @@
 
 .o-grid-products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, calc(25% - 20px * 3 / 4));
+  grid-template-columns: repeat(auto-fit, minmax(180px,calc(25% - 20px * 3 / 4)));
   width: 100%;
   gap: 20px;
   justify-content: start;

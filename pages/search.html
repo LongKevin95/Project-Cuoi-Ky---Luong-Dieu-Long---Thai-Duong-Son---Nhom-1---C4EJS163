@@ -4,16 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Category</title>
+    <title>Search</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/base.css" />
-    <link rel="stylesheet" href="../css/layout.css" />
-    <link rel="stylesheet" href="../css/components.css" />
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/pages/search.css" />
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,7 +18,6 @@
   </head>
 
   <body>
-    <!-- ================= TOP BAR ================= -->
     <div class="topbar">
       <div class="topbar-left">
         <span>Free Shipping On All Orders Over $50</span>
@@ -40,27 +34,16 @@
       </div>
     </div>
 
-    <!-- ================= HEADER ================= -->
     <header id="header"></header>
 
-    <main
-      class="o-container"
-      style="
-        margin-top: var(--space-xl);
-        margin-bottom: var(--space-5xl);
-        min-height: 700px;
-      "
-    >
-      <h1 id="categoryTitle" style="margin-bottom: var(--space-unit)"></h1>
-      <p class="no-product-messege" style="display: none">
-        Chưa có sản phẩm nào trong danh mục này.
-      </p>
-      <div class="flash-track o-grid-products" id="categoryTrack"></div>
+    <main class="o-container search-page">
+      <h2 id="searchResultsTitle" class="search-page__title"></h2>
+      <div id="searchResultsTrack" class="search-page__track"></div>
     </main>
 
-    <!-- ================= FOOTER ================= -->
     <footer id="footer"></footer>
 
     <script defer src="../js/script.js"></script>
+    <script defer src="../js/pages/search.js"></script>
   </body>
 </html>
