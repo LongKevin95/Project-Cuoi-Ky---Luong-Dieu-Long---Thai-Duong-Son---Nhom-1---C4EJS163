@@ -109,32 +109,34 @@ header {
   margin-top: var(--space-unit);
   margin-bottom: var(--space-xl-plus);
   position: relative;
-  height: 350px;
 }
 
 .slider {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  height: 100%;
+  width: 100%;
+  /* height: 100%; */
 }
 
 .slider-track {
   display: flex;
   transition: transform 0.5s ease;
-  height: 100%;
+
+  width: 100%;
 }
 
 .slider-item {
   min-width: 100%;
   overflow: hidden;
-  height: 100%;
+
+  width: 100%;
 }
 
 .slider-item img {
   display: block;
   width: 100%;
-  height: 100%;
+
   object-fit: cover;
   object-position: center;
 }
@@ -209,6 +211,10 @@ header {
   justify-self: end;
 }
 
+.best-selling__view-all-mobile {
+  display: none;
+}
+
 .best-selling__track {
   width: 100%;
   gap: 20px;
@@ -220,6 +226,10 @@ header {
 .best-selling__track .product {
   width: 100%;
   min-width: 0;
+}
+
+.banner-img {
+  width: 100%;
 }
 
 .flash-header {
@@ -319,7 +329,6 @@ header {
 .flash-track {
   width: 100%;
   display: grid;
-  gap: 20px;
   justify-content: start;
   justify-items: start;
   margin: 0 auto;
@@ -523,8 +532,10 @@ header {
 .product-price {
   margin-top: 5px;
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 0 10px;
   padding-inline: var(--space-sm);
+  font-size: var(--text-sm);
 }
 
 .price-new {
@@ -561,7 +572,7 @@ header {
 
 .featured-grid {
   margin-top: 24px;
-  height: 600px;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
@@ -589,38 +600,20 @@ header {
   min-height: 250px;
 }
 
-.featured-card--large {
-  min-height: 520px;
-}
-
-.featured-card--wide {
-  min-height: 250px;
-}
-
 .featured-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   opacity: 0.85;
-  transition: transform 0.35s ease, opacity 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
 }
 
 .featured-card:hover .featured-card__img {
   transform: scale(1.04);
   opacity: 0.95;
-}
-
-.featured-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(0, 0, 0, 0.65) 70%,
-    rgba(0, 0, 0, 0.85) 100%
-  );
 }
 
 .featured-card__content {
@@ -629,7 +622,7 @@ header {
   bottom: 28px;
   z-index: 2;
   color: #fff;
-  max-width: 75%;
+  max-width: 80%;
 }
 
 .featured-card__name {
@@ -639,7 +632,6 @@ header {
 
 .featured-card__desc {
   margin-top: 8px;
-  font-size: 14px;
   line-height: 1.4;
   opacity: 0.9;
 }
