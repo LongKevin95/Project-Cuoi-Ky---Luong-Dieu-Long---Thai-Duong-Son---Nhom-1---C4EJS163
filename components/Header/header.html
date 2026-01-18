@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,7 +15,8 @@
           aria-label="Open menu"
           aria-expanded="false"
           aria-controls="mobileMenuPanel"
-        ><img src="../../assets/icons/burger-menu-icon.svg" alt="">
+        >
+          <img src="../../assets/icons/burger-menu-icon.svg" alt="" />
         </button>
 
         <div class="header-logo">
@@ -56,14 +57,25 @@
             >
               <img src="./assets/icons/cart-icon.svg" />
               <span class="header-action__label">Cart </span>
-              <span class="header-action__badge">0</span>
+              <span id="headerCartBadge" class="header-action__badge">0</span>
             </a>
 
             <!-- Wishlist -->
 
-            <button class="header-action header-action--wishlist">
+            <a
+              id="headerWishlistBtn"
+              href="./pages/wishlist.html"
+              class="header-action header-action--wishlist"
+              aria-label="Wishlist"
+            >
               <img src="./assets/icons/heart-icon.svg" />
-            </button>
+              <span
+                id="headerWishlistBadge"
+                class="header-action__badge header-action__badge--wishlist"
+                style="display: none"
+                >0</span
+              >
+            </a>
 
             <!-- User -->
 

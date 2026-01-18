@@ -82,7 +82,7 @@ function renderBestSellingProducts() {
 function ensureHeaderStyles(base) {
   const href = `${base}/components/Header/header.css`;
   const existing = document.querySelector(
-    'link[rel="stylesheet"][data-component="header"]'
+    'link[rel="stylesheet"][data-component="header"]',
   );
   if (existing) {
     if (existing.getAttribute("href") !== href)
@@ -132,7 +132,7 @@ function fixHeaderRelativePaths(base) {
 
 function syncActiveCategoryUI() {
   const items = document.querySelectorAll(
-    "#menu .menu-list-item, #mobileMenu .menu-list-item"
+    "#menu .menu-list-item, #mobileMenu .menu-list-item",
   );
   if (!items.length) return;
 
@@ -167,12 +167,107 @@ function saveCart(cart) {
 }
 
 function updateCartBadge() {
-  const badge = document.querySelector(".header-action__badge");
+  const badge = document.getElementById("headerCartBadge");
   if (!badge) return;
 
   const cart = getCart();
   const total = cart.reduce((sum, item) => sum + item.qty, 0);
   badge.textContent = total;
+}
+
+// ================= WISHLIST =================
+const WISHLIST_PREFIX = "wishlist:";
+
+function getWishlistKey() {
+  const user = getUser();
+  if (!user?.id) return null;
+  return `${WISHLIST_PREFIX}${user.id}`;
+}
+
+function getWishlistIds() {
+  const key = getWishlistKey();
+  if (!key) return [];
+  return JSON.parse(localStorage.getItem(key)) || [];
+}
+
+function saveWishlistIds(ids) {
+  const key = getWishlistKey();
+  if (!key) return;
+  localStorage.setItem(key, JSON.stringify(ids));
+}
+
+function isInWishlist(productId) {
+  return getWishlistIds().some((id) => String(id) === String(productId));
+}
+
+function updateWishlistBadge() {
+  const badge = document.getElementById("headerWishlistBadge");
+  if (!badge) return;
+
+  const user = getUser();
+  if (!user || user.role !== "customer") {
+    badge.textContent = "0";
+    badge.style.display = "none";
+    return;
+  }
+
+  const count = getWishlistIds().length;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? "flex" : "none";
+}
+
+function redirectToLoginForWishlist() {
+  alert("Vui lòng đăng nhập để sử dụng wishlist!");
+  const isInPagesFolder = window.location.pathname.includes("/pages/");
+  window.location.href = isInPagesFolder ? "login.html" : "pages/login.html";
+}
+
+function toggleWishlist(productId) {
+  const user = getUser();
+  if (!user) {
+    redirectToLoginForWishlist();
+    return { added: false, ids: [] };
+  }
+
+  if (user.role !== "customer") {
+    alert("Admin không thể sử dụng wishlist!");
+    return { added: false, ids: getWishlistIds() };
+  }
+
+  const nextId = String(productId);
+  const ids = getWishlistIds().map(String);
+  const index = ids.indexOf(nextId);
+
+  let added = false;
+  if (index >= 0) {
+    ids.splice(index, 1);
+  } else {
+    ids.push(nextId);
+    added = true;
+  }
+
+  saveWishlistIds(ids);
+  updateWishlistBadge();
+  return { added, ids };
+}
+
+function bindHeaderWishlist() {
+  const btn = document.getElementById("headerWishlistBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", (e) => {
+    const user = getUser();
+    if (!user) {
+      e.preventDefault();
+      redirectToLoginForWishlist();
+      return;
+    }
+
+    if (user.role !== "customer") {
+      e.preventDefault();
+      alert("Admin không thể sử dụng wishlist!");
+    }
+  });
 }
 
 // ================= ADD TO CART =================
@@ -256,13 +351,35 @@ function renderProductCards(container, list) {
   if (!container) return;
   container.innerHTML = "";
 
+  if (container.dataset.wishlistBound !== "1") {
+    container.dataset.wishlistBound = "1";
+    container.addEventListener(
+      "click",
+      (e) => {
+        const btn = e.target.closest("[data-wishlist-id]");
+        if (!btn || !container.contains(btn)) return;
+
+        // handle early to avoid bubbling to `.product` inline onclick
+        e.preventDefault();
+        e.stopPropagation();
+
+        const productId = btn.dataset.wishlistId;
+        const result = toggleWishlist(productId);
+        btn.textContent = result.added ? "♥" : "♡";
+      },
+      true,
+    );
+  }
+
   list.forEach((p) => {
     container.innerHTML += `
       <div class="product" onclick="goToDetail('${p.id}')">
         <span class="product-discount">-40%</span>
 
         <div class="product-actions">
-          <button class="product-action-btn" aria-label="Wishlist" onclick="event.stopPropagation(); alert('Đã thêm vào wishlist!')">♡</button>
+          <button class="product-action-btn" type="button" aria-label="Wishlist" data-wishlist-id="${p.id}">${
+            isInWishlist(p.id) ? "♥" : "♡"
+          }</button>
           <button class="product-action-btn" aria-label="Quick view" onclick="event.stopPropagation(); goToDetail('${
             p.id
           }')">👁</button>
@@ -460,8 +577,8 @@ function bindHeaderSearch() {
         (text) =>
           `<button type="button" class="header-search__suggestion-item" data-value="${text.replace(
             /"/g,
-            "&quot;"
-          )}">${text}</button>`
+            "&quot;",
+          )}">${text}</button>`,
       )
       .join("");
     suggestions.hidden = false;
@@ -819,12 +936,14 @@ function init() {
   loadHTML(`${base}/components/Header/header.html`, "header").then(() => {
     fixHeaderRelativePaths(base);
     bindHeaderSearch();
+    bindHeaderWishlist();
     bindCategoriesDropdown();
     bindMobileMenu();
     bindCategoryMenu();
     bindMobileCategoryMenu();
     bindUserMenu();
     updateCartBadge();
+    updateWishlistBadge();
     syncHeaderNavActiveState();
     applyNavByRole();
 

@@ -22,7 +22,6 @@ function saveUsers(users) {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
-// normalize email để so sánh chắc chắn
 function normalizeEmail(email) {
   return String(email || "")
     .trim()
@@ -72,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setEmailError(
         emailInput,
         emailErrorEl,
-        "Email này đã được sử dụng. Vui lòng nhập email khác."
+        "Email này đã được sử dụng. Vui lòng nhập email khác.",
       );
     } else {
       setEmailError(emailInput, emailErrorEl, "");
@@ -98,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setEmailError(
         emailInput,
         emailErrorEl,
-        "Email này đã được sử dụng. Vui lòng nhập email khác."
+        "Email này đã được sử dụng. Vui lòng nhập email khác.",
       );
       emailInput.focus();
       return;
