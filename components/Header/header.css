@@ -56,7 +56,7 @@
 .header-action--user {
   width: 44px;
   height: 44px;
-  padding: 4px;
+  padding: 0;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -103,8 +103,8 @@
   border-radius: 12px;
 }
 .header-search {
-  width: 65%;
-  margin-right: 20px;
+  width: 100%;
+  margin-right: 25px;
 }
 
 .header-search {
@@ -233,6 +233,10 @@
   width: 26px;
 }
 
+.mobile-search-btn {
+  display: none;
+}
+
 /* ---------------- NAV BAR ---------------- */
 .header-nav {
   /* padding-block: var(--space-lg); */
@@ -253,10 +257,10 @@
 .header-nav__list {
   width: 95%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   list-style: none;
-  gap: var(--space-md);
+  gap: var(--space-xl);
+  padding-left: 20px;
 }
 
 .header-nav__list a {
@@ -463,7 +467,7 @@
 /* ------- responsive ----------- */
 @media (max-width: 1280px) {
   .header-nav__list {
-    gap: var(--space-md);
+    gap: var(--space-lg);
   }
 
   .flash-slider {
@@ -476,9 +480,13 @@
 }
 
 @media (max-width: 1024px) {
+  .topbar-links {
+    display: none;
+  }
   .site-header.o-container {
     gap: var(--space-lg);
     padding-block: var(--space-sm);
+    flex-wrap: nowrap;
   }
 
   .mobile-menu-btn {
@@ -519,7 +527,7 @@
   }
 
   .header-top {
-    justify-content: flex-end;
+    justify-content: space-between;
   }
   .header-actions .header-action {
     /* background-color: transparent; */
@@ -546,7 +554,56 @@
 }
 
 @media (max-width: 768px) {
+  .header-top {
+    justify-content: flex-end;
+  }
   .header-logo img {
     width: 92px;
+  }
+
+  .site-header.o-container {
+    gap: 20px;
+  }
+
+  #headerSearchForm {
+    display: none;
+  }
+
+  .header-actions .mobile-search-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background-color: white;
+    border: 2px solid black;
+    padding: 8px;
+  }
+
+  .mobile-search-btn img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions {
+    gap: var(--space-xs);
+  }
+
+  .header-actions .mobile-search-btn,
+  .mobile-menu-btn,
+  .header-actions .header-action {
+    width: 38px;
+    height: 38px;
+  }
+
+  .header-logo img {
+    width: 80px;
+    padding-top: 8px;
+  }
+  .site-header.o-container {
+    gap: var(--space-lg);
+    padding-block: var(--space-xs);
   }
 }

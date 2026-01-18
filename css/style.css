@@ -525,7 +525,7 @@ header {
 
 .product-name {
   margin-top: 10px;
-  font-size: 15px;
+  font-size: var(--text-md);
   padding-inline: var(--space-sm);
 }
 
