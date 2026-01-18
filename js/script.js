@@ -410,6 +410,8 @@ function renderProductCards(container, list) {
   });
 }
 
+window.renderProductCards = renderProductCards;
+
 function renderFlashSaleProducts(filterCategory = null) {
   const container = document.querySelector(".flash-track");
   if (!container) return;

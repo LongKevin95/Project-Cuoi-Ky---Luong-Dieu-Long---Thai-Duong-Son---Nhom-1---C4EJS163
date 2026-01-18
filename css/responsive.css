@@ -30,9 +30,6 @@
     padding-inline: var(--space-lg-plus);
   }
 
-  body {
-    min-width: 768px;
-  }
   .o-container {
     padding-inline: var(--space-lg);
   }
@@ -81,15 +78,15 @@
 
 /* Mobile (≤ 768px) */
 @media (max-width: 768px) {
-  body {
-    min-width: 390px;
-  }
-
   .o-container {
     padding-inline: var(--space-sm);
   }
   .o-grid-products {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero-slider {
+    margin-bottom: var(--space-md);
   }
 
   /* Hide menu & contact */
@@ -146,11 +143,13 @@
   }
   .flash-header {
     position: relative;
+    margin-bottom: 8px;
   }
 
   .flash-title {
     font-size: var(--text-lg);
     white-space: nowrap;
+
     /* right: 0;
     top: 0; */
   }
@@ -161,7 +160,6 @@
 
   .flash-track {
     gap: var(--space-xs);
-    /* min-width: 580px; */
   }
   .flash-header .countdown {
     z-index: 9;
@@ -218,18 +216,30 @@
   }
 
   .o-grid-products {
-    grid-template-columns: repeat(2, minmax(180px, calc(50%)));
+    grid-template-columns: repeat(2, 1fr);
   }
+
+  .services__grid {
+    gap: 0;
+  }
+
+  .flash-header {
+    gap: 20px;
+  }
+
   .header-logo {
     width: 70px;
   }
   .flash-slider {
-    min-width: 380px;
     width: 100%;
   }
+  .flash-title,
+  .flash-header .countdown {
+    font-size: var(--text-md);
+  }
+
   .product {
     width: var(--width-item-xxm);
-    min-width: 150px;
   }
   .header-logo h2 {
     font-size: 20px;
