@@ -18,9 +18,9 @@ function loadHTML(url, elementId) {
 }
 
 function ensureHeaderStyles(base) {
-  const href = `${base}/components/Header/header.css`;
+  const href = `${base}/loading-components/Header/header.css`;
   const existing = document.querySelector(
-    'link[rel="stylesheet"][data-component="header"]'
+    'link[rel="stylesheet"][data-component="header"]',
   );
   if (existing) {
     if (existing.getAttribute("href") !== href)
@@ -75,13 +75,15 @@ function loadSharedComponents() {
   ensureHeaderStyles(base);
 
   if (document.getElementById("header")) {
-    loadHTML(`${base}/components/Header/header.html`, "header").then(() => {
-      fixHeaderRelativePaths(base);
-    });
+    loadHTML(`${base}/loading-components/Header/header.html`, "header").then(
+      () => {
+        fixHeaderRelativePaths(base);
+      },
+    );
   }
 
   if (document.getElementById("footer")) {
-    loadHTML(`${base}/components/Footer/footer.html`, "footer");
+    loadHTML(`${base}/loading-components/Footer/footer.html`, "footer");
   }
 }
 
@@ -122,10 +124,10 @@ function renderProductDetail(p) {
   const breadcrumb = document.querySelector(".breadcrumb");
   if (breadcrumb) {
     const categoryHref = `category.html?category=${encodeURIComponent(
-      String(category)
+      String(category),
     )}`;
     breadcrumb.innerHTML = `<a href="../index.html">Home</a> &gt; <a href="${categoryHref}">${escapeHtml(
-      category
+      category,
     )}</a> &gt; <strong>${escapeHtml(name)}</strong>`;
   }
 
@@ -151,7 +153,7 @@ function renderProductDetail(p) {
 
     thumbsEl.innerHTML = thumbs
       .map(
-        (src) => `<img src="${escapeHtml(src)}" alt="${escapeHtml(name)}" />`
+        (src) => `<img src="${escapeHtml(src)}" alt="${escapeHtml(name)}" />`,
       )
       .join("");
   }
@@ -273,10 +275,10 @@ function renderRelatedProducts(currentProduct, allProducts) {
 
           <div class="product-img-wrap">
             <img src="${p.img}" class="product-img" alt="${String(
-        p.name || "Product"
-      )
-        .replace(/"/g, "&quot;")
-        .trim()}" />
+              p.name || "Product",
+            )
+              .replace(/"/g, "&quot;")
+              .trim()}" />
 
             <button class="product-cart" data-add-to-cart="${p.id}" ${
               isSoldOut ? "disabled" : ""
@@ -290,7 +292,7 @@ function renderRelatedProducts(currentProduct, allProducts) {
           <div class="product-price">
             <span class="price-new">${formatPrice(p.price)}</span>
             <span class="price-old">${formatPrice(
-              Math.round(Number(p.price) * 1.3)
+              Math.round(Number(p.price) * 1.3),
             )}</span>
           </div>
 

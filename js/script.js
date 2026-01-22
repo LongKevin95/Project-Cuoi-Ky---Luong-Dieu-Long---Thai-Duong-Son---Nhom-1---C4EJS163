@@ -79,24 +79,6 @@ function renderBestSellingProducts() {
   renderProductCards(container, list);
 }
 
-function ensureHeaderStyles(base) {
-  const href = `${base}/components/Header/header.css`;
-  const existing = document.querySelector(
-    'link[rel="stylesheet"][data-component="header"]',
-  );
-  if (existing) {
-    if (existing.getAttribute("href") !== href)
-      existing.setAttribute("href", href);
-    return;
-  }
-
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = href;
-  link.setAttribute("data-component", "header");
-  document.head.appendChild(link);
-}
-
 function fixHeaderRelativePaths(base) {
   const header = document.getElementById("header");
   if (!header) return;
@@ -951,59 +933,59 @@ function init() {
     window.location.pathname === "/" ||
     window.location.pathname.endsWith("/");
 
-  ensureHeaderStyles(base);
-
   if (document.getElementById("footer")) {
-    loadHTML(`${base}/components/Footer/footer.html`, "footer");
+    loadHTML(`${base}/loading-components/Footer/footer.html`, "footer");
   }
 
   if (!document.getElementById("header")) return;
 
-  loadHTML(`${base}/components/Header/header.html`, "header").then(() => {
-    fixHeaderRelativePaths(base);
-    bindHeaderSearch();
-    bindHeaderWishlist();
-    bindCategoriesDropdown();
-    bindMobileMenu();
-    bindCategoryMenu();
-    bindMobileCategoryMenu();
-    bindUserMenu();
-    updateCartBadge();
-    updateWishlistBadge();
-    syncHeaderNavActiveState();
-    applyNavByRole();
+  loadHTML(`${base}/loading-components/Header/header.html`, "header").then(
+    () => {
+      fixHeaderRelativePaths(base);
+      bindHeaderSearch();
+      bindHeaderWishlist();
+      bindCategoriesDropdown();
+      bindMobileMenu();
+      bindCategoryMenu();
+      bindMobileCategoryMenu();
+      bindUserMenu();
+      updateCartBadge();
+      updateWishlistBadge();
+      syncHeaderNavActiveState();
+      applyNavByRole();
 
-    const backToTopBtn = document.getElementById("backToTop");
-    if (backToTopBtn) {
-      const syncBackToTopVisibility = () => {
-        const y = window.scrollY || document.documentElement.scrollTop || 0;
-        backToTopBtn.style.display = y > 300 ? "flex" : "none";
-      };
+      const backToTopBtn = document.getElementById("backToTop");
+      if (backToTopBtn) {
+        const syncBackToTopVisibility = () => {
+          const y = window.scrollY || document.documentElement.scrollTop || 0;
+          backToTopBtn.style.display = y > 300 ? "flex" : "none";
+        };
 
-      syncBackToTopVisibility();
-      window.addEventListener("scroll", syncBackToTopVisibility, {
-        passive: true,
-      });
+        syncBackToTopVisibility();
+        window.addEventListener("scroll", syncBackToTopVisibility, {
+          passive: true,
+        });
 
-      backToTopBtn.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    }
-
-    if (document.getElementById("categoryTrack")) {
-      renderCategoryPage();
-    } else {
-      syncActiveCategoryUI();
-      if (
-        document.getElementById("flashSection") ||
-        document.getElementById("bestSellingSection") ||
-        document.getElementById("searchResultsSection")
-      ) {
-        applySearchState();
+        backToTopBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
       }
-    }
-    handleAuthUI();
-  });
+
+      if (document.getElementById("categoryTrack")) {
+        renderCategoryPage();
+      } else {
+        syncActiveCategoryUI();
+        if (
+          document.getElementById("flashSection") ||
+          document.getElementById("bestSellingSection") ||
+          document.getElementById("searchResultsSection")
+        ) {
+          applySearchState();
+        }
+      }
+      handleAuthUI();
+    },
+  );
 }
 init();
 function applyNavByRole() {
