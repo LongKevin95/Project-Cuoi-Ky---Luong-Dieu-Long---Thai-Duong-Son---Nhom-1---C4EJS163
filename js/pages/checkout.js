@@ -19,8 +19,8 @@ function getProductStockValue(product) {
 
 function formatMoney(n) {
   const num = Number(n) || 0;
-  // bạn đang hiển thị $ nên mình giữ $
-  return `$${num}`;
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
 }
 
 function calcSubtotal(cart) {
@@ -43,8 +43,8 @@ function renderCheckout() {
   // nếu giỏ trống
   if (!cart.length) {
     itemsEl.innerHTML = `<p style="padding:12px 0;">Giỏ hàng đang trống 🛒</p>`;
-    subEl.textContent = "$0";
-    totalEl.textContent = "$0";
+    subEl.textContent = formatMoney(0);
+    totalEl.textContent = formatMoney(0);
     return;
   }
 
@@ -120,8 +120,7 @@ function placeOrder() {
 document.addEventListener("DOMContentLoaded", () => {
   renderCheckout();
 
-  document.getElementById("btnPlaceOrder")?.addEventListener("click", placeOrder);
-
-  
- 
+  document
+    .getElementById("btnPlaceOrder")
+    ?.addEventListener("click", placeOrder);
 });

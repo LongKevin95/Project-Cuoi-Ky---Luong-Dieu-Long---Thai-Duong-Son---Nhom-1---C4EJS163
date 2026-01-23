@@ -1056,17 +1056,19 @@ header {
 
 .product-name {
   margin-top: 10px;
-  font-size: var(--text-md);
+  font-size: var(--text-base-size);
   padding-inline: var(--space-sm);
 }
 
 .product-price {
+  font-family: var(--font-title);
   margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
-  gap: 0 10px;
+  gap: 0 var(--space-xs);
   padding-inline: var(--space-sm);
   font-size: var(--text-sm);
+  letter-spacing: 1px;
 }
 
 .price-new {

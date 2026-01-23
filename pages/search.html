@@ -19,7 +19,7 @@
   <body>
     <div class="topbar">
       <div class="topbar-left">
-        <span>Free Shipping On All Orders Over $50</span>
+        <span>Free Shipping On All Orders Over ₫50</span>
       </div>
       <div class="topbar-links">
         <a href="#">Eng</a>
@@ -303,8 +303,76 @@
     </header>
 
     <main class="o-container search-page">
+      <div class="search-filter">
+        <div class="search-filter__header">
+          <svg
+            class="search-filter__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 5h18l-7 8v5l-4 2v-7L3 5z"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <div class="search-filter__title">BỘ LỌC TÌM KIẾM</div>
+        </div>
+
+        <form id="searchFilterForm" class="search-filter__form">
+          <div class="search-filter__group">
+            <span class="search-filter__label" for="searchFilterCategory">
+              Danh Mục
+            </span>
+            <select
+              id="searchFilterCategory"
+              class="search-filter__control"
+            ></select>
+          </div>
+
+          <div class="search-filter__group">
+            <span class="search-filter__label">Khoảng Giá</span>
+            <div class="search-filter__price">
+              <input
+                id="searchFilterMinPrice"
+                class="search-filter__control search-filter__price-input"
+                type="number"
+                min="0"
+                placeholder="Từ"
+              />
+              <span class="search-filter__price-sep">—</span>
+              <input
+                id="searchFilterMaxPrice"
+                class="search-filter__control search-filter__price-input"
+                type="number"
+                min="0"
+                placeholder="Đến"
+              />
+            </div>
+          </div>
+
+          <div class="search-filter__group">
+            <span class="search-filter__label" for="searchFilterRating">
+              Đánh Giá
+            </span>
+            <select id="searchFilterRating" class="search-filter__control">
+              <option value="">Tất cả</option>
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★☆ trở lên</option>
+              <option value="3">★★★☆☆ trở lên</option>
+              <option value="2">★★☆☆☆ trở lên</option>
+              <option value="1">★☆☆☆☆ trở lên</option>
+            </select>
+          </div>
+
+          <button class="btn search-filter__btn" type="submit">Lọc</button>
+        </form>
+      </div>
       <h2 id="searchResultsTitle" class="search-page__title"></h2>
-      <div id="searchResultsTrack" class="search-page__track"></div>
+      <div id="searchResultsTrack" class="search-page__track o-grid-products"></div>
     </main>
 
     <div class="site-footer">
@@ -359,7 +427,7 @@
 
           <div class="footer-col">
             <div class="footer-col__title">Download App</div>
-            <div class="footer-text">Save $3 with App New User Only</div>
+            <div class="footer-text">Save ₫3 with App New User Only</div>
 
             <div class="footer-download">
               <div class="footer-download__row">

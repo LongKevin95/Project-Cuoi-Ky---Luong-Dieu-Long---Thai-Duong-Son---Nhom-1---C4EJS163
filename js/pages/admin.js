@@ -61,6 +61,12 @@ function resetForm() {
   if (imgInput) imgInput.value = "";
 }
 
+function formatMoney(value) {
+  const num = Number(value) || 0;
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
+}
+
 // ================= TABLE =================
 function renderTable() {
   const table = document.getElementById("productTable");
@@ -74,7 +80,7 @@ function renderTable() {
       <tr onclick="editProduct(${index})" style="cursor:pointer">
         <td>${p.id}</td>
         <td>${p.name}</td>
-        <td>$${p.price}</td>
+        <td>${formatMoney(p.price)}</td>
         <td>
           <img src="${p.img}" style="width:60px;height:60px;object-fit:cover;border-radius:10px">
         </td>

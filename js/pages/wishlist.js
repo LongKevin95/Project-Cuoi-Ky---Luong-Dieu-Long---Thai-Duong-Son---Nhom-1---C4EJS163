@@ -28,6 +28,12 @@ function redirectToLogin() {
   window.location.href = "./login.html";
 }
 
+function formatMoney(value) {
+  const num = Number(value) || 0;
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
+}
+
 function renderWishlist() {
   const listEl = document.getElementById("wishlistList");
   const totalCountEl = document.getElementById("totalCount");
@@ -70,7 +76,7 @@ function renderWishlist() {
         <img src="${item.img}">
         <div class="cart-info">
           <h4>${item.name}</h4>
-          <span>$${item.price}</span>
+          <span>${formatMoney(item.price)}</span>
         </div>
 
         <button class="remove-btn" onclick="removeWishlistItem('${item.id}')">✖</button>

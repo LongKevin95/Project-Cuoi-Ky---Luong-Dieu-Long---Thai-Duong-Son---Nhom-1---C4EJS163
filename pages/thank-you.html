@@ -35,7 +35,9 @@
 
     <script>
       function formatMoney(n) {
-        return "$" + Math.round(Number(n) || 0).toString();
+        const num = Number(n) || 0;
+        const rounded = Math.round(num);
+        return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
       }
 
       const order = JSON.parse(localStorage.getItem("lastOrder"));

@@ -155,8 +155,9 @@ function addToCart(productIdToAdd) {
 
 function formatPrice(value) {
   const num = Number(value);
-  if (Number.isNaN(num)) return "$0";
-  return `$${num}`;
+  if (Number.isNaN(num)) return "₫0";
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
 }
 
 function goToDetail(id) {

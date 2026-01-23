@@ -266,6 +266,14 @@ function getCategoryFromUrl() {
   return raw || null;
 }
 
+function formatMoney(value) {
+  const num = Number(value) || 0;
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
+}
+
+window.formatMoney = formatMoney;
+
 function renderProductCards(container, list) {
   if (!container) return;
   container.innerHTML = "";
@@ -322,8 +330,8 @@ function renderProductCards(container, list) {
         <h3 class="product-name">${p.name}</h3>
 
         <div class="product-price">
-          <span class="price-new">$${p.price}</span>
-          <span class="price-old">$${Math.round(p.price * 1.3)}</span>
+          <span class="price-new">${formatMoney(p.price)}</span>
+          <span class="price-old">${formatMoney(Math.round(p.price * 1.3))}</span>
         </div>
 
         <div class="product-rating">

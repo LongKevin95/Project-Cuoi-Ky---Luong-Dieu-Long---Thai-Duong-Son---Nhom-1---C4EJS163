@@ -1,6 +1,13 @@
 (function () {
   const QUERY_PARAM = "q";
 
+  function parseNumberOrNull(value) {
+    const raw = (value || "").toString().trim();
+    if (!raw) return null;
+    const num = Number(raw);
+    return Number.isFinite(num) ? num : null;
+  }
+
   function normalizeText(str) {
     return (str || "")
       .toLowerCase()
@@ -20,6 +27,69 @@
     return JSON.parse(localStorage.getItem("products")) || [];
   }
 
+  function getUniqueCategories(products) {
+    const set = new Set();
+    (products || []).forEach((p) => {
+      const c = (p?.category || "").toString().trim();
+      if (c) set.add(c);
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }
+
+  function fillCategorySelect() {
+    const select = document.getElementById("searchFilterCategory");
+    if (!select) return;
+
+    const products = getProducts();
+    const categories = getUniqueCategories(products);
+
+    select.innerHTML = "";
+
+    const allOpt = document.createElement("option");
+    allOpt.value = "";
+    allOpt.textContent = "Tất cả";
+    select.appendChild(allOpt);
+
+    categories.forEach((c) => {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      select.appendChild(opt);
+    });
+  }
+
+  function getFiltersFromForm() {
+    const category = (
+      document.getElementById("searchFilterCategory")?.value || ""
+    ).trim();
+    const minPrice = parseNumberOrNull(
+      document.getElementById("searchFilterMinPrice")?.value,
+    );
+    const maxPrice = parseNumberOrNull(
+      document.getElementById("searchFilterMaxPrice")?.value,
+    );
+
+    return {
+      category: category || null,
+      minPrice,
+      maxPrice,
+    };
+  }
+
+  function applyFilters(list, filters) {
+    const f = filters || {};
+    return (list || []).filter((p) => {
+      if (f.category && (p?.category || "") !== f.category) return false;
+
+      const price = Number(p?.price);
+      if (!Number.isFinite(price)) return false;
+      if (f.minPrice !== null && price < f.minPrice) return false;
+      if (f.maxPrice !== null && price > f.maxPrice) return false;
+
+      return true;
+    });
+  }
+
   function getSearchPageHref(term) {
     const next = (term || "").trim();
     const isInPagesFolder = window.location.pathname.includes("/pages/");
@@ -29,11 +99,17 @@
     return `${prefix}search.html?${QUERY_PARAM}=${encodeURIComponent(next)}`;
   }
 
+  function formatMoney(value) {
+    const num = Number(value) || 0;
+    const rounded = Math.round(num);
+    return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
+  }
+
   function redirectToSearch(term) {
     window.location.href = getSearchPageHref(term);
   }
 
-  function renderResults(term) {
+  function renderResults(term, filters = null) {
     const titleEl = document.getElementById("searchResultsTitle");
     const container = document.getElementById("searchResultsTrack");
     if (!container) return;
@@ -45,13 +121,15 @@
       ? products.filter((p) => normalizeText(p?.name).includes(q))
       : products;
 
+    const filtered = filters ? applyFilters(matched, filters) : matched;
+
     if (titleEl) {
       titleEl.textContent = q
-        ? `Kết quả tìm kiếm: "${term}" (${matched.length})`
-        : `Kết quả tìm kiếm (${matched.length})`;
+        ? `Kết quả tìm kiếm: "${term}" (${filtered.length})`
+        : `Kết quả tìm kiếm (${filtered.length})`;
     }
 
-    if (!matched.length) {
+    if (!filtered.length) {
       container.classList.add("is-empty");
       container.innerHTML =
         '<p class="search-page__empty">Không tìm thấy sản phẩm phù hợp.</p>';
@@ -61,11 +139,11 @@
     container.classList.remove("is-empty");
 
     if (typeof window.renderProductCards === "function") {
-      window.renderProductCards(container, matched);
+      window.renderProductCards(container, filtered);
       return;
     }
 
-    container.innerHTML = matched
+    container.innerHTML = filtered
       .map(
         (p) => `
         <div class="product" onclick="goToDetail('${p.id}')">
@@ -85,8 +163,8 @@
           <h3 class="product-name">${p.name}</h3>
 
           <div class="product-price">
-            <span class="price-new">$${p.price}</span>
-            <span class="price-old">$${Math.round(p.price * 1.3)}</span>
+            <span class="price-new">${formatMoney(p.price)}</span>
+            <span class="price-old">${formatMoney(Math.round(p.price * 1.3))}</span>
           </div>
 
           <div class="product-rating">⭐⭐⭐⭐⭐ <span>(88)</span></div>
@@ -96,10 +174,27 @@
       .join("");
   }
 
+  function bindFilters(term) {
+    fillCategorySelect();
+
+    const form = document.getElementById("searchFilterForm");
+    if (!form) return;
+
+    if (form.dataset.bound === "1") return;
+    form.dataset.bound = "1";
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const filters = getFiltersFromForm();
+      renderResults(term, filters);
+    });
+  }
+
   function renderSearchPage() {
     const term = getQueryFromUrl();
     const input = document.getElementById("headerSearchInput");
     if (input) input.value = term;
+    bindFilters(term);
     renderResults(term);
   }
 
