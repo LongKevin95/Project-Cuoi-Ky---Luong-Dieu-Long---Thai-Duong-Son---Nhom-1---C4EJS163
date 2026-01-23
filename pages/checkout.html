@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
@@ -11,10 +11,6 @@
       href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
       rel="stylesheet"
     />
-
-    <link rel="stylesheet" href="../css/base.css" />
-    <link rel="stylesheet" href="../css/layout.css" />
-    <link rel="stylesheet" href="../css/components.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/pages/checkout.css" />
   </head>
@@ -32,7 +28,12 @@
           <section class="checkout-billing">
             <h1 class="checkout-title">Billing Details</h1>
 
-            <form class="checkout-form" id="checkoutForm" action="#" method="post">
+            <form
+              class="checkout-form"
+              id="checkoutForm"
+              action="#"
+              method="post"
+            >
               <div class="checkout-field">
                 <label for="firstName">
                   First Name<span class="is-required">*</span>
@@ -49,7 +50,12 @@
                 <label for="streetAddress">
                   Street Address<span class="is-required">*</span>
                 </label>
-                <input id="streetAddress" name="streetAddress" type="text" required />
+                <input
+                  id="streetAddress"
+                  name="streetAddress"
+                  type="text"
+                  required
+                />
               </div>
 
               <div class="checkout-field">
@@ -80,7 +86,9 @@
 
               <label class="checkout-checkbox">
                 <input type="checkbox" />
-                <span>Save this information for faster check-out next time</span>
+                <span
+                  >Save this information for faster check-out next time</span
+                >
               </label>
             </form>
           </section>
@@ -89,7 +97,9 @@
             <div class="summary-products" id="checkoutItems"></div>
             <div class="summary-empty" id="checkoutEmpty" hidden>
               <p>Chưa có sản phẩm trong giỏ.</p>
-              <a class="btn summary-empty__btn" href="./cart.html">Quay lại giỏ hàng</a>
+              <a class="btn summary-empty__btn" href="./cart.html"
+                >Quay lại giỏ hàng</a
+              >
             </div>
 
             <div class="summary-row">
@@ -123,11 +133,21 @@
             </div>
 
             <div class="summary-coupon">
-              <input class="summary-coupon__input" type="text" placeholder="Coupon Code" />
-              <button type="button" class="btn summary-coupon__btn">Apply Coupon</button>
+              <input
+                class="summary-coupon__input"
+                type="text"
+                placeholder="Coupon Code"
+              />
+              <button type="button" class="btn summary-coupon__btn">
+                Apply Coupon
+              </button>
             </div>
 
-            <button type="button" class="btn summary-place-order" id="btnPlaceOrder">
+            <button
+              type="button"
+              class="btn summary-place-order"
+              id="btnPlaceOrder"
+            >
               Place Order
             </button>
           </aside>
@@ -137,93 +157,98 @@
 
     <!-- ✅ SCRIPT ĐỂ CUỐI BODY -->
     <script>
-  // ===== KEYS (đồng bộ toàn project) =====
-  const USERS_KEY = "users";
-  const CURRENT_USER_KEY = "user";
-  const CART_KEY = "cart";
-  const ORDERS_KEY = "orders";
-  const LAST_ORDER_KEY = "lastOrder";
-  const PRODUCTS_KEY = "products";
+      // ===== KEYS (đồng bộ toàn project) =====
+      const USERS_KEY = "users";
+      const CURRENT_USER_KEY = "user";
+      const CART_KEY = "cart";
+      const ORDERS_KEY = "orders";
+      const LAST_ORDER_KEY = "lastOrder";
+      const PRODUCTS_KEY = "products";
 
-  // ===== HELPERS =====
-  function safeJson(key, fallback) {
-    try {
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch {
-      return fallback;
-    }
-  }
+      // ===== HELPERS =====
+      function safeJson(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch {
+          return fallback;
+        }
+      }
 
-  function setJson(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
+      function setJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
 
-  function getCart() {
-    return safeJson(CART_KEY, []);
-  }
+      function getCart() {
+        return safeJson(CART_KEY, []);
+      }
 
-  function getOrders() {
-    return safeJson(ORDERS_KEY, []);
-  }
+      function getOrders() {
+        return safeJson(ORDERS_KEY, []);
+      }
 
-  function getProducts() {
-    return safeJson(PRODUCTS_KEY, []);
-  }
+      function getProducts() {
+        return safeJson(PRODUCTS_KEY, []);
+      }
 
-  function saveProducts(products) {
-    setJson(PRODUCTS_KEY, products);
-  }
+      function saveProducts(products) {
+        setJson(PRODUCTS_KEY, products);
+      }
 
-  function getProductStockValue(product) {
-    const raw = Number(product?.stock);
-    return Number.isFinite(raw) ? raw : null;
-  }
+      function getProductStockValue(product) {
+        const raw = Number(product?.stock);
+        return Number.isFinite(raw) ? raw : null;
+      }
 
-  function getCurrentUser() {
-    return safeJson(CURRENT_USER_KEY, null);
-  }
+      function getCurrentUser() {
+        return safeJson(CURRENT_USER_KEY, null);
+      }
 
-  function formatMoney(n) {
-    return "$" + Math.round(Number(n) || 0);
-  }
+      function formatMoney(n) {
+        return "$" + Math.round(Number(n) || 0);
+      }
 
-  function calcTotal(cart) {
-    return cart.reduce(
-      (sum, item) => sum + (Number(item.price) || 0) * (Number(item.qty) || 1),
-      0
-    );
-  }
+      function calcTotal(cart) {
+        return cart.reduce(
+          (sum, item) =>
+            sum + (Number(item.price) || 0) * (Number(item.qty) || 1),
+          0,
+        );
+      }
 
-  // ===== RENDER CHECKOUT =====
-  function renderCheckout() {
-    const itemsEl = document.getElementById("checkoutItems");
-    const emptyEl = document.getElementById("checkoutEmpty");
-    const subtotalEl = document.getElementById("checkoutSubtotal");
-    const totalEl = document.getElementById("checkoutTotal");
+      // ===== RENDER CHECKOUT =====
+      function renderCheckout() {
+        const itemsEl = document.getElementById("checkoutItems");
+        const emptyEl = document.getElementById("checkoutEmpty");
+        const subtotalEl = document.getElementById("checkoutSubtotal");
+        const totalEl = document.getElementById("checkoutTotal");
 
-    const cart = getCart();
+        const cart = getCart();
 
-    if (!cart.length) {
-      itemsEl.innerHTML = "";
-      emptyEl.hidden = false;
-      subtotalEl.textContent = formatMoney(0);
-      totalEl.textContent = formatMoney(0);
-      return;
-    }
+        if (!cart.length) {
+          itemsEl.innerHTML = "";
+          emptyEl.hidden = false;
+          subtotalEl.textContent = formatMoney(0);
+          totalEl.textContent = formatMoney(0);
+          return;
+        }
 
-    emptyEl.hidden = true;
+        emptyEl.hidden = true;
 
-    itemsEl.innerHTML = cart
-      .map((item) => {
-        const qty = Number(item.qty) || 1;
-        const price = Number(item.price) || 0;
-        const line = price * qty;
+        itemsEl.innerHTML = cart
+          .map((item) => {
+            const qty = Number(item.qty) || 1;
+            const price = Number(item.price) || 0;
+            const line = price * qty;
 
-        // nếu cart bạn đang lưu img khác tên (image/imgUrl) thì fallback:
-        const img = item.img || item.image || item.imgUrl || "../assets/images/item-01.svg";
+            // nếu cart bạn đang lưu img khác tên (image/imgUrl) thì fallback:
+            const img =
+              item.img ||
+              item.image ||
+              item.imgUrl ||
+              "../assets/images/item-01.svg";
 
-        return `
+            return `
           <div class="summary-item">
             <div class="summary-item__left">
               <img class="summary-item__img" src="${img}" alt="${item.name || "Product"}" />
@@ -235,100 +260,106 @@
             <span class="summary-item__price">${formatMoney(line)}</span>
           </div>
         `;
-      })
-      .join("");
+          })
+          .join("");
 
-    const total = calcTotal(cart);
-    subtotalEl.textContent = formatMoney(total);
-    totalEl.textContent = formatMoney(total);
-  }
-
-  // ===== PLACE ORDER =====
-  function getUserId(user) {
-    // ưu tiên id, nếu không có thì dùng username/email để chắc chắn có giá trị
-    return user?.id || user?.username || user?.email || user?.profile?.username || "guest";
-  }
-
-  document.getElementById("btnPlaceOrder").addEventListener("click", () => {
-    const cart = getCart();
-    if (!cart.length) {
-      alert("Giỏ hàng trống ❌");
-      return;
-    }
-
-    // validate form required
-    const form = document.getElementById("checkoutForm");
-    if (form && !form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    const user = getCurrentUser();
-    if (!user) {
-      alert("Bạn cần đăng nhập để đặt hàng!");
-      window.location.href = "./login.html"; // chỉnh path nếu khác
-      return;
-    }
-
-    const total = calcTotal(cart);
-
-    const products = getProducts();
-    const stockMap = new Map(products.map((p) => [String(p.id), p]));
-
-    for (const item of cart) {
-      const product = stockMap.get(String(item.id));
-      const stockValue = getProductStockValue(product);
-      const qty = Number(item.qty) || 0;
-      if (stockValue !== null && qty > stockValue) {
-        alert(`Sản phẩm "${item.name}" đã hết hàng.`);
-        return;
+        const total = calcTotal(cart);
+        subtotalEl.textContent = formatMoney(total);
+        totalEl.textContent = formatMoney(total);
       }
-    }
 
-    const order = {
-      id: Date.now(),
+      // ===== PLACE ORDER =====
+      function getUserId(user) {
+        // ưu tiên id, nếu không có thì dùng username/email để chắc chắn có giá trị
+        return (
+          user?.id ||
+          user?.username ||
+          user?.email ||
+          user?.profile?.username ||
+          "guest"
+        );
+      }
 
-      // ✅ các field này để admin-users thống kê
-      userId: getUserId(user),
-      username: user.username || user.profile?.username || user.name || "",
-      email: user.email || "",
+      document.getElementById("btnPlaceOrder").addEventListener("click", () => {
+        const cart = getCart();
+        if (!cart.length) {
+          alert("Giỏ hàng trống ❌");
+          return;
+        }
 
-      items: cart,
-      total,
+        // validate form required
+        const form = document.getElementById("checkoutForm");
+        if (form && !form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
 
-      dateISO: new Date().toISOString(),
-      dateVN: new Date().toLocaleString("vi-VN"),
-      status: "paid",
-    };
+        const user = getCurrentUser();
+        if (!user) {
+          alert("Bạn cần đăng nhập để đặt hàng!");
+          window.location.href = "./login.html"; // chỉnh path nếu khác
+          return;
+        }
 
-    cart.forEach((item) => {
-      const product = stockMap.get(String(item.id));
-      if (!product) return;
-      const stockValue = getProductStockValue(product);
-      if (stockValue === null) return;
-      const qty = Number(item.qty) || 0;
-      product.stock = Math.max(0, stockValue - qty);
-    });
+        const total = calcTotal(cart);
 
-    saveProducts(products);
+        const products = getProducts();
+        const stockMap = new Map(products.map((p) => [String(p.id), p]));
 
-    // ✅ append vào ORDERS
-    const orders = getOrders();
-    orders.push(order);
-    setJson(ORDERS_KEY, orders);
+        for (const item of cart) {
+          const product = stockMap.get(String(item.id));
+          const stockValue = getProductStockValue(product);
+          const qty = Number(item.qty) || 0;
+          if (stockValue !== null && qty > stockValue) {
+            alert(`Sản phẩm "${item.name}" đã hết hàng.`);
+            return;
+          }
+        }
 
-    // ✅ lastOrder để thank-you hiển thị
-    setJson(LAST_ORDER_KEY, order);
+        const order = {
+          id: Date.now(),
 
-    // ✅ clear cart
-    localStorage.removeItem(CART_KEY);
+          // ✅ các field này để admin-users thống kê
+          userId: getUserId(user),
+          username: user.username || user.profile?.username || user.name || "",
+          email: user.email || "",
 
-    // ✅ redirect thank-you
-    window.location.href = "thank-you.html";
-  });
+          items: cart,
+          total,
 
-  // init
-  renderCheckout();
-</script>
+          dateISO: new Date().toISOString(),
+          dateVN: new Date().toLocaleString("vi-VN"),
+          status: "paid",
+        };
+
+        cart.forEach((item) => {
+          const product = stockMap.get(String(item.id));
+          if (!product) return;
+          const stockValue = getProductStockValue(product);
+          if (stockValue === null) return;
+          const qty = Number(item.qty) || 0;
+          product.stock = Math.max(0, stockValue - qty);
+        });
+
+        saveProducts(products);
+
+        // ✅ append vào ORDERS
+        const orders = getOrders();
+        orders.push(order);
+        setJson(ORDERS_KEY, orders);
+
+        // ✅ lastOrder để thank-you hiển thị
+        setJson(LAST_ORDER_KEY, order);
+
+        // ✅ clear cart
+        localStorage.removeItem(CART_KEY);
+
+        // ✅ redirect thank-you
+        window.location.href = "thank-you.html";
+      });
+
+      // init
+      renderCheckout();
+    </script>
   </body>
 </html>
