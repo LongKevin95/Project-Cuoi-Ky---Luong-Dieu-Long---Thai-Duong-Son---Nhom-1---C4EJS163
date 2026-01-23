@@ -27,19 +27,6 @@ function initAdminAccount() {
   }
 }
 
-function loadHTML(url, elementId) {
-  return fetch(url)
-    .then((response) => response.text())
-    .then((html) => {
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      el.innerHTML = html;
-    })
-    .catch((error) => {
-      console.error("Lỗi khi load file:", url, error);
-    });
-}
-
 function renderBestSellingProducts() {
   const container = document.getElementById("bestSellingTrack");
   if (!container) return;
@@ -77,39 +64,6 @@ function renderBestSellingProducts() {
   }
 
   renderProductCards(container, list);
-}
-
-function fixHeaderRelativePaths(base) {
-  const header = document.getElementById("header");
-  if (!header) return;
-
-  header.querySelectorAll("[src]").forEach((el) => {
-    const src = el.getAttribute("src");
-    if (!src) return;
-    if (src.startsWith("./assets/")) {
-      el.setAttribute("src", `${base}/${src.slice(2)}`);
-    }
-  });
-
-  header.querySelectorAll("[href]").forEach((el) => {
-    const href = el.getAttribute("href");
-    if (!href) return;
-
-    if (href === "/index.html") {
-      el.setAttribute("href", `${base}/index.html`);
-      return;
-    }
-
-    if (href.startsWith("./assets/")) {
-      el.setAttribute("href", `${base}/${href.slice(2)}`);
-      return;
-    }
-
-    if (href.startsWith("./pages/")) {
-      el.setAttribute("href", `${base}/${href.slice(2)}`);
-      return;
-    }
-  });
 }
 
 function syncActiveCategoryUI() {
@@ -927,65 +881,42 @@ window.goToDetail = goToDetail;
 function init() {
   initAdminAccount();
   const isInPagesFolder = window.location.pathname.includes("/pages/");
-  const base = isInPagesFolder ? ".." : ".";
   const isHome =
     window.location.pathname.endsWith("/index.html") ||
     window.location.pathname === "/" ||
     window.location.pathname.endsWith("/");
 
-  if (document.getElementById("footer")) {
-    loadHTML(`${base}/loading-components/Footer/footer.html`, "footer");
+  syncHeaderNavActiveState();
+
+  const backToTopBtn = document.getElementById("backToTop");
+  if (backToTopBtn) {
+    const syncBackToTopVisibility = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      backToTopBtn.style.display = y > 300 ? "flex" : "none";
+    };
+
+    syncBackToTopVisibility();
+    window.addEventListener("scroll", syncBackToTopVisibility, {
+      passive: true,
+    });
+
+    backToTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   }
 
-  if (!document.getElementById("header")) return;
-
-  loadHTML(`${base}/loading-components/Header/header.html`, "header").then(
-    () => {
-      fixHeaderRelativePaths(base);
-      bindHeaderSearch();
-      bindHeaderWishlist();
-      bindCategoriesDropdown();
-      bindMobileMenu();
-      bindCategoryMenu();
-      bindMobileCategoryMenu();
-      bindUserMenu();
-      updateCartBadge();
-      updateWishlistBadge();
-      syncHeaderNavActiveState();
-      applyNavByRole();
-
-      const backToTopBtn = document.getElementById("backToTop");
-      if (backToTopBtn) {
-        const syncBackToTopVisibility = () => {
-          const y = window.scrollY || document.documentElement.scrollTop || 0;
-          backToTopBtn.style.display = y > 300 ? "flex" : "none";
-        };
-
-        syncBackToTopVisibility();
-        window.addEventListener("scroll", syncBackToTopVisibility, {
-          passive: true,
-        });
-
-        backToTopBtn.addEventListener("click", () => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-      }
-
-      if (document.getElementById("categoryTrack")) {
-        renderCategoryPage();
-      } else {
-        syncActiveCategoryUI();
-        if (
-          document.getElementById("flashSection") ||
-          document.getElementById("bestSellingSection") ||
-          document.getElementById("searchResultsSection")
-        ) {
-          applySearchState();
-        }
-      }
-      handleAuthUI();
-    },
-  );
+  if (document.getElementById("categoryTrack")) {
+    renderCategoryPage();
+  } else {
+    syncActiveCategoryUI();
+    if (
+      document.getElementById("flashSection") ||
+      document.getElementById("bestSellingSection") ||
+      document.getElementById("searchResultsSection")
+    ) {
+      applySearchState();
+    }
+  }
 }
 init();
 function applyNavByRole() {

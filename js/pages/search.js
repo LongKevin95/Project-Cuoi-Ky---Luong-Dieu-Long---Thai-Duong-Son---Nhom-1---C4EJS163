@@ -57,6 +57,7 @@
         '<p class="search-page__empty">Không tìm thấy sản phẩm phù hợp.</p>';
       return;
     }
+
     container.classList.remove("is-empty");
 
     if (typeof window.renderProductCards === "function") {
@@ -72,17 +73,13 @@
 
           <div class="product-actions">
             <button class="product-action-btn" aria-label="Wishlist" onclick="event.stopPropagation(); alert('Đã thêm vào wishlist!')">♡</button>
-            <button class="product-action-btn" aria-label="Quick view" onclick="event.stopPropagation(); goToDetail('${
-              p.id
-            }')">👁</button>
+            <button class="product-action-btn" aria-label="Quick view" onclick="event.stopPropagation(); goToDetail('${p.id}')">👁</button>
           </div>
 
           <div class="product-img-wrap">
             <img src="${p.img}" class="product-img" />
 
-            <button class="product-cart" onclick="event.stopPropagation(); addToCart('${
-              p.id
-            }')">Add To Cart</button>
+            <button class="product-cart" onclick="event.stopPropagation(); addToCart('${p.id}')">Add To Cart</button>
           </div>
 
           <h3 class="product-name">${p.name}</h3>
@@ -94,98 +91,9 @@
 
           <div class="product-rating">⭐⭐⭐⭐⭐ <span>(88)</span></div>
         </div>
-      `
+      `,
       )
       .join("");
-  }
-
-  function bindHeaderSearch() {
-    const form = document.getElementById("headerSearchForm");
-    const input = document.getElementById("headerSearchInput");
-    const suggestions = document.getElementById("headerSearchSuggestions");
-    if (!form || !input) return;
-
-    function getSuggestions(query) {
-      const q = normalizeText(query);
-      if (!q) return [];
-
-      const products = getProducts();
-      const unique = new Set();
-
-      products.forEach((p) => {
-        if (p?.name) unique.add(String(p.name).trim());
-      });
-
-      const all = Array.from(unique)
-        .map((s) => s.trim())
-        .filter(Boolean);
-      const filtered = all.filter((s) => normalizeText(s).includes(q));
-
-      filtered.sort((a, b) => {
-        const na = normalizeText(a);
-        const nb = normalizeText(b);
-        const aStarts = na.startsWith(q);
-        const bStarts = nb.startsWith(q);
-        if (aStarts !== bStarts) return aStarts ? -1 : 1;
-        return na.localeCompare(nb);
-      });
-
-      return filtered.slice(0, 8);
-    }
-
-    function hideSuggestions() {
-      if (!suggestions) return;
-      suggestions.hidden = true;
-      suggestions.innerHTML = "";
-    }
-
-    function renderSuggestions(list) {
-      if (!suggestions) return;
-      if (!list.length) {
-        hideSuggestions();
-        return;
-      }
-
-      suggestions.innerHTML = list
-        .map(
-          (text) =>
-            `<button type="button" class="header-search__suggestion-item" data-value="${text.replace(
-              /"/g,
-              "&quot;"
-            )}">${text}</button>`
-        )
-        .join("");
-      suggestions.hidden = false;
-    }
-
-    input.addEventListener("input", () => {
-      renderSuggestions(getSuggestions(input.value));
-    });
-
-    input.addEventListener("focus", () => {
-      renderSuggestions(getSuggestions(input.value));
-    });
-
-    suggestions?.addEventListener("click", (e) => {
-      const btn = e.target.closest(".header-search__suggestion-item");
-      if (!btn) return;
-      const value = btn.dataset.value || btn.textContent || "";
-      input.value = value;
-      hideSuggestions();
-      redirectToSearch(value);
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!suggestions || suggestions.hidden) return;
-      if (!form.contains(e.target)) hideSuggestions();
-    });
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const term = input.value.trim();
-      hideSuggestions();
-      redirectToSearch(term);
-    });
   }
 
   function renderSearchPage() {
@@ -197,7 +105,6 @@
 
   window.Search = {
     normalizeText,
-    bindHeaderSearch,
     redirectToSearch,
     renderSearchPage,
   };
