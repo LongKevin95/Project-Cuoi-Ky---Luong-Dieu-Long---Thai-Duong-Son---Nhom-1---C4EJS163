@@ -2,7 +2,7 @@
 
 :root {
   --font-primary: "Poppins", serif;
-  /* --font-secondary: sans-serif; */
+  --font-secondary: "Plus Jakarta Sans", sans-serif;
   --font-title: Inter, serif;
 
   /*----------color---------- */
@@ -11,6 +11,7 @@
   --color-text: #191825;
   --color-btn-bg: #d33;
   --color-btn-text: #fff;
+  --color-breadcumb: #777;
 
   /* ----------spacing--------- */
   --space-unit: 16px;
@@ -29,31 +30,31 @@
 
   /* -------- Typography scale----------- */
   /* set base values */
-  --text-base-size: 1em;
+  --text-base-size: 1em; /* 16px*/
   --text-scale-ratio: 1.2;
 
   /* type scale */
   --text-xs: calc(
     var(--text-base-size) / (var(--text-scale-ratio) * var(--text-scale-ratio))
-  );
-  --text-sm: calc(var(--text-base-size) / var(--text-scale-ratio));
-  --text-md: calc(var(--text-base-size) * var(--text-scale-ratio));
+  ); /* ~ 11px*/
+  --text-sm: calc(var(--text-base-size) / var(--text-scale-ratio)); /* ~13px*/
+  --text-md: calc(var(--text-base-size) * var(--text-scale-ratio)); /* ~19px*/
   --text-lg: calc(
     var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio)
-  );
+  ); /* ~ 23px*/
   --text-xl: calc(
     var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio) *
       var(--text-scale-ratio)
-  );
+  ); /* ~ 27px*/
   --text-xxl: calc(
     var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio) *
       var(--text-scale-ratio) * var(--text-scale-ratio)
-  );
+  ); /* ~ 33px*/
   --text-xxxl: calc(
     var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio) *
       var(--text-scale-ratio) * var(--text-scale-ratio) *
       var(--text-scale-ratio)
-  );
+  ); /* ~ 39px*/
 
   /* ------------- size ----------- */
   --width-item: 260px;
@@ -74,19 +75,32 @@
 }
 
 body {
-  font-family: var(--font-primary), var(--font-fallback);
+  font-family: var(--font-primary);
   color: var(--color-text);
+  min-width: 350px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#footer {
+  margin-top: auto;
 }
 
 section {
-  padding: var(--space-xl-plus) 0;
+  margin-bottom: var(--space-xl-plus);
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--font-title), var(--font-title-fallback);
+  font-family: var(--font-title);
 }
 a {
   text-decoration: none;
+  font-size: 16px;
+}
+
+.hide {
+  display: none !important;
 }

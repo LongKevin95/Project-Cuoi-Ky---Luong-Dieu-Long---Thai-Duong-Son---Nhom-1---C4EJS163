@@ -4,10 +4,23 @@ function getCart() {
   return JSON.parse(localStorage.getItem(CART_KEY)) || [];
 }
 
+function getProducts() {
+  return JSON.parse(localStorage.getItem("products")) || [];
+}
+
+function saveProducts(products) {
+  localStorage.setItem("products", JSON.stringify(products));
+}
+
+function getProductStockValue(product) {
+  const raw = Number(product?.stock);
+  return Number.isFinite(raw) ? raw : null;
+}
+
 function formatMoney(n) {
   const num = Number(n) || 0;
-  // bạn đang hiển thị $ nên mình giữ $
-  return `$${num}`;
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
 }
 
 function calcSubtotal(cart) {
@@ -30,8 +43,8 @@ function renderCheckout() {
   // nếu giỏ trống
   if (!cart.length) {
     itemsEl.innerHTML = `<p style="padding:12px 0;">Giỏ hàng đang trống 🛒</p>`;
-    subEl.textContent = "$0";
-    totalEl.textContent = "$0";
+    subEl.textContent = formatMoney(0);
+    totalEl.textContent = formatMoney(0);
     return;
   }
 
@@ -74,6 +87,30 @@ function placeOrder() {
     return;
   }
 
+  const products = getProducts();
+  const stockMap = new Map(products.map((p) => [String(p.id), p]));
+
+  for (const item of cart) {
+    const product = stockMap.get(String(item.id));
+    const stockValue = getProductStockValue(product);
+    const qty = Number(item.qty) || 0;
+    if (stockValue !== null && qty > stockValue) {
+      alert(`Sản phẩm "${item.name}" đã hết hàng.`);
+      return;
+    }
+  }
+
+  cart.forEach((item) => {
+    const product = stockMap.get(String(item.id));
+    if (!product) return;
+    const stockValue = getProductStockValue(product);
+    if (stockValue === null) return;
+    const qty = Number(item.qty) || 0;
+    product.stock = Math.max(0, stockValue - qty);
+  });
+
+  saveProducts(products);
+
   // demo: đặt hàng xong thì clear cart
   localStorage.removeItem(CART_KEY);
   alert("Đặt hàng thành công ✅");
@@ -83,8 +120,7 @@ function placeOrder() {
 document.addEventListener("DOMContentLoaded", () => {
   renderCheckout();
 
-  document.getElementById("btnPlaceOrder")?.addEventListener("click", placeOrder);
-
-  
- 
+  document
+    .getElementById("btnPlaceOrder")
+    ?.addEventListener("click", placeOrder);
 });

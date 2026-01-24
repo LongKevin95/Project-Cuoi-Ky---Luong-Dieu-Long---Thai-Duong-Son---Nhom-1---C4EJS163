@@ -39,10 +39,10 @@ function renderProductDetail(p) {
   const breadcrumb = document.querySelector(".breadcrumb");
   if (breadcrumb) {
     const categoryHref = `category.html?category=${encodeURIComponent(
-      String(category)
+      String(category),
     )}`;
     breadcrumb.innerHTML = `<a href="../index.html">Home</a> &gt; <a href="${categoryHref}">${escapeHtml(
-      category
+      category,
     )}</a> &gt; <strong>${escapeHtml(name)}</strong>`;
   }
 
@@ -68,13 +68,19 @@ function renderProductDetail(p) {
 
     thumbsEl.innerHTML = thumbs
       .map(
-        (src) => `<img src="${escapeHtml(src)}" alt="${escapeHtml(name)}" />`
+        (src) => `<img src="${escapeHtml(src)}" alt="${escapeHtml(name)}" />`,
       )
       .join("");
   }
 
   const buyBtn = document.querySelector(".product-detail .buy-btn");
   if (buyBtn && p?.id != null) {
+    const stockValue = getProductStockValue(p);
+    if (stockValue !== null && stockValue <= 0) {
+      buyBtn.disabled = true;
+      buyBtn.textContent = "Sold Out";
+    }
+
     buyBtn.addEventListener("click", () => {
       addToCart(p.id);
       window.location.href = "cart.html";
@@ -92,6 +98,11 @@ function getCart() {
 
 function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function getProductStockValue(product) {
+  const raw = Number(product?.stock);
+  return Number.isFinite(raw) ? raw : null;
 }
 
 function addToCart(productIdToAdd) {
@@ -115,8 +126,16 @@ function addToCart(productIdToAdd) {
     return;
   }
 
+  const stockValue = getProductStockValue(p);
+
   const cart = getCart();
   const index = cart.findIndex((i) => i.id == productIdToAdd);
+  const currentQty = index !== -1 ? Number(cart[index].qty) || 0 : 0;
+
+  if (stockValue !== null && stockValue <= currentQty) {
+    alert("Sản phẩm đã hết hàng (sold out).");
+    return;
+  }
 
   if (index !== -1) {
     cart[index].qty += 1;
@@ -136,8 +155,9 @@ function addToCart(productIdToAdd) {
 
 function formatPrice(value) {
   const num = Number(value);
-  if (Number.isNaN(num)) return "$0";
-  return `$${num}`;
+  if (Number.isNaN(num)) return "₫0";
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
 }
 
 function goToDetail(id) {
@@ -145,7 +165,7 @@ function goToDetail(id) {
 }
 
 function renderRelatedProducts(currentProduct, allProducts) {
-  const container = document.querySelector(".related .flash-track");
+  const container = document.querySelector(".related .related-track");
   if (!container) return;
 
   const category = currentProduct?.category;
@@ -154,25 +174,32 @@ function renderRelatedProducts(currentProduct, allProducts) {
     .slice(0, 4);
 
   if (!related.length) {
-    container.innerHTML = "<p>Không có sản phẩm liên quan.</p>";
+    container.classList.add("is-empty");
+    container.innerHTML = `<p>Không có sản phẩm liên quan.</p>`;
     return;
   }
-
+  container.classList.remove("is-empty");
   container.innerHTML = related
-    .map(
-      (p) => `
-        <div class="product" data-id="${p.id}" tabindex="0" role="button">
+    .map((p) => {
+      const stockValue = getProductStockValue(p);
+      const isSoldOut = stockValue !== null && stockValue <= 0;
+
+      return `
+        <div class="product${isSoldOut ? " product--sold-out" : ""}" data-id="${p.id}" tabindex="0" role="button">
           <span class="product-discount">-40%</span>
+          ${isSoldOut ? '<span class="product-soldout">Sold out</span>' : ""}
 
           <div class="product-img-wrap">
             <img src="${p.img}" class="product-img" alt="${String(
-        p.name || "Product"
-      )
-        .replace(/"/g, "&quot;")
-        .trim()}" />
+              p.name || "Product",
+            )
+              .replace(/"/g, "&quot;")
+              .trim()}" />
 
-            <button class="product-cart" data-add-to-cart="${p.id}">
-              Add To Cart
+            <button class="product-cart" data-add-to-cart="${p.id}" ${
+              isSoldOut ? "disabled" : ""
+            }>
+              ${isSoldOut ? "Sold Out" : "Add To Cart"}
             </button>
           </div>
 
@@ -181,7 +208,7 @@ function renderRelatedProducts(currentProduct, allProducts) {
           <div class="product-price">
             <span class="price-new">${formatPrice(p.price)}</span>
             <span class="price-old">${formatPrice(
-              Math.round(Number(p.price) * 1.3)
+              Math.round(Number(p.price) * 1.3),
             )}</span>
           </div>
 
@@ -190,8 +217,8 @@ function renderRelatedProducts(currentProduct, allProducts) {
             <span>(88)</span>
           </div>
         </div>
-      `
-    )
+      `;
+    })
     .join("");
 
   container.addEventListener("click", (e) => {

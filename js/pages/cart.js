@@ -9,6 +9,22 @@ function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+function getProducts() {
+  return JSON.parse(localStorage.getItem("products")) || [];
+}
+
+function getStockForItem(productId) {
+  const product = getProducts().find((p) => p.id == productId);
+  const raw = Number(product?.stock);
+  return Number.isFinite(raw) ? raw : null;
+}
+
+function formatMoney(value) {
+  const num = Number(value) || 0;
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
+}
+
 function renderCart() {
   const cartList = document.getElementById("cartList");
   const totalPrice = document.getElementById("totalPrice");
@@ -20,7 +36,7 @@ function renderCart() {
 
   if (cart.length === 0) {
     cartList.innerHTML = "<p>Giỏ hàng trống 💤</p>";
-    totalPrice.textContent = "$0";
+    totalPrice.textContent = formatMoney(0);
     return;
   }
 
@@ -32,7 +48,7 @@ function renderCart() {
         <img src="${item.img}">
         <div class="cart-info">
           <h4>${item.name}</h4>
-          <span>$${item.price}</span>
+          <span>${formatMoney(item.price)}</span>
         </div>
 
         <div class="qty-box">
@@ -46,11 +62,19 @@ function renderCart() {
     `;
   });
 
-  totalPrice.textContent = `$${total}`;
+  totalPrice.textContent = formatMoney(total);
 }
 
 function changeQty(index, delta) {
   const cart = getCart();
+  const item = cart[index];
+  const stockValue = getStockForItem(item?.id);
+
+  if (delta > 0 && stockValue !== null && item.qty + delta > stockValue) {
+    alert("Số lượng vượt quá tồn kho.");
+    return;
+  }
+
   cart[index].qty += delta;
 
   if (cart[index].qty <= 0) {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
@@ -6,12 +6,8 @@
     <title>Admin Dashboard</title>
 
     <!-- CSS chung của project -->
-    <link rel="stylesheet" href="../css/base.css" />
-    <link rel="stylesheet" href="../css/layout.css" />
-    <link rel="stylesheet" href="../css/components.css" />
     <link rel="stylesheet" href="../css/style.css" />
 
-    
     <link rel="stylesheet" href="../css/pages/admin.css" />
   </head>
 
@@ -20,19 +16,25 @@
       <!-- Topbar -->
       <section class="admin-topbar">
         <div>
-          <div class="admin-breadcrumb">Dashboard / <strong>Products</strong></div>
+          <div class="admin-breadcrumb">
+            Dashboard / <strong>Products</strong>
+          </div>
           <h1 class="admin-title">👑 ADMIN – Quản lý sản phẩm</h1>
-          <p class="admin-subtitle">
-    
-          </p>
+          <p class="admin-subtitle"></p>
         </div>
 
         <div class="admin-actions">
           <!-- ✅ vì admin.html nằm trong /pages nên về home phải ../ -->
-          <a class="admin-btn admin-btn--ghost" href="../index.html">🏠 Về trang chủ</a>
+          <a class="admin-btn admin-btn--ghost" href="../index.html"
+            >🏠 Về trang chủ</a
+          >
 
           <!-- ✅ gọi logout() trong admin.js -->
-          <button class="admin-btn admin-btn--danger" type="button" onclick="logout()">
+          <button
+            class="admin-btn admin-btn--danger"
+            type="button"
+            onclick="logout()"
+          >
             🚪 Logout
           </button>
         </div>
@@ -56,12 +58,28 @@
         </div>
       </section>
 
+      <section class="admin-card admin-card--spaced">
+        <div class="admin-card__head">
+          <h2 class="admin-card__title">🧾 Orders</h2>
+          <p class="admin-card__desc">
+            Xem thời gian, tên, số lượng và các món hàng đã đặt.
+          </p>
+        </div>
+        <div class="admin-card__body">
+          <a class="admin-btn admin-btn--primary" href="./admin-users.html">
+            Xem danh sách order
+          </a>
+        </div>
+      </section>
+
       <div class="admin-grid">
         <!-- Form card -->
         <section class="admin-card">
           <div class="admin-card__head">
             <h2 class="admin-card__title">➕ Thêm / Sửa sản phẩm</h2>
-            <p class="admin-card__desc">Click 1 dòng trong bảng để edit nhanh.</p>
+            <p class="admin-card__desc">
+              Click 1 dòng trong bảng để edit nhanh.
+            </p>
           </div>
 
           <div class="admin-form">
@@ -72,12 +90,31 @@
 
             <div class="admin-field">
               <label class="admin-label" for="name">Tên sản phẩm</label>
-              <input id="name" class="admin-input" placeholder="Ví dụ: Áo sơ mi nam" />
+              <input
+                id="name"
+                class="admin-input"
+                placeholder="Ví dụ: Áo sơ mi nam"
+              />
             </div>
 
             <div class="admin-field">
               <label class="admin-label" for="price">Giá</label>
-              <input id="price" class="admin-input" placeholder="Ví dụ: 199000" />
+              <input
+                id="price"
+                class="admin-input"
+                placeholder="Ví dụ: 199000"
+              />
+            </div>
+
+            <div class="admin-field">
+              <label class="admin-label" for="stock">Số lượng</label>
+              <input
+                id="stock"
+                class="admin-input"
+                type="number"
+                min="0"
+                placeholder="Ví dụ: 10"
+              />
             </div>
 
             <div class="admin-field">
@@ -96,7 +133,12 @@
               <label class="admin-label" for="imgFile">Ảnh sản phẩm</label>
               <div class="admin-upload">
                 <input type="file" id="imgFile" accept="image/*" />
-                <img id="preview" class="admin-preview" alt="Preview" style="display: none" />
+                <img
+                  id="preview"
+                  class="admin-preview"
+                  alt="Preview"
+                  style="display: none"
+                />
               </div>
               <small class="admin-hint">Chọn ảnh để xem preview.</small>
             </div>
@@ -112,7 +154,11 @@
 
             <div class="admin-field admin-field--full admin-form__actions">
               <!-- ✅ gọi addOrUpdate() trong admin.js -->
-              <button id="btnSaveProduct" class="admin-btn admin-btn--primary" type="button">
+              <button
+                id="btnSaveProduct"
+                class="admin-btn admin-btn--primary"
+                type="button"
+              >
                 💾 Lưu sản phẩm
               </button>
             </div>
@@ -136,6 +182,7 @@
                   <th>Ảnh</th>
                   <th>Category</th>
                   <th>Mô tả</th>
+                  <th>Số lượng</th>
                   <th>Xoá</th>
                 </tr>
               </thead>
@@ -168,7 +215,9 @@
         const now = new Date();
         if (lastEl)
           lastEl.textContent =
-            now.toLocaleDateString("vi-VN") + " " + now.toLocaleTimeString("vi-VN");
+            now.toLocaleDateString("vi-VN") +
+            " " +
+            now.toLocaleTimeString("vi-VN");
       }
 
       // chạy 1 lần khi load

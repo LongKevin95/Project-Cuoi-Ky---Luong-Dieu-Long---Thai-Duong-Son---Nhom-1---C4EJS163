@@ -24,6 +24,7 @@ if (!user || user.role !== "admin") {
 const idInput = document.getElementById("id");
 const nameInput = document.getElementById("name");
 const priceInput = document.getElementById("price");
+const stockInput = document.getElementById("stock");
 const categoryInput = document.getElementById("category");
 const descInput = document.getElementById("desc");
 const imgInput = document.getElementById("imgFile");
@@ -47,6 +48,7 @@ function resetForm() {
   idInput.value = "";
   nameInput.value = "";
   priceInput.value = "";
+  stockInput.value = "";
   categoryInput.value = "";
   descInput.value = "";
   imageBase64 = "";
@@ -57,6 +59,12 @@ function resetForm() {
     delete preview.dataset.base64;
   }
   if (imgInput) imgInput.value = "";
+}
+
+function formatMoney(value) {
+  const num = Number(value) || 0;
+  const rounded = Math.round(num);
+  return `₫${new Intl.NumberFormat("vi-VN").format(rounded)}`;
 }
 
 // ================= TABLE =================
@@ -72,12 +80,13 @@ function renderTable() {
       <tr onclick="editProduct(${index})" style="cursor:pointer">
         <td>${p.id}</td>
         <td>${p.name}</td>
-        <td>$${p.price}</td>
+        <td>${formatMoney(p.price)}</td>
         <td>
           <img src="${p.img}" style="width:60px;height:60px;object-fit:cover;border-radius:10px">
         </td>
         <td>${p.category}</td>
         <td>${p.desc}</td>
+        <td>${Number.isFinite(Number(p.stock)) ? p.stock : "—"}</td>
         <td>
           <button type="button" onclick="event.stopPropagation(); removeProduct('${p.id}')">❌</button>
         </td>
@@ -92,13 +101,21 @@ function addOrUpdate() {
   const id = idInput.value.trim();
   const name = nameInput.value.trim();
   const price = priceInput.value.trim();
+  const stockRaw = stockInput.value.trim();
   const category = categoryInput.value;
   const desc = descInput.value.trim();
 
   const imgBase64 = preview?.dataset?.base64 || imageBase64 || "";
 
+  const stock = Number(stockRaw);
+
   if (!id || !name || !price || !category || !desc || !imgBase64) {
     alert("Vui lòng nhập đầy đủ thông tin và chọn ảnh!");
+    return;
+  }
+
+  if (!Number.isFinite(stock) || stock < 0) {
+    alert("Vui lòng nhập số lượng hợp lệ (>= 0).");
     return;
   }
 
@@ -109,6 +126,7 @@ function addOrUpdate() {
     img: imgBase64,
     category,
     desc,
+    stock: Math.floor(stock),
   };
 
   const products = getProducts();
@@ -138,6 +156,7 @@ function editProduct(index) {
   idInput.value = p.id;
   nameInput.value = p.name;
   priceInput.value = p.price;
+  stockInput.value = Number.isFinite(Number(p.stock)) ? p.stock : "";
   categoryInput.value = p.category;
   descInput.value = p.desc;
 

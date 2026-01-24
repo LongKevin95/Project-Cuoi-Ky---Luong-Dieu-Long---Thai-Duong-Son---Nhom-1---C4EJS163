@@ -5,8 +5,11 @@ const ORDERS_KEY = "orders";
 
 // ===== HELPERS =====
 function getLS(key, fallback) {
-  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-  catch { return fallback; }
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch {
+    return fallback;
+  }
 }
 function setText(id, text) {
   const el = document.getElementById(id);
@@ -14,11 +17,14 @@ function setText(id, text) {
 }
 function money(n) {
   const v = Math.round(Number(n) || 0);
-  return "$" + v.toString();
+  return `₫${new Intl.NumberFormat("vi-VN").format(v)}`;
 }
 function toVN(dateISO) {
-  try { return new Date(dateISO).toLocaleString("vi-VN"); }
-  catch { return "—"; }
+  try {
+    return new Date(dateISO).toLocaleString("vi-VN");
+  } catch {
+    return "—";
+  }
 }
 
 // ===== AUTH =====
@@ -35,20 +41,25 @@ if (!me || me.role !== "admin") {
 }
 
 // ===== DATA =====
-function getUsers() { return getLS(USERS_KEY, []); }
-function getOrders() { return getLS(ORDERS_KEY, []); }
+function getUsers() {
+  return getLS(USERS_KEY, []);
+}
+function getOrders() {
+  return getLS(ORDERS_KEY, []);
+}
 
 function getUserId(u) {
-  return u.id || u.username || u.email;
+  return String(u.id || u.username || u.email || "");
 }
 
 // gom orders theo userId
 function buildOrderStats(orders) {
   const map = new Map(); // userId -> {count,total,lastISO,orders:[]}
-  orders.forEach(o => {
-    const uid = o.userId || o.username || o.email;
+  orders.forEach((o) => {
+    const uid = String(o.userId || o.username || o.email || "");
     if (!uid) return;
-    if (!map.has(uid)) map.set(uid, { count: 0, total: 0, lastISO: null, orders: [] });
+    if (!map.has(uid))
+      map.set(uid, { count: 0, total: 0, lastISO: null, orders: [] });
 
     const s = map.get(uid);
     s.count += 1;
@@ -71,11 +82,16 @@ function renderUsers() {
   const orders = getOrders();
   const stats = buildOrderStats(orders);
 
-  const q = (document.getElementById("userSearch")?.value || "").trim().toLowerCase();
+  const q = (document.getElementById("userSearch")?.value || "")
+    .trim()
+    .toLowerCase();
   const role = document.getElementById("roleFilter")?.value || "";
 
-  const filtered = users.filter(u => {
-    const matchQ = !q || (u.username || "").toLowerCase().includes(q) || (u.email || "").toLowerCase().includes(q);
+  const filtered = users.filter((u) => {
+    const matchQ =
+      !q ||
+      (u.username || "").toLowerCase().includes(q) ||
+      (u.email || "").toLowerCase().includes(q);
     const matchRole = !role || (u.role || "user") === role;
     return matchQ && matchRole;
   });
@@ -88,17 +104,24 @@ function renderUsers() {
 
   empty.hidden = true;
 
-  tbody.innerHTML = filtered.map((u, idx) => {
-    const uid = getUserId(u);
-    const s = stats.get(uid) || { count: 0, total: 0, lastISO: null, orders: [] };
+  tbody.innerHTML = filtered
+    .map((u, idx) => {
+      const uid = getUserId(u);
+      const s = stats.get(uid) || {
+        count: 0,
+        total: 0,
+        lastISO: null,
+        orders: [],
+      };
 
-    const roleBadge = (u.role === "admin")
-      ? `<span class="badge badge--admin">admin</span>`
-      : `<span class="badge badge--user">user</span>`;
+      const roleBadge =
+        u.role === "admin"
+          ? `<span class="badge badge--admin">admin</span>`
+          : `<span class="badge badge--user">user</span>`;
 
-    const last = s.lastISO ? toVN(s.lastISO) : "—";
+      const last = s.lastISO ? toVN(s.lastISO) : "—";
 
-    return `
+      return `
       <tr>
         <td>${idx + 1}</td>
         <td>
@@ -118,16 +141,19 @@ function renderUsers() {
         </td>
       </tr>
     `;
-  }).join("");
+    })
+    .join("");
 
   if (!filtered.length) {
     tbody.innerHTML = `<tr><td colspan="8" style="padding:16px;color:rgba(0,0,0,.6)">Không có user phù hợp.</td></tr>`;
   }
 }
 
-window.openOrders = function(uidEncoded) {
+window.openOrders = function (uidEncoded) {
   const uid = decodeURIComponent(uidEncoded);
-  const orders = getOrders().filter(o => (o.userId || o.username || o.email) === uid);
+  const orders = getOrders().filter(
+    (o) => String(o.userId || o.username || o.email || "") === uid,
+  );
 
   const modal = document.getElementById("ordersModal");
   const list = document.getElementById("ordersList");
@@ -141,21 +167,24 @@ window.openOrders = function(uidEncoded) {
     list.innerHTML = `<div class="admin-empty">User này chưa có đơn hàng.</div>`;
   } else {
     // mới -> cũ
-    orders.sort((a,b) => new Date(b.dateISO || 0) - new Date(a.dateISO || 0));
+    orders.sort((a, b) => new Date(b.dateISO || 0) - new Date(a.dateISO || 0));
 
-    list.innerHTML = orders.map(o => {
-      const itemsHtml = (o.items || []).map(it => {
-        const qty = Number(it.qty) || 1;
-        const price = Number(it.price) || 0;
-        return `
+    list.innerHTML = orders
+      .map((o) => {
+        const itemsHtml = (o.items || [])
+          .map((it) => {
+            const qty = Number(it.qty) || 1;
+            const price = Number(it.price) || 0;
+            return `
           <div class="order-item">
             <span>${it.name || "Item"} × ${qty}</span>
             <span>${money(price * qty)}</span>
           </div>
         `;
-      }).join("");
+          })
+          .join("");
 
-      return `
+        return `
         <div class="order-card">
           <div class="order-head">
             <div>
@@ -168,7 +197,8 @@ window.openOrders = function(uidEncoded) {
           <div class="order-total">Tổng: ${money(o.total)}</div>
         </div>
       `;
-    }).join("");
+      })
+      .join("");
   }
 
   modal.hidden = false;

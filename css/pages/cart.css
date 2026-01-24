@@ -1,6 +1,7 @@
 body {
   font-family: "Poppins", sans-serif;
   background: #f5f6fa;
+  display: block;
 }
 
 .cart-container {
@@ -14,8 +15,11 @@ body {
 
 h2 {
   margin-bottom: 25px;
+  font-family: "Poppins", sans-serif;
 }
-
+.btn-danger {
+  font-size: 16px;
+}
 .cart-item {
   display: flex;
   align-items: center;

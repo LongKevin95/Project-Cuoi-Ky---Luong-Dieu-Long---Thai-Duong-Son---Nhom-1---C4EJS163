@@ -1,3 +1,5 @@
+@import "../base.css";
+
 * {
   box-sizing: border-box;
   font-family: inherit;
@@ -5,8 +7,12 @@
 
 body {
   margin: 0;
-  padding: 40px;
+  padding: 0;
   background: #fff;
+}
+
+.product-detail-page {
+  padding: var(--space-lg-plus) 0;
 }
 
 img {
@@ -15,9 +21,24 @@ img {
 }
 
 .breadcrumb {
-  font-size: 14px;
-  color: #777;
+  font-size: 20px;
+  font-family: var(--font-title);
+  color: var(--color-breadcumb);
   margin-bottom: 30px;
+}
+
+.breadcrumb a {
+  font-size: 20px;
+  color: var(--color-breadcumb);
+  font-weight: bold;
+}
+
+.breadcrumb a:hover {
+  color: white;
+  font-weight: 800;
+  border-radius: 8px;
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* ===== PRODUCT ===== */
@@ -25,6 +46,7 @@ img {
   display: flex;
   gap: 60px;
   align-items: flex-start;
+  margin-top: var(--space-xl);
 }
 
 /* Gallery */
@@ -207,11 +229,24 @@ hr {
 
 /* ===== RELATED ===== */
 .related {
-  margin-top: 80px;
+  margin: 80px 0;
 }
 
 .related h2 {
   margin-bottom: 30px;
+}
+
+.related .related-track .product {
+  width: 100%;
+  min-width: 0;
+}
+
+.related-track.is-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  min-height: 150px;
 }
 
 .products {
