@@ -7,7 +7,7 @@ let activeCategory = null;
 function initAdminAccount() {
   const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
 
-  // init tài khoản admin đầu tiên
+  
   const hasAdmin = users.some((user) => user.role === "admin");
 
   if (!hasAdmin) {
@@ -89,7 +89,7 @@ function logout() {
   window.location.href = isInPagesFolder ? "../index.html" : "./index.html";
 }
 
-// exposer ra global để sử dụng do <script type="module"> chuyển biến và hàm thành module scope
+
 window.logout = logout;
 
 // ================= CART =================
@@ -241,7 +241,7 @@ function addToCart(productId) {
   updateCartBadge();
   alert("Đã thêm vào giỏ hàng 🛒");
 }
-// exposer ra global để sử dụng
+
 window.addToCart = addToCart;
 
 // ================= RENDER PRODUCTS =================
@@ -286,7 +286,7 @@ function renderProductCards(container, list) {
         const btn = e.target.closest("[data-wishlist-id]");
         if (!btn || !container.contains(btn)) return;
 
-        // handle early to avoid bubbling to `.product` inline onclick
+        
         e.preventDefault();
         e.stopPropagation();
 

@@ -57,11 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!emailInput || !emailErrorEl) return;
 
-  // Kiểm tra email khi con trỏ rời khỏi email input
+  
   emailInput.addEventListener("blur", () => {
     const email = emailInput.value;
 
-    // nếu trống thì để browser required xử lý
+    
     if (!email.trim()) {
       setEmailError(emailInput, emailErrorEl, "");
       return;

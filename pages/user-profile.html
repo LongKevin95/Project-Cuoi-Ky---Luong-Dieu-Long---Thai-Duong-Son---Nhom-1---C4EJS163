@@ -222,7 +222,7 @@
                 <a
                   class="btn profile-btn profile-btn--home"
                   href="../index.html"
-                  >🏠 Về trang chủ</a
+                  >🏠 Back to Home</a
                 >
                 <label
                   class="btn profile-btn profile-btn--upload"
@@ -382,13 +382,13 @@
         current.name = fullName || current.profile.username || current.name;
         current.username = current.profile.username || current.username;
 
-        // cập nhật vào users[]
+        
         const users = getUsers();
         const idx = users.findIndex((x) => x.id === current.id);
         if (idx !== -1) users[idx] = current;
         saveUsers(users);
 
-        // cập nhật current user
+        
         saveCurrentUser(current);
 
         render();

@@ -438,7 +438,7 @@
             const price = Number(item.price) || 0;
             const line = price * qty;
 
-            // nếu cart đang lưu img khác tên (image/imgUrl) thì fallback:
+            
             const img =
               item.img ||
               item.image ||
@@ -467,7 +467,7 @@
 
       // ===== PLACE ORDER =====
       function getUserId(user) {
-        // ưu tiên id, nếu không có thì dùng username/email để chắc chắn có giá trị
+        
         return (
           user?.id ||
           user?.username ||
@@ -494,7 +494,7 @@
         const user = getCurrentUser();
         if (!user) {
           alert("Bạn cần đăng nhập để đặt hàng!");
-          window.location.href = "./login.html"; // chỉnh path nếu khác
+          window.location.href = "./login.html"; 
           return;
         }
 
@@ -516,7 +516,7 @@
         const order = {
           id: Date.now(),
 
-          // ✅ các field này để admin-users thống kê
+          
           userId: getUserId(user),
           username: user.username || user.profile?.username || user.name || "",
           email: user.email || "",
@@ -540,18 +540,18 @@
 
         saveProducts(products);
 
-        // ✅ append vào ORDERS
+        
         const orders = getOrders();
         orders.push(order);
         setJson(ORDERS_KEY, orders);
 
-        // ✅ lastOrder để thank-you hiển thị
+        
         setJson(LAST_ORDER_KEY, order);
 
-        // ✅ clear cart
+        
         localStorage.removeItem(CART_KEY);
 
-        // ✅ redirect thank-you
+        
         window.location.href = "thank-you.html";
       });
 

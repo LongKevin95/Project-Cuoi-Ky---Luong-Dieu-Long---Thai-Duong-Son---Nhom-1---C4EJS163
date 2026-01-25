@@ -52,7 +52,7 @@ function getUserId(u) {
   return String(u.id || u.username || u.email || "");
 }
 
-// gom orders theo userId
+
 function buildOrderStats(orders) {
   const map = new Map(); // userId -> {count,total,lastISO,orders:[]}
   orders.forEach((o) => {
@@ -166,7 +166,7 @@ window.openOrders = function (uidEncoded) {
   if (!orders.length) {
     list.innerHTML = `<div class="admin-empty">User này chưa có đơn hàng.</div>`;
   } else {
-    // mới -> cũ
+    
     orders.sort((a, b) => new Date(b.dateISO || 0) - new Date(a.dateISO || 0));
 
     list.innerHTML = orders

@@ -261,7 +261,7 @@
     padding: var(--space-xxs);
   }
   .best-selling__view-all {
-    visibility: hidden; /* ẩn nhưng vẫn chiếm vị trí*/
+    visibility: hidden; 
   }
   .best-selling__view-all-mobile {
     display: block;

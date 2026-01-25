@@ -28,7 +28,7 @@
   --space-4xl: calc(8 * var(--space-unit)); /* 128px */
   --space-5xl: calc(8.75 * var(--space-unit)); /* 140px */
 
-  /* -------- Typography scale----------- */
+  
   /* set base values */
   --text-base-size: 1em; /* 16px*/
   --text-scale-ratio: 1.2;
@@ -49,10 +49,10 @@
   --width-item-xxm: 180px;
 }
 
-/* ================Tools=================== */
-/* Chưa sử dụng */
 
-/* ==============Generic================== */
+
+
+
 
 * {
   margin: 0;

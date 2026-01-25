@@ -188,7 +188,7 @@ imgInput?.addEventListener("change", function () {
   reader.readAsDataURL(file);
 });
 
-// ✅ QUAN TRỌNG: bind nút Lưu sản phẩm
+
 btnSave?.addEventListener("click", addOrUpdate);
 
 // init

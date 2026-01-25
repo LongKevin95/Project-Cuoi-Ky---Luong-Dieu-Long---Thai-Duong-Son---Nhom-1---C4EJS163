@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
 
-    <!-- CSS chung của project -->
+    
     <link rel="stylesheet" href="../css/style.css" />
 
     <link rel="stylesheet" href="../css/pages/admin.css" />
@@ -22,12 +22,12 @@
         </div>
 
         <div class="admin-actions">
-          <!-- ✅ vì admin.html nằm trong /pages nên về home phải ../ -->
+          
           <a class="admin-btn admin-btn--ghost" href="../index.html"
             >🏠 Về trang chủ</a
           >
 
-          <!-- ✅ gọi logout() trong admin.js -->
+          
           <button
             class="admin-btn admin-btn--danger"
             type="button"
@@ -151,7 +151,7 @@
             </div>
 
             <div class="admin-field admin-field--full admin-form__actions">
-              <!-- ✅ gọi addOrUpdate() trong admin.js -->
+              
               <button
                 id="btnSaveProduct"
                 class="admin-btn admin-btn--primary"
@@ -185,7 +185,7 @@
                 </tr>
               </thead>
 
-              <!-- ✅ admin.js render vào đây -->
+              
               <tbody id="productTable"></tbody>
             </table>
           </div>
@@ -193,10 +193,10 @@
       </div>
     </main>
 
-    <!-- ✅ admin.js nằm ở /js/pages -->
+    
     <script src="../js/pages/admin.js"></script>
 
-    <!-- ✅ Stats helper: update stats sau khi renderTable -->
+    
     <script>
       function updateAdminStats() {
         const products = JSON.parse(localStorage.getItem("products")) || [];
@@ -218,10 +218,10 @@
             now.toLocaleTimeString("vi-VN");
       }
 
-      // chạy 1 lần khi load
+      
       updateAdminStats();
 
-      // hook renderTable() để sau khi CRUD xong stats cập nhật luôn
+      
       const _oldRender = window.renderTable;
       if (typeof _oldRender === "function") {
         window.renderTable = function () {

@@ -40,7 +40,7 @@ function renderCheckout() {
 
   if (!itemsEl || !subEl || !totalEl) return;
 
-  // nếu giỏ trống
+  
   if (!cart.length) {
     itemsEl.innerHTML = `<p style="padding:12px 0;">Giỏ hàng đang trống 🛒</p>`;
     subEl.textContent = formatMoney(0);
@@ -111,7 +111,7 @@ function placeOrder() {
 
   saveProducts(products);
 
-  // demo: đặt hàng xong thì clear cart
+  
   localStorage.removeItem(CART_KEY);
   alert("Đặt hàng thành công ✅");
   window.location.href = "../index.html";
