@@ -96,8 +96,7 @@ Ví dụ 0912345678.`,
       if (message.length < 50)
         return fail(messageEl, "Nội dung hỗ trợ phải tối thiểu 50 ký tự!");
 
-      form.reset();
-      prefillSupportForm(user, { nameEl, emailEl, phoneEl });
+      messageEl.value = "";
       alert("Gửi yêu cầu hỗ trợ thành công!");
     });
   }

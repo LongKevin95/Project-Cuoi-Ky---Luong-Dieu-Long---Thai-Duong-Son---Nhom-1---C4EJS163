@@ -40,6 +40,37 @@
     return `${prefix}search.html?q=${encodeURIComponent(next)}`;
   }
 
+  function getHomeHref() {
+    const isInPagesFolder = window.location.pathname.includes("/pages/");
+    return isInPagesFolder ? "../index.html" : "index.html";
+  }
+
+  function insertMobileHomeLink() {
+    const panel = document.getElementById("mobileMenuPanel");
+    if (!panel) return;
+
+    if (panel.dataset.homeBound === "1") return;
+    panel.dataset.homeBound = "1";
+
+    if (panel.querySelector("#mobileHomeBtn")) return;
+
+    const home = document.createElement("a");
+    home.id = "mobileHomeBtn";
+    home.className = "mobile-menu__home";
+    home.href = getHomeHref();
+    home.textContent = "Home";
+    home.addEventListener("click", () => {
+      closeMobileMenuIfOpen();
+    });
+
+    const menu = panel.querySelector("#mobileMenu");
+    if (menu) {
+      panel.insertBefore(home, menu);
+    } else {
+      panel.appendChild(home);
+    }
+  }
+
   function redirectTo(url) {
     window.location.href = url;
   }
@@ -621,6 +652,7 @@
     bindSupportLink();
 
     bindCategoriesDropdown();
+    insertMobileHomeLink();
     bindMobileMenu();
     bindCategoryMenu();
     bindMobileCategoryMenu();

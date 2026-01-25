@@ -355,6 +355,23 @@ header {
   line-height: 1;
 }
 
+.mobile-menu__home {
+  display: block;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 1px solid #eef2f7;
+  border-radius: 12px;
+  color: var(--color-btn-text);
+  background-color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+
+.mobile-menu__home:hover {
+  opacity: 0.8;
+}
+
 .mobile-menu .menu-list {
   list-style: none;
   padding: 0;
