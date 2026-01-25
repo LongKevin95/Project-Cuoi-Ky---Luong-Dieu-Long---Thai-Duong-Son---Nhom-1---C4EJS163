@@ -31,13 +31,14 @@ img {
   font-size: 20px;
   color: var(--color-breadcumb);
   font-weight: bold;
+  padding: 4px 6px;
 }
 
 .breadcrumb a:hover {
   color: white;
   font-weight: 800;
   border-radius: 8px;
-  padding: 4px 8px;
+
   background-color: rgba(0, 0, 0, 0.8);
 }
 

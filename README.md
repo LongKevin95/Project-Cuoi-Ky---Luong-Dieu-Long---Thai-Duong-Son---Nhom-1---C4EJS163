@@ -2,10 +2,10 @@
 - Phần CSS sử dụng kiến trúc ITCSS, cấc rules CSS được phân bổ vào file "base.css", "layout.css" và "components.css":
 
 * File "base.css" chứa 4 tầng đầu Settings, Tool, Generic,
-  Element và tầng 7 là Trumps.
+  Element và tầng 7 Trumps/Utilities.
 * File "layout.css" chứa tầng 5 là Objects/Layout patterns.
 * File "components.css" chứa tầng thứ 6 là Components/UI.
-* File "responsive.css" chứa các Media Querry cho Responsve.
+* File "responsive.css" chứa các Media Queries cho Responsive.
 
 <pre>
 Project - LS Ecommerce/
