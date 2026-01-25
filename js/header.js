@@ -277,6 +277,22 @@
     });
   }
 
+  function bindSupportLink() {
+    const link = document.getElementById("navSupport");
+    if (!link) return;
+
+    if (link.dataset.bound === "1") return;
+    link.dataset.bound = "1";
+
+    link.addEventListener("click", (e) => {
+      const user = getUser();
+      if (!user) {
+        e.preventDefault();
+        alert("Vui lòng đăng nhập tài khoản để được hỗ trợ!");
+      }
+    });
+  }
+
   function bindCategoriesDropdown() {
     const btn = document.getElementById("categoriesBtn");
     const dropdown = document.getElementById("categoriesDropdown");
@@ -567,12 +583,9 @@
     const isAdmin = u?.role === "admin";
 
     const navShop = document.getElementById("navShop");
-    const navProduct = document.getElementById("navProduct");
     const cartBtn = document.getElementById("headerCartBtn");
 
     if (navShop) navShop.parentElement.style.display = isAdmin ? "none" : "";
-    if (navProduct)
-      navProduct.parentElement.style.display = isAdmin ? "none" : "";
 
     // Under option B, href should be correct in HTML per page.
     // We only disable for admin, and restore for others.
@@ -605,6 +618,7 @@
 
     bindHeaderSearch();
     bindHeaderWishlist();
+    bindSupportLink();
 
     bindCategoriesDropdown();
     bindMobileMenu();

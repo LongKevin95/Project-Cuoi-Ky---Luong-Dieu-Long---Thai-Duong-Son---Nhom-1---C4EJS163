@@ -3,13 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Profile</title>
+    <title>Support</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/pages/user-profile.css" />
+    <link rel="stylesheet" href="../css/pages/support.css" />
   </head>
 
   <body>
-    <!-- ================= HEADER ================= -->
     <div class="topbar">
       <div class="topbar-left">
         <span>Free Shipping On All Orders Over ₫50</span>
@@ -195,210 +202,81 @@
           <nav class="header-nav">
             <ul class="header-nav__list">
               <li><a href="../index.html">Home</a></li>
-              <li><a href="./cart.html">Cart</a></li>
-              <li><a href="./wishlist.html">Wishlist</a></li>
+              <li><a id="navShop" href="#">Shop</a></li>
               <li><a id="navSupport" href="./support.html">Support</a></li>
+              <li><a href="#">About</a></li>
             </ul>
           </nav>
         </div>
       </div>
     </header>
-    <main class="profile-page">
+
+    <main class="support-page">
       <div class="o-container">
-        <div class="profile-card">
-          <div class="profile-card__header">
-            <div class="profile-top">
-              <div class="profile-user">
-                <div class="profile-avatar">
-                  <img id="avatarPreview" alt="avatar" />
-                </div>
-                <div>
-                  <div id="displayName" class="profile-user__name">User</div>
-                  <div id="displayEmail" class="profile-user__role">email</div>
-                </div>
-              </div>
+        <div class="support-breadcrumb">
+          <a href="../index.html">Home</a> / <strong>Support</strong>
+        </div>
 
-              <div class="profile-actions">
-                <a
-                  class="btn profile-btn profile-btn--home"
-                  href="../index.html"
-                  >🏠 Về trang chủ</a
-                >
-                <label
-                  class="btn profile-btn profile-btn--upload"
-                  for="avatarFile"
-                >
-                  Upload New Photo
-                  <input
-                    id="avatarFile"
-                    type="file"
-                    accept="image/*"
-                    style="display: none"
-                  />
-                </label>
-                <button class="btn profile-btn profile-btn--save" id="btnSave">
-                  Save
-                </button>
+        <div class="support-layout">
+          <aside class="support-card">
+            <div class="support-info-block">
+              <div class="support-info-head">
+                <div class="support-info-icon" aria-hidden="true">☎</div>
+                <div>Call To Us</div>
               </div>
+              <div class="support-info-text">
+                We are available 24/7, 7 days a week.
+              </div>
+              <div class="support-info-meta">Phone: +8801611112222</div>
             </div>
-          </div>
 
-          <div class="profile-divider profile-divider--spaced"></div>
-
-          <div class="profile-form">
-            <div class="profile-grid profile-grid--2">
-              <div class="profile-field">
-                <label class="profile-label">First Name</label>
-                <input
-                  class="profile-input"
-                  id="firstName"
-                  placeholder="eg. Son"
-                />
+            <div class="support-info-block">
+              <div class="support-info-head">
+                <div class="support-info-icon" aria-hidden="true">✉</div>
+                <div>Write To Us</div>
               </div>
-              <div class="profile-field">
-                <label class="profile-label">Last Name</label>
-                <input
-                  class="profile-input"
-                  id="lastName"
-                  placeholder="eg. Deptrai"
-                />
+              <div class="support-info-text">
+                Fill out our form and we will contact you within 24 hours.
               </div>
-
-              <div class="profile-field profile-field--full">
-                <label class="profile-label">User Name</label>
-                <input
-                  class="profile-input"
-                  id="username"
-                  placeholder="eg. sondep***"
-                />
+              <div class="support-info-meta">
+                Emails: customer@exclusive.com
               </div>
-
-              <div class="profile-field">
-                <label class="profile-label">Email</label>
-                <input class="profile-input" id="email" disabled />
-              </div>
-
-              <div class="profile-field">
-                <label class="profile-label">Phone Number</label>
-                <input
-                  class="profile-input"
-                  id="phone"
-                  placeholder="eg. 09xxxxxxxx"
-                />
-              </div>
+              <div class="support-info-meta">Emails: support@exclusive.com</div>
             </div>
-          </div>
+          </aside>
 
-          <p class="note">Thông tin được lưu vào localStorage (demo).</p>
+          <section class="support-card">
+            <form class="support-form" action="#">
+              <div class="support-form__row">
+                <input
+                  class="support-input"
+                  type="text"
+                  placeholder="Your Name *"
+                />
+                <input
+                  class="support-input"
+                  type="email"
+                  placeholder="Your Email *"
+                />
+                <input
+                  class="support-input"
+                  type="tel"
+                  placeholder="Your Phone *"
+                />
+              </div>
+              <textarea
+                class="support-textarea"
+                placeholder="Your Message"
+              ></textarea>
+              <button class="btn support-submit" type="button">
+                Send Message
+              </button>
+            </form>
+          </section>
         </div>
       </div>
     </main>
 
-    <script>
-      const USERS_KEY = "users";
-      const CURRENT_USER_KEY = "user";
-
-      function getUsers() {
-        return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-      }
-      function saveUsers(users) {
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-      }
-      function getCurrentUser() {
-        return JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
-      }
-      function saveCurrentUser(u) {
-        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(u));
-      }
-
-      function ensureProfile(u) {
-        if (!u.profile) u.profile = {};
-        u.profile.firstName ??= "";
-        u.profile.lastName ??= "";
-        u.profile.username ??= u.name || "";
-        u.profile.phone ??= "";
-        u.profile.avatar ??= "https://i.pravatar.cc/120?img=32";
-        return u;
-      }
-
-      const u = getCurrentUser();
-      if (!u) {
-        alert("Bạn cần đăng nhập!");
-        window.location.href = "login.html";
-      }
-
-      let current = ensureProfile(u);
-
-      const avatarPreview = document.getElementById("avatarPreview");
-      const displayName = document.getElementById("displayName");
-      const displayEmail = document.getElementById("displayEmail");
-
-      function render() {
-        avatarPreview.src = current.profile.avatar;
-        displayName.textContent =
-          (current.profile.firstName || current.name || "User") +
-          " " +
-          (current.profile.lastName || "");
-        displayEmail.textContent = current.email || "";
-
-        document.getElementById("firstName").value =
-          current.profile.firstName || "";
-        document.getElementById("lastName").value =
-          current.profile.lastName || "";
-        document.getElementById("username").value =
-          current.profile.username || "";
-        document.getElementById("phone").value = current.profile.phone || "";
-        document.getElementById("email").value = current.email || "";
-      }
-
-      // upload avatar -> base64
-      document
-        .getElementById("avatarFile")
-        .addEventListener("change", function () {
-          const file = this.files?.[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = () => {
-            current.profile.avatar = reader.result;
-            avatarPreview.src = current.profile.avatar;
-          };
-          reader.readAsDataURL(file);
-        });
-
-      document.getElementById("btnSave").addEventListener("click", () => {
-        current.profile.firstName = document
-          .getElementById("firstName")
-          .value.trim();
-        current.profile.lastName = document
-          .getElementById("lastName")
-          .value.trim();
-        current.profile.username = document
-          .getElementById("username")
-          .value.trim();
-        current.profile.phone = document.getElementById("phone").value.trim();
-
-        const fullName =
-          `${current.profile.firstName} ${current.profile.lastName}`.trim();
-        current.name = fullName || current.profile.username || current.name;
-        current.username = current.profile.username || current.username;
-
-        // cập nhật vào users[]
-        const users = getUsers();
-        const idx = users.findIndex((x) => x.id === current.id);
-        if (idx !== -1) users[idx] = current;
-        saveUsers(users);
-
-        // cập nhật current user
-        saveCurrentUser(current);
-
-        render();
-        alert("Cập nhật thông tin thành công ✅");
-      });
-
-      render();
-    </script>
-
-    <!-- ================= FOOTER ================= -->
     <div class="site-footer">
       <div class="o-container">
         <div class="footer-grid">
@@ -431,7 +309,7 @@
           <div class="footer-col">
             <div class="footer-col__title">Account</div>
             <ul class="footer-list">
-              <li><a href="./user-profile.html">My Account</a></li>
+              <li><a href="#">My Account</a></li>
               <li><a href="./login.html">Login / Register</a></li>
               <li><a href="./cart.html">Cart</a></li>
               <li><a href="./wishlist.html">Wishlist</a></li>
@@ -496,6 +374,7 @@
       </div>
     </div>
 
+    <script defer src="../js/pages/support.js"></script>
     <script defer src="../js/header.js"></script>
   </body>
 </html>
