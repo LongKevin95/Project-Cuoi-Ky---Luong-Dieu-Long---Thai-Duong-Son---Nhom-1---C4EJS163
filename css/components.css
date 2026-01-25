@@ -114,14 +114,9 @@ header {
 
 .site-header.o-container {
   display: flex;
-
   align-items: center;
-
-  /* justify-content: space-between; */
-
   position: relative;
-
-  gap: 100px;
+  gap: 40px;
 }
 
 /* Logo */
@@ -169,7 +164,7 @@ header {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 16px;
 }
 
 .header-action {
@@ -205,6 +200,7 @@ header {
   height: 100%;
   object-fit: cover;
   display: block;
+  padding: 5px;
 }
 
 .header-action--wishlist {
@@ -422,12 +418,10 @@ header {
 /* ---------------- NAV BAR ---------------- */
 
 .header-nav {
-  /* padding-block: var(--space-lg); */
   margin-top: var(--space-unit);
-  gap: 100px;
+  gap: 40px;
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
 }
 
 .menu-btn img {
