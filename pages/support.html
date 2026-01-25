@@ -221,7 +221,7 @@
           <aside class="support-card">
             <div class="support-info-block">
               <div class="support-info-head">
-                <div class="support-info-icon" aria-hidden="true">☎</div>
+                <img src="../assets/icons/phone-icon.svg" aria-hidden="true"></img>
                 <div>Call To Us</div>
               </div>
               <div class="support-info-text">
@@ -232,7 +232,7 @@
 
             <div class="support-info-block">
               <div class="support-info-head">
-                <div class="support-info-icon" aria-hidden="true">✉</div>
+             <img src="../assets/icons/mail-icon.svg" aria-hidden="true"></img>
                 <div>Write To Us</div>
               </div>
               <div class="support-info-text">
@@ -246,29 +246,48 @@
           </aside>
 
           <section class="support-card">
-            <form class="support-form" action="#">
+            <form class="support-form" id="supportForm" action="#">
               <div class="support-form__row">
-                <input
-                  class="support-input"
-                  type="text"
-                  placeholder="Your Name *"
-                />
-                <input
-                  class="support-input"
-                  type="email"
-                  placeholder="Your Email *"
-                />
-                <input
-                  class="support-input"
-                  type="tel"
-                  placeholder="Your Phone *"
-                />
+                <div class="support-field">
+                  <label class="support-label" for="supportName"
+                    >Full name *</label
+                  >
+                  <input
+                    class="support-input"
+                    id="supportName"
+                    type="text"
+                    placeholder="Nhập tên..."
+                  />
+                </div>
+                <div class="support-field">
+                  <label class="support-label" for="supportEmail"
+                    >Email *</label
+                  >
+                  <input
+                    class="support-input"
+                    id="supportEmail"
+                    type="email"
+                    placeholder="Nhập email..."
+                  />
+                </div>
+                <div class="support-field">
+                  <label class="support-label" for="supportPhone"
+                    >Phone Number *</label
+                  >
+                  <input
+                    class="support-input"
+                    id="supportPhone"
+                    type="tel"
+                    placeholder="Ex: 0912345678"
+                  />
+                </div>
               </div>
               <textarea
                 class="support-textarea"
-                placeholder="Your Message"
+                id="supportMessage"
+                placeholder="Nội dung yêu cầu tối thiểu 50 ký tự..."
               ></textarea>
-              <button class="btn support-submit" type="button">
+              <button class="btn support-submit" type="submit">
                 Send Message
               </button>
             </form>
