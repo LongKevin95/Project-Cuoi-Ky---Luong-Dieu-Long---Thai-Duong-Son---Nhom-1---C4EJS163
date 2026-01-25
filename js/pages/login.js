@@ -8,7 +8,7 @@ const CURRENT_USER_KEY = "user";
 const LAST_ORDER_KEY = "lastOrder";
 function ensureAdminAccount() {
   const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-  const hasAdmin = users.some(u => u.role === "admin");
+  const hasAdmin = users.some((u) => u.role === "admin");
 
   if (!hasAdmin) {
     users.push({
@@ -35,7 +35,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   const isInPagesFolder = window.location.pathname.includes("/pages/");
 
   const currentUser = usersList.find(
-    (acc) => acc.email === email && acc.password === password
+    (acc) => acc.email === email && acc.password === password,
   );
 
   if (!currentUser) {
@@ -48,10 +48,10 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   alert("Đăng nhập thành công ✅");
 
   if (currentUser.role === "admin") {
-  window.location.href = isInPagesFolder ? "admin.html" : "pages/admin.html";
-} else {
-  window.location.href = isInPagesFolder ? "../index.html" : "index.html";
-}
+    window.location.href = isInPagesFolder ? "admin.html" : "pages/admin.html";
+  } else {
+    window.location.href = isInPagesFolder ? "../index.html" : "index.html";
+  }
 });
 
 // Show / Hide password

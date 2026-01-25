@@ -40,37 +40,6 @@
     return `${prefix}search.html?q=${encodeURIComponent(next)}`;
   }
 
-  function getHomeHref() {
-    const isInPagesFolder = window.location.pathname.includes("/pages/");
-    return isInPagesFolder ? "../index.html" : "index.html";
-  }
-
-  function insertMobileHomeLink() {
-    const panel = document.getElementById("mobileMenuPanel");
-    if (!panel) return;
-
-    if (panel.dataset.homeBound === "1") return;
-    panel.dataset.homeBound = "1";
-
-    if (panel.querySelector("#mobileHomeBtn")) return;
-
-    const home = document.createElement("a");
-    home.id = "mobileHomeBtn";
-    home.className = "mobile-menu__home";
-    home.href = getHomeHref();
-    home.textContent = "Home";
-    home.addEventListener("click", () => {
-      closeMobileMenuIfOpen();
-    });
-
-    const menu = panel.querySelector("#mobileMenu");
-    if (menu) {
-      panel.insertBefore(home, menu);
-    } else {
-      panel.appendChild(home);
-    }
-  }
-
   function redirectTo(url) {
     window.location.href = url;
   }
@@ -304,6 +273,25 @@
       if (user.role !== "customer") {
         e.preventDefault();
         alert("Admin không thể sử dụng wishlist!");
+      }
+    });
+  }
+
+  function bindMobileWishlist() {
+    const panel = document.getElementById("mobileMenuPanel");
+    if (!panel) return;
+
+    if (panel.dataset.wishlistBound === "1") return;
+    panel.dataset.wishlistBound = "1";
+
+    panel.addEventListener("click", (e) => {
+      const link = e.target.closest(".mobile-menu__wishlist");
+      if (!link) return;
+
+      const user = getUser();
+      if (!user) {
+        e.preventDefault();
+        alert("Vui lòng đăng nhập để xem Wishlist");
       }
     });
   }
@@ -651,8 +639,9 @@
     bindHeaderWishlist();
     bindSupportLink();
 
+    bindMobileWishlist();
+
     bindCategoriesDropdown();
-    insertMobileHomeLink();
     bindMobileMenu();
     bindCategoryMenu();
     bindMobileCategoryMenu();

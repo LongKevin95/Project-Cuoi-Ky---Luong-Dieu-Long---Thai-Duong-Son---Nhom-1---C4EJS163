@@ -29,24 +29,10 @@ body {
   gap: 12px;
 }
 
-.wishlist-actions .btn {
-  background: #fff;
-  color: #111;
+.btn--all-to-cart {
+  background: #111;
+  color: white;
   border: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.wishlist-actions .btn:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.04);
-}
-
-.wishlist-actions .btn-outline {
-  border-color: rgba(224, 0, 0, 0.7);
-  color: #e00;
-}
-
-.wishlist-actions .btn-outline:hover {
-  background: rgba(224, 0, 0, 0.06);
 }
 
 .wishlist-empty {

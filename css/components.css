@@ -335,7 +335,7 @@ header {
 .mobile-menu__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 12px;
 }
 
@@ -361,8 +361,9 @@ header {
   margin-bottom: 10px;
   border: 1px solid #eef2f7;
   border-radius: 12px;
-  color: var(--color-btn-text);
-  background-color: var(--color-primary);
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
   font-weight: 600;
   text-decoration: none;
   text-align: center;
@@ -370,6 +371,18 @@ header {
 
 .mobile-menu__home:hover {
   opacity: 0.8;
+}
+
+.mobile-menu__wishlist {
+  display: block;
+  margin-top: 10px;
+  border: 1px solid #eef2f7;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.mobile-menu__wishlist:hover {
+  background: #f6f8fb;
 }
 
 .mobile-menu .menu-list {
@@ -906,7 +919,7 @@ header {
   margin: 0 auto;
 }
 
-.flash-track .product {
+.product {
   width: 100%;
   min-width: 0;
 }
@@ -982,7 +995,8 @@ header {
 }
 
 .product {
-  min-width: var(--width-item);
+  width: 100%;
+  min-width: 0;
   background: #fff;
   border-radius: 8px;
   position: relative;
