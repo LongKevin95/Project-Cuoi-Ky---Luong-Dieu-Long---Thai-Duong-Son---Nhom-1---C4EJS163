@@ -2,21 +2,6 @@
   padding: var(--space-xl-plus) 0;
 }
 
-.checkout-breadcrumb {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: var(--space-xl);
-}
-
-.checkout-breadcrumb a {
-  color: inherit;
-}
-
-.checkout-breadcrumb strong {
-  color: #111;
-  font-weight: 600;
-}
-
 .checkout-layout {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;

@@ -362,13 +362,44 @@ function renderCategoryPage() {
   const emptyMsg = document.querySelector(".no-product-messege");
 
   const titleEl = document.getElementById("categoryTitle");
+  const breadcrumbCurrentEl = document.getElementById(
+    "categoryBreadcrumbCurrent",
+  );
   const category = getCategoryFromUrl();
+
+  if (titleEl) {
+    titleEl.value = category || "";
+
+    if (titleEl.dataset.bound !== "1") {
+      titleEl.dataset.bound = "1";
+      titleEl.addEventListener("change", () => {
+        const next = (titleEl.value || "").trim();
+        const params = new URLSearchParams(window.location.search);
+        if (next) params.set("category", next);
+        else params.delete("category");
+
+        const isInPagesFolder = window.location.pathname.includes("/pages/");
+        const prefix = isInPagesFolder ? "" : "pages/";
+        const qs = params.toString();
+        window.location.href = `${prefix}category.html${qs ? `?${qs}` : ""}`;
+      });
+    }
+  }
+
+  let categoryLabel = category || "All";
+  if (titleEl) {
+    const options = Array.from(titleEl.options || []);
+    const match = options.find((opt) => opt.value === (category || ""));
+    if (match)
+      categoryLabel = (match.textContent || "").trim() || categoryLabel;
+  }
+
+  if (breadcrumbCurrentEl) breadcrumbCurrentEl.textContent = categoryLabel;
+
   const products = JSON.parse(localStorage.getItem("products")) || [];
   const filtered = category
     ? products.filter((p) => p.category === category)
     : products;
-
-  if (titleEl) titleEl.textContent = category ? category : "All";
 
   if (!filtered.length) {
     if (emptyMsg) emptyMsg.style.display = "flex";

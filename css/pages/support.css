@@ -2,21 +2,6 @@
   padding: var(--space-xl-plus) 0;
 }
 
-.support-breadcrumb {
-  font-size: 14px;
-  color: var(--color-breadcumb);
-  margin-bottom: var(--space-xl);
-}
-
-.support-breadcrumb a {
-  color: inherit;
-}
-
-.support-breadcrumb strong {
-  color: #111;
-  font-weight: 600;
-}
-
 .support-layout {
   display: grid;
   grid-template-columns: 0.75fr 1.25fr;
@@ -49,8 +34,6 @@
   font-weight: 700;
   color: #111;
 }
-
-
 
 .support-info-text {
   font-size: 14px;
