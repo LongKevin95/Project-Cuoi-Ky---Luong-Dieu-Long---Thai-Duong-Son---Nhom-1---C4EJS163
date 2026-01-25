@@ -1,7 +1,11 @@
 .profile-page {
   background: #f7f5f2;
-  min-height: 100vh;
+  min-height: 80vh;
   padding: 32px 0;
+}
+
+.profile-page .o-container {
+  margin-block: var(--space-lg-plus);
 }
 
 .profile-card {
@@ -84,42 +88,19 @@
   color: #6b7280;
 }
 
-.profile-user__tz {
-  margin-top: 6px;
-  font-size: 12px;
-  color: #9aa3b2;
-}
-
-.profile-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .profile-btn {
-  height: 44px;
   min-width: 160px;
-  padding: 0 16px;
-  border-radius: 6px;
-  font-weight: 600;
   font-size: 13px;
-  cursor: pointer;
 }
 
-.profile-btn--primary {
-  border: 1px solid #2b3a55;
-  background: #2b3a55;
-  color: #ffffff;
+.profile-btn--upload {
+  background-color: #2b3a55;
 }
 
-.profile-btn--primary:hover {
-  opacity: 0.9;
-}
-
-.profile-btn--outline {
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
+.profile-btn--home {
+  background-color: white;
   color: #2b3a55;
+  border: 1px solid #2b3a55;
 }
 
 .profile-btn--outline:hover {
@@ -229,37 +210,24 @@
     grid-column: auto;
   }
 }
-.profile-actions{
+.profile-actions {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.btn{
-  border: 0;
-  cursor: pointer;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none; /* để <a> nhìn như button */
-}
-
-.btn-dark{
+.btn-dark {
   background: #111;
   color: #fff;
 }
 
-.btn-ghost{
+.btn-ghost {
   background: #f2f3f7;
   color: #111;
 }
 
-.btn:hover{
+.btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(0,0,0,.08);
-  transition: .12s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.12s ease;
 }

@@ -3,24 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support</title>
 
-    <title>Category</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/pages/category.css" />
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap"
       rel="stylesheet"
     />
+
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/pages/support.css" />
   </head>
 
   <body>
-    <!-- ================= HEADER ================= -->
     <div class="topbar">
       <div class="topbar-left">
         <span>Free Shipping On All Orders Over ₫50</span>
@@ -28,10 +24,10 @@
       <div class="topbar-links">
         <a href="#">Eng</a>
         <a href="#">Faqs</a>
-        <a id="loginLink" href="login.html">Sign In</a>
-        <a id="signupLink" href="sign-up.html">Sign Up</a>
+        <a id="loginLink" href="./login.html">Sign In</a>
+        <a id="signupLink" href="./sign-up.html">Sign Up</a>
         <a href="#">Need Help</a>
-        <a id="logoutBtn" href="#">Logout</a>
+        <a id="logoutBtn" href="#" style="display: none">Logout</a>
       </div>
     </div>
     <header>
@@ -55,9 +51,6 @@
           </div>
         </div>
         <div class="header-wrapper">
-          <!-- Logo -->
-
-          <!-- Search -->
           <div class="header-top">
             <form id="headerSearchForm" class="header-search">
               <input
@@ -75,13 +68,10 @@
               ></div>
             </form>
 
-            <!-- Actions -->
-
             <div class="header-actions">
-              <!-- Cart -->
               <a
                 class="header-action mobile-search-btn"
-                href="search.html"
+                href="./search.html"
                 aria-label="Search"
               >
                 <img src="../assets/icons/search-icon.svg" alt="" />
@@ -89,7 +79,7 @@
 
               <a
                 id="headerCartBtn"
-                href="cart.html"
+                href="./cart.html"
                 class="header-action header-action--cart"
               >
                 <img src="../assets/icons/cart-icon.svg" />
@@ -97,11 +87,9 @@
                 <span id="headerCartBadge" class="header-action__badge">0</span>
               </a>
 
-              <!-- Wishlist -->
-
               <a
                 id="headerWishlistBtn"
-                href="wishlist.html"
+                href="./wishlist.html"
                 class="header-action header-action--wishlist"
                 aria-label="Wishlist"
               >
@@ -109,11 +97,10 @@
                 <span
                   id="headerWishlistBadge"
                   class="header-action__badge header-action__badge--wishlist"
+                  style="display: none"
                   >0</span
                 >
               </a>
-
-              <!-- User -->
 
               <div class="header-user" id="headerUser">
                 <button
@@ -211,127 +198,104 @@
               </div>
             </div>
           </div>
-          <!-- NAVIGATION -->
 
           <nav class="header-nav">
             <ul class="header-nav__list">
               <li><a href="../index.html">Home</a></li>
-
-              <li class="header-nav__item header-nav__item--categories">
-                <button
-                  id="categoriesBtn"
-                  class="header-nav__link header-nav__categories-btn"
-                  type="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Categories
-                </button>
-
-                <div
-                  id="categoriesDropdown"
-                  class="header-nav__dropdown"
-                  hidden
-                >
-                  <ul id="menu" class="menu-list">
-                    <li data-category="" class="menu-list-item is-active">
-                      All
-                    </li>
-                    <li data-category="Fashion Women" class="menu-list-item">
-                      Woman’s Fashion
-                    </li>
-                    <li data-category="Fashion Men" class="menu-list-item">
-                      Men’s Fashion
-                    </li>
-                    <li data-category="Electronics" class="menu-list-item">
-                      Electronics
-                    </li>
-                    <li data-category="Home" class="menu-list-item">
-                      Home & Lifestyle
-                    </li>
-                    <li data-category="Beauty" class="menu-list-item">
-                      Health & Beauty
-                    </li>
-                  </ul>
-                </div>
-              </li>
-
               <li><a id="navShop" href="#">Shop</a></li>
-
               <li><a id="navSupport" href="./support.html">Support</a></li>
-
               <li><a href="#">About</a></li>
             </ul>
-
-            <div class="header-contact">
-              Contact: <strong>(123.456.7894)</strong>
-            </div>
           </nav>
         </div>
-
-        <div id="mobileMenuOverlay" class="mobile-menu__overlay" hidden></div>
-        <aside id="mobileMenuPanel" class="mobile-menu" hidden>
-          <div class="mobile-menu__header">
-            <div class="mobile-menu__title">Categories</div>
-            <button
-              id="mobileMenuCloseBtn"
-              class="mobile-menu__close"
-              type="button"
-              aria-label="Close menu"
-            >
-              ×
-            </button>
-          </div>
-
-          <ul id="mobileMenu" class="menu-list">
-            <li data-category="" class="menu-list-item is-active">All</li>
-            <li data-category="Fashion Women" class="menu-list-item">
-              Woman’s Fashion
-            </li>
-            <li data-category="Fashion Men" class="menu-list-item">
-              Men’s Fashion
-            </li>
-            <li data-category="Electronics" class="menu-list-item">
-              Electronics
-            </li>
-            <li data-category="Home" class="menu-list-item">
-              Home & Lifestyle
-            </li>
-            <li data-category="Beauty" class="menu-list-item">
-              Health & Beauty
-            </li>
-          </ul>
-        </aside>
       </div>
     </header>
 
-    <main class="o-container category-page">
-      <div id="categoryBreadcrumb" class="breadcrumb">
-        <a href="../index.html">Home</a> &gt;
-        <a href="category.html">Categories</a> &gt;
-        <strong id="categoryBreadcrumbCurrent">All</strong>
-      </div>
+    <main class="support-page">
+      <div class="o-container">
+        <div class="breadcrumb">
+          <a href="../index.html">Home</a> &gt; <strong>Support</strong>
+        </div>
 
-      <div class="category-select-wrap">
-        <select
-          id="categoryTitle"
-          class="category-select"
-          aria-label="Category"
-        >
-          <option value="">All</option>
-          <option value="Fashion Women">Woman’s Fashion</option>
-          <option value="Fashion Men">Men’s Fashion</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Home">Home & Lifestyle</option>
-          <option value="Beauty">Health & Beauty</option>
-        </select>
-      </div>
+        <div class="support-layout">
+          <aside class="support-card">
+            <div class="support-info-block">
+              <div class="support-info-head">
+                <img src="../assets/icons/phone-icon.svg" aria-hidden="true" />
+                <div>Call To Us</div>
+              </div>
+              <div class="support-info-text">
+                We are available 24/7, 7 days a week.
+              </div>
+              <div class="support-info-meta">Phone: +8801611112222</div>
+            </div>
 
-      <p class="no-product-messege">Chưa có sản phẩm nào trong danh mục này.</p>
-      <div class="flash-track o-grid-products" id="categoryTrack"></div>
+            <div class="support-info-block">
+              <div class="support-info-head">
+                <img src="../assets/icons/mail-icon.svg" aria-hidden="true" />
+                <div>Write To Us</div>
+              </div>
+              <div class="support-info-text">
+                Fill out our form and we will contact you within 24 hours.
+              </div>
+              <div class="support-info-meta">
+                Emails: customer@exclusive.com
+              </div>
+              <div class="support-info-meta">Emails: support@exclusive.com</div>
+            </div>
+          </aside>
+
+          <section class="support-card">
+            <form class="support-form" id="supportForm" action="#">
+              <div class="support-form__row">
+                <div class="support-field">
+                  <label class="support-label" for="supportName"
+                    >Your name *</label
+                  >
+                  <input
+                    class="support-input"
+                    id="supportName"
+                    type="text"
+                    placeholder="Enter name..."
+                  />
+                </div>
+                <div class="support-field">
+                  <label class="support-label" for="supportEmail"
+                    >Email *</label
+                  >
+                  <input
+                    class="support-input"
+                    id="supportEmail"
+                    type="email"
+                    placeholder="Enter email..."
+                  />
+                </div>
+                <div class="support-field">
+                  <label class="support-label" for="supportPhone"
+                    >Phone Number *</label
+                  >
+                  <input
+                    class="support-input"
+                    id="supportPhone"
+                    type="tel"
+                    placeholder="Ex: 0912345678"
+                  />
+                </div>
+              </div>
+              <textarea
+                class="support-textarea"
+                id="supportMessage"
+                placeholder="Nội dung yêu cầu tối thiểu 50 ký tự..."
+              ></textarea>
+              <button class="btn support-submit" type="submit">
+                Send Message
+              </button>
+            </form>
+          </section>
+        </div>
+      </div>
     </main>
 
-    <!-- ================= FOOTER ================= -->
     <div class="site-footer">
       <div class="o-container">
         <div class="footer-grid">
@@ -340,7 +304,7 @@
             <div class="footer-col__subtitle">Subscribe</div>
             <div class="footer-text">Get 10% off your first order</div>
 
-            <div class="footer-subscribe">
+            <div class="footer-subscribe" style="margin-top: 14px">
               <div class="footer-subscribe__field">
                 <input type="email" placeholder="Enter your email" />
                 <button type="button" aria-label="Send">➤</button>
@@ -353,17 +317,21 @@
             <div class="footer-text">
               111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.
             </div>
-            <div class="footer-text">exclusive@gmail.com</div>
-            <div class="footer-text">+88015-88888-9999</div>
+            <div class="footer-text" style="margin-top: 10px">
+              exclusive@gmail.com
+            </div>
+            <div class="footer-text" style="margin-top: 10px">
+              +88015-88888-9999
+            </div>
           </div>
 
           <div class="footer-col">
             <div class="footer-col__title">Account</div>
             <ul class="footer-list">
               <li><a href="#">My Account</a></li>
-              <li><a href="#">Login / Register</a></li>
-              <li><a href="#">Cart</a></li>
-              <li><a href="#">Wishlist</a></li>
+              <li><a href="./login.html">Login / Register</a></li>
+              <li><a href="./cart.html">Cart</a></li>
+              <li><a href="./wishlist.html">Wishlist</a></li>
               <li><a href="#">Shop</a></li>
             </ul>
           </div>
@@ -425,7 +393,7 @@
       </div>
     </div>
 
+    <script defer src="../js/pages/support.js"></script>
     <script defer src="../js/header.js"></script>
-    <script defer src="../js/script.js"></script>
   </body>
 </html>

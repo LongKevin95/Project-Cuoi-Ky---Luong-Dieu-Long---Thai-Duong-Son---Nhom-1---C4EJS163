@@ -13,8 +13,8 @@
     <main class="thank-page">
       <div class="o-container">
         <div class="thank-card">
-          <h1 class="thank-title"><span>✅</span> Thanh toán thành công</h1>
-          <p class="thank-sub">Cảm ơn bạn đã mua hàng tại shop!</p>
+          <h1 class="thank-title"><span>✅</span> Success buy</h1>
+          <p class="thank-sub">Thanks for buying!</p>
 
           <div class="thank-meta" id="orderMeta"></div>
 
@@ -26,7 +26,7 @@
               >🛒 Quay lại giỏ hàng</a
             >
             <a class="thank-btn thank-btn--home" href="../index.html"
-              >🏠 Về trang chủ</a
+              >🏠 Back to Home</a
             >
           </div>
         </div>
@@ -43,7 +43,7 @@
       const order = JSON.parse(localStorage.getItem("lastOrder"));
 
       if (!order || !order.items) {
-        // không có đơn => về home
+        
         window.location.href = "../index.html";
       }
 

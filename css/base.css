@@ -28,33 +28,19 @@
   --space-4xl: calc(8 * var(--space-unit)); /* 128px */
   --space-5xl: calc(8.75 * var(--space-unit)); /* 140px */
 
-  /* -------- Typography scale----------- */
+  
   /* set base values */
   --text-base-size: 1em; /* 16px*/
   --text-scale-ratio: 1.2;
 
   /* type scale */
-  --text-xs: calc(
-    var(--text-base-size) / (var(--text-scale-ratio) * var(--text-scale-ratio))
-  ); /* ~ 11px*/
+  --text-xs: calc(var(--text-sm) / (var(--text-scale-ratio))); /* ~ 11px*/
   --text-sm: calc(var(--text-base-size) / var(--text-scale-ratio)); /* ~13px*/
   --text-md: calc(var(--text-base-size) * var(--text-scale-ratio)); /* ~19px*/
-  --text-lg: calc(
-    var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio)
-  ); /* ~ 23px*/
-  --text-xl: calc(
-    var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio) *
-      var(--text-scale-ratio)
-  ); /* ~ 27px*/
-  --text-xxl: calc(
-    var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio) *
-      var(--text-scale-ratio) * var(--text-scale-ratio)
-  ); /* ~ 33px*/
-  --text-xxxl: calc(
-    var(--text-base-size) * var(--text-scale-ratio) * var(--text-scale-ratio) *
-      var(--text-scale-ratio) * var(--text-scale-ratio) *
-      var(--text-scale-ratio)
-  ); /* ~ 39px*/
+  --text-lg: calc(var(--text-md) * var(--text-scale-ratio)); /* ~ 23px*/
+  --text-xl: calc(var(--text-lg) * var(--text-scale-ratio)); /* ~ 27px*/
+  --text-xxl: calc(var(--text-xl) * var(--text-scale-ratio)); /* ~ 33px*/
+  --text-xxxl: calc(var(--text-xxl) * var(--text-scale-ratio)); /* ~ 39px*/
 
   /* ------------- size ----------- */
   --width-item: 260px;
@@ -63,10 +49,10 @@
   --width-item-xxm: 180px;
 }
 
-/* ================Tools=================== */
-/* Chưa sử dụng */
 
-/* ==============Generic================== */
+
+
+
 
 * {
   margin: 0;

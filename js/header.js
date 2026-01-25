@@ -40,6 +40,37 @@
     return `${prefix}search.html?q=${encodeURIComponent(next)}`;
   }
 
+  function getHomeHref() {
+    const isInPagesFolder = window.location.pathname.includes("/pages/");
+    return isInPagesFolder ? "../index.html" : "index.html";
+  }
+
+  function insertMobileHomeLink() {
+    const panel = document.getElementById("mobileMenuPanel");
+    if (!panel) return;
+
+    if (panel.dataset.homeBound === "1") return;
+    panel.dataset.homeBound = "1";
+
+    if (panel.querySelector("#mobileHomeBtn")) return;
+
+    const home = document.createElement("a");
+    home.id = "mobileHomeBtn";
+    home.className = "mobile-menu__home";
+    home.href = getHomeHref();
+    home.textContent = "Home";
+    home.addEventListener("click", () => {
+      closeMobileMenuIfOpen();
+    });
+
+    const menu = panel.querySelector("#mobileMenu");
+    if (menu) {
+      panel.insertBefore(home, menu);
+    } else {
+      panel.appendChild(home);
+    }
+  }
+
   function redirectTo(url) {
     window.location.href = url;
   }
@@ -273,6 +304,22 @@
       if (user.role !== "customer") {
         e.preventDefault();
         alert("Admin không thể sử dụng wishlist!");
+      }
+    });
+  }
+
+  function bindSupportLink() {
+    const link = document.getElementById("navSupport");
+    if (!link) return;
+
+    if (link.dataset.bound === "1") return;
+    link.dataset.bound = "1";
+
+    link.addEventListener("click", (e) => {
+      const user = getUser();
+      if (!user) {
+        e.preventDefault();
+        alert("Vui lòng đăng nhập tài khoản để được hỗ trợ!");
       }
     });
   }
@@ -567,12 +614,9 @@
     const isAdmin = u?.role === "admin";
 
     const navShop = document.getElementById("navShop");
-    const navProduct = document.getElementById("navProduct");
     const cartBtn = document.getElementById("headerCartBtn");
 
     if (navShop) navShop.parentElement.style.display = isAdmin ? "none" : "";
-    if (navProduct)
-      navProduct.parentElement.style.display = isAdmin ? "none" : "";
 
     // Under option B, href should be correct in HTML per page.
     // We only disable for admin, and restore for others.
@@ -605,8 +649,10 @@
 
     bindHeaderSearch();
     bindHeaderWishlist();
+    bindSupportLink();
 
     bindCategoriesDropdown();
+    insertMobileHomeLink();
     bindMobileMenu();
     bindCategoryMenu();
     bindMobileCategoryMenu();

@@ -141,3 +141,22 @@
     justify-content: space-between;
   }
 }
+
+@media (max-width: 768px) {
+  .page-search .mobile-search-btn,
+  .page-search #headerUser,
+  .page-search .header-logo {
+    display: none !important;
+  }
+
+  .page-search #headerSearchForm {
+    display: flex !important;
+  }
+
+  .header-top {
+    justify-content: space-between;
+  }
+  .header-search {
+    width: 100%;
+  }
+}

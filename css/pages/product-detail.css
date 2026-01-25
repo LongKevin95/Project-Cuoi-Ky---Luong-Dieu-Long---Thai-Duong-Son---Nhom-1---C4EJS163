@@ -20,27 +20,6 @@ img {
   display: block;
 }
 
-.breadcrumb {
-  font-size: 20px;
-  font-family: var(--font-title);
-  color: var(--color-breadcumb);
-  margin-bottom: 30px;
-}
-
-.breadcrumb a {
-  font-size: 20px;
-  color: var(--color-breadcumb);
-  font-weight: bold;
-}
-
-.breadcrumb a:hover {
-  color: white;
-  font-weight: 800;
-  border-radius: 8px;
-  padding: 4px 8px;
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
 /* ===== PRODUCT ===== */
 .product-detail {
   display: flex;
