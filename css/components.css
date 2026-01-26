@@ -67,6 +67,7 @@
   padding: var(--space-xs) var(--space-lg-plus);
   align-items: center;
   font-size: 14px;
+  
 }
 
 .topbar__left {

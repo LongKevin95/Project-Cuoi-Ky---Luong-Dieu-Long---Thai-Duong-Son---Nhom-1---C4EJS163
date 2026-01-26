@@ -49,6 +49,7 @@
   }
 
   .topbar {
+    flex-direction: column;
     padding: 8px 20px;
   }
 
@@ -184,8 +185,6 @@
   }
 
   .topbar {
-    flex-direction: column;
-    text-align: center;
     gap: 6px;
   }
 
