@@ -67,6 +67,41 @@
     });
   }
 
+  function updateBurgerIconByTheme(activeTheme) {
+    const isDark = activeTheme === "dark";
+    const btn = document.getElementById("mobileMenuBtn");
+    if (!btn) return;
+
+    const img = btn.querySelector("img");
+    if (!img) return;
+
+    const currentSrc = String(img.getAttribute("src") || "");
+    if (!currentSrc) return;
+
+    if (!img.dataset.burgerLightSrc) {
+      img.dataset.burgerLightSrc = currentSrc.includes("burger-icon-white.png")
+        ? currentSrc.replace("burger-icon-white.png", "burger-menu-icon.svg")
+        : currentSrc;
+    }
+
+    const lightSrc = img.dataset.burgerLightSrc;
+
+    let darkSrc = "";
+    if (lightSrc.includes("burger-menu-icon.svg")) {
+      darkSrc = lightSrc.replace(
+        "burger-menu-icon.svg",
+        "burger-icon-white.png",
+      );
+    } else if (lightSrc.includes("burger-icon-white.png")) {
+      darkSrc = lightSrc;
+    } else {
+      return;
+    }
+
+    const nextSrc = isDark ? darkSrc : lightSrc;
+    if (nextSrc && nextSrc !== currentSrc) img.setAttribute("src", nextSrc);
+  }
+
   function applyTheme(theme, { persist = true } = {}) {
     const next = theme === "dark" ? "dark" : "light";
     document.documentElement.classList.toggle("theme-dark", next === "dark");
@@ -79,6 +114,7 @@
     }
     updateThemeToggleUI(next);
     updateLogoByTheme(next);
+    updateBurgerIconByTheme(next);
   }
 
   function toggleTheme() {
