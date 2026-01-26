@@ -1,6 +1,6 @@
 body {
   font-family: "Poppins", sans-serif;
-  background: #fff;
+  background: var(--color-bg);
 }
 
 .category-page {
@@ -17,18 +17,18 @@ body {
   width: 100%;
   max-width: 360px;
   height: 48px;
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--color-border-strong);
   border-radius: 10px;
-  background: #fff;
+  background: var(--color-surface);
   padding: 0 14px;
   font-family: var(--font-title);
   font-size: 18px;
-  color: #111;
+  color: var(--color-text-strong);
   outline: none;
 }
 
 .category-select:focus {
-  border-color: rgba(0, 0, 0, 0.35);
+  border-color: var(--color-border-strong);
 }
 
 .category-select-wrap {
