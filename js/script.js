@@ -260,6 +260,21 @@ function normalizeText(str) {
     .trim();
 }
 
+function tokenizeNormalized(str) {
+  return (str || "")
+    .split(/[^a-z0-9]+/g)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function containsAllTokens(normalizedText, queryTokens) {
+  const tokens = tokenizeNormalized(normalizedText);
+  if (!queryTokens?.length) return true;
+  if (!tokens.length) return false;
+  const set = new Set(tokens);
+  return queryTokens.every((t) => set.has(t));
+}
+
 function getCategoryFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const raw = (params.get("category") || "").trim();
@@ -435,10 +450,11 @@ function renderSearchResults(term, filterCategory = null) {
 
   const products = JSON.parse(localStorage.getItem("products")) || [];
   const q = normalizeText(term);
+  const qTokens = tokenizeNormalized(q);
   const matched = q
     ? products.filter((p) => {
         const name = normalizeText(p.name);
-        return name.includes(q);
+        return containsAllTokens(name, qTokens);
       })
     : products;
 

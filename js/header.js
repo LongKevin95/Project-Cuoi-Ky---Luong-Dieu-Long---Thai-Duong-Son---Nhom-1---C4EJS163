@@ -253,6 +253,21 @@
       .trim();
   }
 
+  function tokenizeNormalized(str) {
+    return (str || "")
+      .split(/[^a-z0-9]+/g)
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+
+  function containsAllTokens(normalizedText, queryTokens) {
+    const tokens = tokenizeNormalized(normalizedText);
+    if (!queryTokens?.length) return true;
+    if (!tokens.length) return false;
+    const set = new Set(tokens);
+    return queryTokens.every((t) => set.has(t));
+  }
+
   function getProducts() {
     try {
       return JSON.parse(localStorage.getItem("products")) || [];
@@ -373,6 +388,9 @@
       const q = normalizeText(query);
       if (!q) return [];
 
+      const qTokens = tokenizeNormalized(q);
+      if (!qTokens.length) return [];
+
       const products = getProducts();
       const unique = new Set();
 
@@ -384,7 +402,10 @@
         .map((s) => s.trim())
         .filter(Boolean);
 
-      const filtered = all.filter((s) => normalizeText(s).includes(q));
+      const filtered = all.filter((s) => {
+        const normalized = normalizeText(s);
+        return containsAllTokens(normalized, qTokens);
+      });
 
       filtered.sort((a, b) => {
         const na = normalizeText(a);
