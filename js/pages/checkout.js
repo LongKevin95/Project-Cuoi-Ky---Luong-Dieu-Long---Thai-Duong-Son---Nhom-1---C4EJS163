@@ -114,7 +114,7 @@ function placeOrder() {
   // demo: đặt hàng xong thì clear cart
   localStorage.removeItem(CART_KEY);
   alert("Đặt hàng thành công ✅");
-  window.location.href = "../index.html";
+  window.location.href = "../index.html";``
 }
 
 document.addEventListener("DOMContentLoaded", () => {

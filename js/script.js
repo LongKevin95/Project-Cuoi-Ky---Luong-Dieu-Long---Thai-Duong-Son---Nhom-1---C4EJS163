@@ -260,19 +260,19 @@ function normalizeText(str) {
     .trim();
 }
 
-function tokenizeNormalized(str) {
-  return (str || "")
-    .split(/[^a-z0-9]+/g)
-    .map((s) => s.trim())
-    .filter(Boolean);
+function tokenize(str) {
+  const normalized = normalizeText(str);
+  if (!normalized) return [];
+  return normalized.split(/[^a-z0-9]+/).filter(Boolean);
 }
 
-function containsAllTokens(normalizedText, queryTokens) {
-  const tokens = tokenizeNormalized(normalizedText);
-  if (!queryTokens?.length) return true;
+function matchAllTokens(text, queryTokens) {
+  const q = queryTokens || [];
+  if (!q.length) return true;
+  const tokens = tokenize(text);
   if (!tokens.length) return false;
   const set = new Set(tokens);
-  return queryTokens.every((t) => set.has(t));
+  return q.every((t) => set.has(t));
 }
 
 function getCategoryFromUrl() {
@@ -450,12 +450,9 @@ function renderSearchResults(term, filterCategory = null) {
 
   const products = JSON.parse(localStorage.getItem("products")) || [];
   const q = normalizeText(term);
-  const qTokens = tokenizeNormalized(q);
-  const matched = q
-    ? products.filter((p) => {
-        const name = normalizeText(p.name);
-        return containsAllTokens(name, qTokens);
-      })
+  const queryTokens = tokenize(term);
+  const matched = queryTokens.length
+    ? products.filter((p) => matchAllTokens(p?.name, queryTokens))
     : products;
 
   if (titleEl) {

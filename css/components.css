@@ -132,14 +132,10 @@ header {
 
 .site-header.o-container {
   display: flex;
-
   align-items: center;
-
   /* justify-content: space-between; */
-
   position: relative;
-
-  gap: 100px;
+  gap: 40px;
 }
 
 /* Logo */
@@ -462,7 +458,7 @@ header {
 .header-nav {
   /* padding-block: var(--space-lg); */
   margin-top: var(--space-unit);
-  gap: 100px;
+  gap: 20px;
   display: flex;
   justify-content: space-between;
   /* align-items: center; */

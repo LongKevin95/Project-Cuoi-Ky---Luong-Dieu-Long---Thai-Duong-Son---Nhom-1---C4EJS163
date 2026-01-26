@@ -253,19 +253,19 @@
       .trim();
   }
 
-  function tokenizeNormalized(str) {
-    return (str || "")
-      .split(/[^a-z0-9]+/g)
-      .map((s) => s.trim())
-      .filter(Boolean);
+  function tokenize(str) {
+    const normalized = normalizeText(str);
+    if (!normalized) return [];
+    return normalized.split(/[^a-z0-9]+/).filter(Boolean);
   }
 
-  function containsAllTokens(normalizedText, queryTokens) {
-    const tokens = tokenizeNormalized(normalizedText);
-    if (!queryTokens?.length) return true;
+  function matchAllTokens(text, queryTokens) {
+    const q = queryTokens || [];
+    if (!q.length) return true;
+    const tokens = tokenize(text);
     if (!tokens.length) return false;
     const set = new Set(tokens);
-    return queryTokens.every((t) => set.has(t));
+    return q.every((t) => set.has(t));
   }
 
   function getProducts() {
@@ -388,8 +388,8 @@
       const q = normalizeText(query);
       if (!q) return [];
 
-      const qTokens = tokenizeNormalized(q);
-      if (!qTokens.length) return [];
+      const queryTokens = tokenize(query);
+      if (!queryTokens.length) return [];
 
       const products = getProducts();
       const unique = new Set();
@@ -402,10 +402,7 @@
         .map((s) => s.trim())
         .filter(Boolean);
 
-      const filtered = all.filter((s) => {
-        const normalized = normalizeText(s);
-        return containsAllTokens(normalized, qTokens);
-      });
+      const filtered = all.filter((s) => matchAllTokens(s, queryTokens));
 
       filtered.sort((a, b) => {
         const na = normalizeText(a);
